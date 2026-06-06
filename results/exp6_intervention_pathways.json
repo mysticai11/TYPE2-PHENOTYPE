@@ -1,0 +1,64 @@
+{
+    "IR-Dominant": {
+        "z1_current": -0.0436,
+        "z2_current": -0.1178,
+        "z1_target": -0.0966,
+        "z2_target": -0.1178,
+        "latent_distance": 0.0529,
+        "levers": []
+    },
+    "Steatosis-Dominant": {
+        "z1_current": -0.0556,
+        "z2_current": 0.062,
+        "z1_target": -0.0966,
+        "z2_target": -0.091,
+        "latent_distance": 0.1584,
+        "levers": [
+            {
+                "biomarker": "ggt_U_L",
+                "delta_raw": -12.67,
+                "delta_scaled": -1.0556,
+                "unit": "U/L"
+            },
+            {
+                "biomarker": "fasting_glucose_mg_dL",
+                "delta_raw": -4.02,
+                "delta_scaled": -0.3091,
+                "unit": "mg/dL"
+            },
+            {
+                "biomarker": "ast_U_L",
+                "delta_raw": -2.84,
+                "delta_scaled": -0.2836,
+                "unit": "U/L"
+            }
+        ]
+    },
+    "Dual-Burden": {
+        "z1_current": 0.5976,
+        "z2_current": 0.1767,
+        "z1_target": -0.0966,
+        "z2_target": -0.091,
+        "latent_distance": 0.7441,
+        "levers": [
+            {
+                "biomarker": "fasting_insulin_uU_mL",
+                "delta_raw": -123.51,
+                "delta_scaled": -25.4014,
+                "unit": "uU/mL"
+            },
+            {
+                "biomarker": "fasting_glucose_mg_dL",
+                "delta_raw": -166.53,
+                "delta_scaled": -12.81,
+                "unit": "mg/dL"
+            },
+            {
+                "biomarker": "triglycerides_mg_dL",
+                "delta_raw": -148.93,
+                "delta_scaled": -2.7967,
+                "unit": "mg/dL"
+            }
+        ]
+    }
+}
