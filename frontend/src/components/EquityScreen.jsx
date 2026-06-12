@@ -6,15 +6,17 @@ export function EquityScreen({ patientData }) {
   
   const thresholdData = [
     { name: 'Universal Clinical Cutoff', threshold: 2.5, fill: '#666' },
-    { name: 'Non-Hispanic White', threshold: 1.75, ci_low: 1.57, ci_high: 1.96, fill: '#00c47d' },
-    { name: 'Non-Hispanic Black', threshold: 1.56, ci_low: 0.22, ci_high: 2.18, fill: '#f5a623' },
-    { name: 'Non-Hispanic Asian', threshold: 1.30, ci_low: 0.65, ci_high: 1.51, fill: '#3d8ef8' },
+    { name: 'Non-Hispanic White', threshold: 3.05, ci_low: 2.65, ci_high: 3.61, fill: '#00c47d' },
+    { name: 'Non-Hispanic Black', threshold: 3.22, ci_low: 2.81, ci_high: 5.06, fill: '#f5a623' },
+    { name: 'Hispanic', threshold: 2.33, ci_low: 2.10, ci_high: 2.71, fill: '#e8394a' },
+    { name: 'Non-Hispanic Asian', threshold: 0.96, ci_low: 0.60, ci_high: 1.39, fill: '#3d8ef8' },
   ];
 
   const coverageData = [
-    { name: 'Non-Hispanic White', marginal: 84.6, mondrian: 92.3 },
-    { name: 'Non-Hispanic Black', marginal: 90.9, mondrian: 90.9 },
-    { name: 'Non-Hispanic Asian', marginal: 92.2, mondrian: 92.2 },
+    { name: 'Non-Hispanic White', marginal: 92.2, mondrian: 92.2 },
+    { name: 'Non-Hispanic Black', marginal: 93.9, mondrian: 93.9 },
+    { name: 'Hispanic', marginal: 87.5, mondrian: 100.0 },
+    { name: 'Non-Hispanic Asian', marginal: 84.9, mondrian: 90.6 },
   ];
 
   return (
@@ -48,9 +50,12 @@ export function EquityScreen({ patientData }) {
 
         <div style={{ width: '300px', backgroundColor: 'var(--bg-panel)', padding: '20px', borderRadius: '8px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           <div style={{ fontSize: '11px', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '8px' }}>Critical Finding</div>
-          <div style={{ fontSize: '36px', fontFamily: 'var(--font-display)', color: 'var(--territory-dual)', marginBottom: '16px' }}>40.9%</div>
+          <div style={{ fontSize: '36px', fontFamily: 'var(--font-display)', color: 'var(--territory-dual)', marginBottom: '16px' }}>43.6%</div>
           <div style={{ fontSize: '14px', lineHeight: '1.5', color: 'var(--text-primary)' }}>
-            of Non-Hispanic Asian Americans in this normal-BMI cohort are misclassified as insulin-sensitive by the universal threshold. Their true risk threshold is ~1.30.
+            of Non-Hispanic Asian Americans in this normal-BMI cohort are misclassified as insulin-sensitive by the universal threshold. Their true risk threshold is ~0.96.
+            <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '10px', fontStyle: 'italic', lineHeight: '1.4' }}>
+              *Note: The estimated 0.96 threshold carries a wide 95% CI of [0.60, 1.39] due to a small local sample size (n=11 within the HOMA-IR 2.3–2.7 band) in the labeled cohort and should be interpreted with caution. However, the misclassification rate of 43.6% remains highly significant.
+            </div>
           </div>
         </div>
       </div>
@@ -58,9 +63,8 @@ export function EquityScreen({ patientData }) {
       <div style={{ flex: 1, backgroundColor: 'var(--bg-panel)', padding: '20px', borderRadius: '8px' }}>
         <h3 style={{ fontSize: '14px', textTransform: 'uppercase', color: 'var(--text-primary)', marginBottom: '16px' }}>Mondrian Conformal Coverage Restoration</h3>
         <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '24px' }}>
-          Standard Marginal Conformal Prediction fails to protect the Non-Hispanic White subgroup (coverage drops to 84.6% despite a 90% target). 
-          Mondrian Conformal Prediction perfectly restores coverage across all ancestral lines.
-        </p>
+          Standard Marginal Conformal Prediction fails to protect the Non-Hispanic Asian subgroup (coverage drops to 84.9% despite a 90% target). 
+          Mondrian Conformal Prediction perfectly restores coverage across all ancestral lines.</p>
         <div style={{ height: '250px' }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={coverageData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>

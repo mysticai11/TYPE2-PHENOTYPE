@@ -7,8 +7,8 @@ def metabolic_counterfactual(model, z_current: np.ndarray, homa_ir_target: float
     with torch.no_grad():
         def g(z1_val):
             z1_tensor = torch.tensor([[z1_val]], dtype=torch.float32)
-            h_pred = model.anchor(z1_tensor).numpy()[0]
-            return h_pred - homa_ir_target
+            h_pred = model.anchor(z1_tensor, torch.zeros_like(z1_tensor)).numpy()[0]
+            return h_pred[0] - homa_ir_target
         a, b = -5.0, 5.0
         fa, fb = g(a), g(b)
         if fa * fb > 0:
@@ -43,7 +43,7 @@ def metabolic_quadrant_counterfactual(model, scaler, z_current: np.ndarray, x_cu
     FEATURE_COLS = [
         "fasting_glucose_mg_dL", "fasting_insulin_uU_mL", "triglycerides_mg_dL", "hdl_mg_dL",
         "ast_U_L", "alt_U_L", "ggt_U_L", "bmi", "waist_cm", "platelets_1000_uL",
-        "tyg", "homa_ir", "fli", "tg_hdl", "aip"
+        "tyg", "ast_alt", "tg_hdl", "aip"
     ]
     
     UNITS = {
@@ -51,7 +51,7 @@ def metabolic_quadrant_counterfactual(model, scaler, z_current: np.ndarray, x_cu
         "triglycerides_mg_dL": "mg/dL", "hdl_mg_dL": "mg/dL",
         "ast_U_L": "U/L", "alt_U_L": "U/L", "ggt_U_L": "U/L",
         "bmi": "kg/m2", "waist_cm": "cm", "platelets_1000_uL": "10^3/uL",
-        "tyg": "", "homa_ir": "", "fli": "", "tg_hdl": "", "aip": ""
+        "tyg": "", "ast_alt": "", "tg_hdl": "", "aip": ""
     }
     
     levers = []

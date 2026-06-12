@@ -1,0 +1,123 @@
+{
+  "cohort_stats": {
+    "fasting_glucose_mg_dL": {
+      "J_median": 99.0,
+      "P_median": 99.0,
+      "J_iqr": 13.75,
+      "P_iqr": 13.0
+    },
+    "fasting_insulin_uU_mL": {
+      "J_median": 5.92,
+      "P_median": 5.82,
+      "J_iqr": 4.6675,
+      "P_iqr": 4.625
+    },
+    "triglycerides_mg_dL": {
+      "J_median": 71.0,
+      "P_median": 69.0,
+      "J_iqr": 58.0,
+      "P_iqr": 55.0
+    },
+    "hdl_mg_dL": {
+      "J_median": 59.0,
+      "P_median": 59.0,
+      "J_iqr": 23.0,
+      "P_iqr": 22.0
+    },
+    "bmi": {
+      "J_median": 22.7,
+      "P_median": 22.6,
+      "J_iqr": 2.7749999999999986,
+      "P_iqr": 2.799999999999997
+    },
+    "waist_cm": {
+      "J_median": 83.2,
+      "P_median": 82.9,
+      "J_iqr": 10.775000000000006,
+      "P_iqr": 10.900000000000006
+    },
+    "ast_U_L": {
+      "J_median": 15.0,
+      "P_median": 15.0,
+      "J_iqr": 10.0,
+      "P_iqr": 9.0
+    },
+    "alt_U_L": {
+      "J_median": 4.1,
+      "P_median": 4.1,
+      "J_iqr": 0.3999999999999999,
+      "P_iqr": 0.3999999999999999
+    },
+    "ggt_U_L": {
+      "J_median": 17.0,
+      "P_median": 17.0,
+      "J_iqr": 14.0,
+      "P_iqr": 13.0
+    },
+    "ancestry_J": {
+      "3.0": 190,
+      "5.0": 176,
+      "4.0": 119,
+      "1.0": 51,
+      "2.0": 38
+    },
+    "ancestry_P": {
+      "3.0": 307,
+      "5.0": 252,
+      "4.0": 200,
+      "1.0": 78,
+      "2.0": 66
+    },
+    "n_NHA_J": 119,
+    "n_NHA_P": 200,
+    "n_NHA_combined": 319,
+    "n_J": 574,
+    "n_P": 903,
+    "n_combined": 1477,
+    "cap_J": 552,
+    "cap_P": 870
+  },
+  "nha_homa_band": {
+    "n": 12,
+    "verdict": "DEMOTE: n < 30 -- keep in limitations, do not promote"
+  },
+  "recon_mse": {
+    "J_cycle": 2.220977783203125,
+    "P_cycle": 2.7335870265960693
+  },
+  "cap_correlation_P": {
+    "rho": 0.5009527654443741,
+    "p": 1.8537340344160176e-56,
+    "n": 870
+  },
+  "cap_correlation_J": {
+    "rho": 0.6281140218670853,
+    "p": 6.431973088757249e-62,
+    "n": 552
+  },
+  "quadrant_distribution_P": {
+    "0": {
+      "n": 241,
+      "pct": 26.69
+    },
+    "1": {
+      "n": 160,
+      "pct": 17.72
+    },
+    "2": {
+      "n": 214,
+      "pct": 23.7
+    },
+    "3": {
+      "n": 288,
+      "pct": 31.89
+    }
+  },
+  "conformal_coverage_OOD": {
+    "empirical_coverage": 0.9524,
+    "nominal_coverage": 0.9,
+    "coverage_gap": 0.0524,
+    "n_evaluated": 903,
+    "verdict": "TRANSFERS (>= 0.85)"
+  }
+}

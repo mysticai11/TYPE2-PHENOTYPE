@@ -134,7 +134,7 @@ def run_exp6_counterfactuals(df_derived, z_all, scaler, model, conformal):
     features = [
         "fasting_glucose_mg_dL", "fasting_insulin_uU_mL", "triglycerides_mg_dL", "hdl_mg_dL",
         "ast_U_L", "alt_U_L", "ggt_U_L", "bmi", "waist_cm", "platelets_1000_uL",
-        "tyg", "homa_ir", "fli", "tg_hdl", "aip"
+        "tyg", "ast_alt", "tg_hdl", "aip"
     ]
     
     for q in [1, 2, 3]:
@@ -165,7 +165,7 @@ def main():
     
     X_all, u_all, h_all, m_all, y_all, df_derived_all, _, _ = preprocess_data(df, scaler=scaler, u_encoder=u_encoder, is_train=False)
     
-    model = iVAE_MetabolicStateModel(beta=4.0, lambda_anchor=0.5)
+    model = iVAE_MetabolicStateModel()
     model.load_state_dict(torch.load(os.path.join(models_dir, "ivae_best.pt")))
     model.eval()
     

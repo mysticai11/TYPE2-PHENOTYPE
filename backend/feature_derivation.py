@@ -4,7 +4,10 @@ import sys
 import os
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from src_code.data.preprocess import derive_features, encode_demographics, FEATURE_COLS
+from src_code.data.preprocess import derive_features, encode_demographics
+from src_code.data.schema import FeatureSchema
+
+FEATURE_COLS = FeatureSchema.FEATURE_COLS
 
 def get_derived_features(input_data: dict) -> dict:
     if input_data.get("ggt_U_L") is None:

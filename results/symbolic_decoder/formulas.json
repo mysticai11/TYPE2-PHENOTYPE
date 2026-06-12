@@ -1,0 +1,86 @@
+{
+  "fasting_glucose_mg_dL": {
+    "equation": "fasting_glucose_mg_dL = exp(((((z1 * -1.4846327) - z2) * (z1 + -1.8052486)) + 3.445357) + z2) + 73.170135",
+    "latex": "fasting_glucose_mg_dL = e^{z_{2} + \\left(z_{1} - 1.81\\right) \\left(z_{1} \\left(-1.48\\right) - z_{2}\\right) + 3.45} + 73.2",
+    "loss": 8.65805,
+    "skipped": false
+  },
+  "fasting_insulin_uU_mL": {
+    "equation": "fasting_insulin_uU_mL = abs(((z1 + 0.1835762) / 0.05509793) * exp(z2 + exp(z2)))",
+    "latex": "fasting_insulin_uU_mL = 18.1 e^{e^{\\operatorname{re}{\\left(z_{2}\\right)}} \\cos{\\left(\\operatorname{im}{\\left(z_{2}\\right)} \\right)} + \\operatorname{re}{\\left(z_{2}\\right)}} \\left|{z_{1} + 0.184}\\right|",
+    "loss": 3.329606,
+    "skipped": false
+  },
+  "triglycerides_mg_dL": {
+    "equation": "triglycerides_mg_dL = (z2 + 2.0047975) ^ (z1 + 6.36179)",
+    "latex": "triglycerides_mg_dL = \\left(z_{2} + 2.00\\right)^{z_{1} + 6.36}",
+    "loss": 31.954634,
+    "skipped": false
+  },
+  "hdl_mg_dL": {
+    "equation": "hdl_mg_dL = ((z2 + (z1 + abs(z2))) * -17.128876) - -61.038906",
+    "latex": "hdl_mg_dL = \\left(z_{1} + z_{2} + \\left|{z_{2}}\\right|\\right) \\left(-17.1\\right) - -61.0",
+    "loss": 0.72064686,
+    "skipped": false
+  },
+  "ast_U_L": {
+    "equation": "ast_U_L = ((z2 + 1.7778633) ^ (5.0826855 - (abs(z2 - z1) * 0.45657316))) + 1.2502056",
+    "latex": "ast_U_L = \\left(z_{2} + 1.78\\right)^{5.08 - \\left|{z_{1} - z_{2}}\\right| 0.457} + 1.25",
+    "loss": 0.24435179,
+    "skipped": false
+  },
+  "alt_U_L": {
+    "equation": "alt_U_L = (((z1 * -0.07880583) + 0.27789256) * ((z2 - abs((0.022628685 - z1) * 0.8079633)) - z1)) + 4.1098332",
+    "latex": "alt_U_L = \\left(0.278 + z_{1} \\left(-0.0788\\right)\\right) \\left(- z_{1} + z_{2} - \\left|{0.808 z_{1} - 0.0183}\\right|\\right) + 4.11",
+    "loss": 4.645633e-05,
+    "skipped": false
+  },
+  "ggt_U_L": {
+    "equation": "ggt_U_L = (exp(z2 + 2.1468964) + -6.0682983) * (13.153433 - abs((z1 - z2) * 4.322852))",
+    "latex": "ggt_U_L = \\left(13.2 - 4.32 \\left|{z_{1} - z_{2}}\\right|\\right) \\left(e^{z_{2} + 2.15} - 6.07\\right)",
+    "loss": 1.9152577,
+    "skipped": false
+  },
+  "bmi": {
+    "equation": "bmi = ((z1 + exp(z2)) * (z2 * 4.797967)) + ((z1 * 0.5866699) + 22.25567)",
+    "latex": "bmi = z_{1} \\cdot 0.587 + \\left(z_{1} + e^{z_{2}}\\right) z_{2} \\cdot 4.80 + 22.3",
+    "loss": 0.0032457483,
+    "skipped": false
+  },
+  "waist_cm": {
+    "equation": "waist_cm = 81.551155 + (((35.065296 + (z1 * (38.17447 + (z1 * -54.697304)))) + (z2 * 31.676962)) * z2)",
+    "latex": "waist_cm = z_{2} \\left(z_{1} \\left(38.2 + z_{1} \\left(-54.7\\right)\\right) + z_{2} \\cdot 31.7 + 35.1\\right) + 81.5",
+    "loss": 0.1250623,
+    "skipped": false
+  },
+  "platelets_1000_uL": {
+    "equation": "platelets_1000_uL = 257.4703 - exp((((z1 * -2.9163923) - z2) * (z1 - -0.32060516)) + 3.4984372)",
+    "latex": "platelets_1000_uL = 258. - e^{\\left(z_{1} - -0.321\\right) \\left(z_{1} \\left(-2.92\\right) - z_{2}\\right) + 3.50}",
+    "loss": 0.46394953,
+    "skipped": false
+  },
+  "tyg": {
+    "equation": "tyg = ((abs(z1 + z2) * 0.6958462) + 4.662066) + ((exp(z2 + 1.2604712) + (z2 * z1)) + z1)",
+    "latex": "tyg = z_{1} z_{2} + z_{1} + e^{z_{2} + 1.26} + \\left|{z_{1} + z_{2}}\\right| 0.696 + 4.66",
+    "loss": 0.0019640306,
+    "skipped": false
+  },
+  "ast_alt": {
+    "equation": "ast_alt = (11.492642 ^ z2) * (4.6385813 - abs(z2 - z1))",
+    "latex": "ast_alt = {11.5}^{z_{2}} \\left(4.64 - \\left|{z_{1} - z_{2}}\\right|\\right)",
+    "loss": 0.017544735,
+    "skipped": false
+  },
+  "tg_hdl": {
+    "equation": "tg_hdl = z1 + ((z2 + (z2 + 1.2238117)) ^ (z1 + 2.4855323))",
+    "latex": "tg_hdl = z_{1} + \\left(z_{2} + z_{2} + 1.22\\right)^{z_{1} + 2.49}",
+    "loss": 0.015428357,
+    "skipped": false
+  },
+  "aip": {
+    "equation": "aip = abs((z2 + (z1 + 0.13148084)) * (z2 + 0.38485578)) + (z2 - -0.033886585)",
+    "latex": "aip = z_{2} + \\left|{\\left(z_{2} + 0.385\\right) \\left(z_{1} + z_{2} + 0.131\\right)}\\right| - -0.0339",
+    "loss": 0.000498601,
+    "skipped": false
+  }
+}

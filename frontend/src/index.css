@@ -561,3 +561,31 @@ body {
   color: var(--border);
   margin: 0 16px;
 }
+
+/* Backend Error Banner */
+.backend-error-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: #c0392b;
+  color: white;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  animation: slide-down 0.2s ease-out;
+}
+
+.error-dismiss {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}

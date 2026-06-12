@@ -3,8 +3,8 @@ import React from 'react';
 export const ClinicalReadoutPanel = ({ patientData, quadrantData, interventions, researchMode }) => {
   if (!patientData || !quadrantData) return null;
 
-  const { z1, z2, pred_homa_ir, pred_cap, risk_score, coverage_lb, coverage_ub } = patientData;
-  const { isDualBurden, percentile_ir, percentile_cap, n_calibration, coverage_target } = quadrantData;
+  const { z1, z2, pred_homa_ir, pred_cap, risk_score, coverage_lb, coverage_ub, recon_mse, in_distribution } = patientData;
+  const { isDualBurden, percentile_ir, percentile_cap, n_calibration, coverage_target, achieved_coverage } = quadrantData;
 
   const getSteatosisGrade = (cap) => {
     if (cap < 248) return 'S0 (Normal)';
@@ -145,7 +145,9 @@ export const ClinicalReadoutPanel = ({ patientData, quadrantData, interventions,
         
         <div className="conf-row">
           <span>Within training range</span>
-          <span className="conf-val">✓</span>
+          <span className="conf-val" style={{color: in_distribution ? 'var(--territory-safe)' : 'var(--crimson)'}}>
+            {in_distribution ? '✓' : '⚠ Out of Distribution'}
+          </span>
         </div>
         <div className="conf-row">
           <span>Calibration stratum</span>
@@ -167,8 +169,8 @@ export const ClinicalReadoutPanel = ({ patientData, quadrantData, interventions,
             <div className="section-title">Research Telemetry</div>
             <div className="conf-row"><span>Z1 (IR)</span><span className="conf-val">{z1.toFixed(3)}</span></div>
             <div className="conf-row"><span>Z2 (Steatosis)</span><span className="conf-val">{z2.toFixed(3)}</span></div>
-            <div className="conf-row"><span>Recon MSE</span><span className="conf-val">{(Math.random() * 0.1 + 0.05).toFixed(3)}</span></div>
-            <div className="conf-row"><span>Achieved Coverage</span><span className="conf-val">{isDualBurden ? '85.4%' : '98.1%'}</span></div>
+            <div className="conf-row"><span>Recon MSE</span><span className="conf-val">{recon_mse.toFixed(5)}</span></div>
+            <div className="conf-row"><span>Achieved Coverage</span><span className="conf-val">{(achieved_coverage * 100).toFixed(1)}%</span></div>
           </div>
         )}
       </div>

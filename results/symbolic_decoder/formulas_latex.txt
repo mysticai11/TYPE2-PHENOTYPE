@@ -1,0 +1,19 @@
+% LMSIS Symbolic Decoder -- LaTeX Equations
+% Paste into dissertation interpretability section
+
+\begin{align}
+  fasting_glucose_mg_dL = e^{z_{2} + \left(z_{1} - 1.81\right) \left(z_{1} \left(-1.48\right) - z_{2}\right) + 3.45} + 73.2 \\
+  fasting_insulin_uU_mL = 18.1 e^{e^{\operatorname{re}{\left(z_{2}\right)}} \cos{\left(\operatorname{im}{\left(z_{2}\right)} \right)} + \operatorname{re}{\left(z_{2}\right)}} \left|{z_{1} + 0.184}\right| \\
+  triglycerides_mg_dL = \left(z_{2} + 2.00\right)^{z_{1} + 6.36} \\
+  hdl_mg_dL = \left(z_{1} + z_{2} + \left|{z_{2}}\right|\right) \left(-17.1\right) - -61.0 \\
+  ast_U_L = \left(z_{2} + 1.78\right)^{5.08 - \left|{z_{1} - z_{2}}\right| 0.457} + 1.25 \\
+  alt_U_L = \left(0.278 + z_{1} \left(-0.0788\right)\right) \left(- z_{1} + z_{2} - \left|{0.808 z_{1} - 0.0183}\right|\right) + 4.11 \\
+  ggt_U_L = \left(13.2 - 4.32 \left|{z_{1} - z_{2}}\right|\right) \left(e^{z_{2} + 2.15} - 6.07\right) \\
+  bmi = z_{1} \cdot 0.587 + \left(z_{1} + e^{z_{2}}\right) z_{2} \cdot 4.80 + 22.3 \\
+  waist_cm = z_{2} \left(z_{1} \left(38.2 + z_{1} \left(-54.7\right)\right) + z_{2} \cdot 31.7 + 35.1\right) + 81.5 \\
+  platelets_1000_uL = 258. - e^{\left(z_{1} - -0.321\right) \left(z_{1} \left(-2.92\right) - z_{2}\right) + 3.50} \\
+  tyg = z_{1} z_{2} + z_{1} + e^{z_{2} + 1.26} + \left|{z_{1} + z_{2}}\right| 0.696 + 4.66 \\
+  ast_alt = {11.5}^{z_{2}} \left(4.64 - \left|{z_{1} - z_{2}}\right|\right) \\
+  tg_hdl = z_{1} + \left(z_{2} + z_{2} + 1.22\right)^{z_{1} + 2.49} \\
+  aip = z_{2} + \left|{\left(z_{2} + 0.385\right) \left(z_{1} + z_{2} + 0.131\right)}\right| - -0.0339 \\
+\end{align}

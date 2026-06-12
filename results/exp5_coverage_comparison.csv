@@ -1,5 +1,5 @@
 Phenotype,N,Marginal_Coverage,Mondrian_Coverage,Nominal_Target
-MHNW,171,1.0,1.0,0.9
-IR-Dominant,91,0.967,0.967,0.9
-Steatosis-Dominant,110,0.9818,0.9909,0.9
-Dual-Burden,246,0.7764,0.8537,0.9
+MHNW,168,0.9821,0.9821,0.9
+IR-Dominant,129,0.938,1.0,0.9
+Steatosis-Dominant,185,0.8703,0.9892,0.9
+Dual-Burden,136,0.8162,0.9044,0.9

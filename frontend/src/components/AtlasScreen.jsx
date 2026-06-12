@@ -2,7 +2,7 @@ import React from 'react';
 import { ClinicalMap } from './ClinicalMap';
 import { ClinicalReadoutPanel } from './ClinicalReadoutPanel';
 
-export function AtlasScreen({ patientData, quadrantData, interventions, researchMode }) {
+export function AtlasScreen({ patientData, quadrantData, interventions, geodesicPath, geodesicInterventions, researchMode }) {
   return (
     <div className="main-layout">
       <ClinicalMap 
@@ -11,6 +11,8 @@ export function AtlasScreen({ patientData, quadrantData, interventions, research
         quadrantKey={quadrantData?.key}
         researchMode={researchMode}
         isSafe={quadrantData?.key === 'mhnw'}
+        geodesicPath={geodesicPath}
+        interventions={geodesicInterventions}
       />
       <ClinicalReadoutPanel 
         patientData={patientData}

@@ -59,7 +59,7 @@ def main():
     
     X_all, u_all, _, m_all, _, df_derived_all, _, _ = preprocess_data(df, scaler=scaler, u_encoder=u_encoder, is_train=False)
     
-    model = iVAE_MetabolicStateModel(beta=4.0, lambda_anchor=0.5)
+    model = iVAE_MetabolicStateModel()
     model.load_state_dict(torch.load(os.path.join(models_dir, "ivae_best.pt")))
     model.eval()
     

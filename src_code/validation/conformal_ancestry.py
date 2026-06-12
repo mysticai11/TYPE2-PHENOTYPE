@@ -95,7 +95,7 @@ def main():
     
     import torch
     from src_code.model.ivae import iVAE_MetabolicStateModel
-    model = iVAE_MetabolicStateModel(beta=4.0, lambda_anchor=0.5)
+    model = iVAE_MetabolicStateModel(x_dim=14, beta=4.0)
     model.load_state_dict(torch.load(os.path.join(models_dir, "ivae_best.pt")))
     model.eval()
 
@@ -105,7 +105,14 @@ def main():
         mu_q, _ = model.encoder(torch.tensor(X_all, dtype=torch.float32), torch.tensor(u_all, dtype=torch.float32))
         z_all = mu_q.numpy()
 
-    ancestry_all = df['ancestry_proxy'].values
+    raw_df = pd.read_csv(os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "raw_nhanes_merged.csv"))
+    df['RIDRETH3'] = raw_df.loc[df.index, 'RIDRETH3']
+    
+    def map_ancestry_code(val):
+        if val in [1, 2]: return 1.0  # Hispanic
+        return val
+        
+    ancestry_all = df['RIDRETH3'].apply(map_ancestry_code).values
 
     # Split into cal and test
     z_cal, z_test, ir_cal, ir_test, anc_cal, anc_test = train_test_split(
@@ -114,8 +121,8 @@ def main():
 
     res = ancestry_conformal_stratification(z_cal, ir_cal, anc_cal, z_test, ir_test, anc_test, alpha=0.10)
     
-    # Map ancestries
-    anc_map = {1.0: "NHW", 2.0: "NHB", 3.0: "NHA"}
+    # Map ancestries — NHANES RIDRETH1: 1=Mex-Am, 2=OtherHisp, 3=NHW, 4=NHB, 6=NHA
+    anc_map = {3.0: "NHW", 4.0: "NHB", 6.0: "NHA", 1.0: "Hispanic"}
     
     print("\nAncestry-Stratified Conformal Results:")
     for anc_code, name in anc_map.items():

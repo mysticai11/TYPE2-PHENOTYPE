@@ -1,0 +1,5 @@
+Phenotype,Sample N,Weighted Prevalence (%),95% CI,National Estimate (M),National Estimate 95% CI (M)
+MHNW,385,23.2,"[12.66%, 33.74%]",18.56,"[10.13M, 26.99M]"
+IR-Dominant,264,18.53,"[2.17%, 34.88%]",14.82,"[1.74M, 27.90M]"
+Steatosis-Dominant,346,28.39,"[4.71%, 52.06%]",22.71,"[3.77M, 41.65M]"
+Dual-Burden,482,29.89,"[0.00%, 80.45%]",23.91,"[0.00M, 64.36M]"

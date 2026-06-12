@@ -96,6 +96,156 @@ export const BiomarkerForm = ({ onSubmit, isSubmitting }) => {
           <p className="phase-1-subtitle">Enter routine blood biomarker values to locate the patient's metabolic state.</p>
         </div>
 
+        <div className="presets-panel" style={{ marginBottom: '24px', padding: '16px', backgroundColor: 'var(--bg-panel)', borderRadius: '8px', border: '1px solid var(--border)' }}>
+          <div style={{ fontSize: '11px', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '12px', letterSpacing: '0.05em', fontWeight: 600 }}>Load Patient Profile Preset</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '8px' }}>
+            <button
+              type="button"
+              className="preset-btn"
+              style={{
+                padding: '10px 12px',
+                fontSize: '12px',
+                textAlign: 'left',
+                backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid var(--border)',
+                borderRadius: '6px',
+                color: 'var(--text-primary)',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                fontFamily: 'var(--font-sans)',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)'; e.currentTarget.style.borderColor = 'var(--text-muted)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)'; e.currentTarget.style.borderColor = 'var(--border)'; }}
+              onClick={() => setValues({
+                fasting_glucose_mg_dL: 94.0,
+                fasting_insulin_uU_mL: 6.08,
+                triglycerides_mg_dL: 54.5,
+                hdl_mg_dL: 59.0,
+                ast_U_L: 13.0,
+                alt_U_L: 4.1,
+                ggt_U_L: 16.0,
+                bmi: 22.2,
+                waist_cm: 78.8,
+                platelets_1000_uL: 229.0,
+                age: 30.0,
+                sex: 2,
+                ancestry_proxy: 4
+              })}
+            >
+              <div style={{ fontWeight: 600, color: 'var(--territory-safe)' }}>MHNW</div>
+              <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '2px' }}>Healthy Control</div>
+            </button>
+            <button
+              type="button"
+              className="preset-btn"
+              style={{
+                padding: '10px 12px',
+                fontSize: '12px',
+                textAlign: 'left',
+                backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid var(--border)',
+                borderRadius: '6px',
+                color: 'var(--text-primary)',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                fontFamily: 'var(--font-sans)',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)'; e.currentTarget.style.borderColor = 'var(--text-muted)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)'; e.currentTarget.style.borderColor = 'var(--border)'; }}
+              onClick={() => setValues({
+                fasting_glucose_mg_dL: 100.0,
+                fasting_insulin_uU_mL: 6.69,
+                triglycerides_mg_dL: 65.0,
+                hdl_mg_dL: 59.0,
+                ast_U_L: 13.0,
+                alt_U_L: 4.1,
+                ggt_U_L: 16.0,
+                bmi: 21.4,
+                waist_cm: 79.2,
+                platelets_1000_uL: 221.0,
+                age: 44.0,
+                sex: 2,
+                ancestry_proxy: 3
+              })}
+            >
+              <div style={{ fontWeight: 600, color: 'var(--territory-ir)' }}>IR-Dominant</div>
+              <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '2px' }}>Insulin Resistance</div>
+            </button>
+            <button
+              type="button"
+              className="preset-btn"
+              style={{
+                padding: '10px 12px',
+                fontSize: '12px',
+                textAlign: 'left',
+                backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid var(--border)',
+                borderRadius: '6px',
+                color: 'var(--text-primary)',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                fontFamily: 'var(--font-sans)',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)'; e.currentTarget.style.borderColor = 'var(--text-muted)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)'; e.currentTarget.style.borderColor = 'var(--border)'; }}
+              onClick={() => setValues({
+                fasting_glucose_mg_dL: 99.0,
+                fasting_insulin_uU_mL: 5.45,
+                triglycerides_mg_dL: 91.0,
+                hdl_mg_dL: 54.0,
+                ast_U_L: 17.0,
+                alt_U_L: 4.2,
+                ggt_U_L: 17.0,
+                bmi: 23.5,
+                waist_cm: 86.7,
+                platelets_1000_uL: 225.0,
+                age: 48.0,
+                sex: 1,
+                ancestry_proxy: 3
+              })}
+            >
+              <div style={{ fontWeight: 600, color: 'var(--territory-steatosis)' }}>Steatotic</div>
+              <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '2px' }}>Fatty Liver Dominant</div>
+            </button>
+            <button
+              type="button"
+              className="preset-btn"
+              style={{
+                padding: '10px 12px',
+                fontSize: '12px',
+                textAlign: 'left',
+                backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid var(--border)',
+                borderRadius: '6px',
+                color: 'var(--text-primary)',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                fontFamily: 'var(--font-sans)',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.08)'; e.currentTarget.style.borderColor = 'var(--text-muted)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.03)'; e.currentTarget.style.borderColor = 'var(--border)'; }}
+              onClick={() => setValues({
+                fasting_glucose_mg_dL: 107.0,
+                fasting_insulin_uU_mL: 6.63,
+                triglycerides_mg_dL: 89.0,
+                hdl_mg_dL: 60.0,
+                ast_U_L: 18.0,
+                alt_U_L: 4.1,
+                ggt_U_L: 21.0,
+                bmi: 23.0,
+                waist_cm: 84.8,
+                platelets_1000_uL: 207.0,
+                age: 60.0,
+                sex: 2,
+                ancestry_proxy: 5
+              })}
+            >
+              <div style={{ fontWeight: 600, color: 'var(--territory-dual)' }}>Dual-Burden</div>
+              <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '2px' }}>Thin-Fat Phenotype</div>
+            </button>
+          </div>
+        </div>
+
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <div className="form-group-title">Group A — Metabolic Core</div>

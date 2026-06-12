@@ -4,13 +4,11 @@ from sklearn.preprocessing import RobustScaler, OneHotEncoder
 import joblib
 import os
 
-RAW_INPUTS = [
-    "fasting_glucose_mg_dL", "fasting_insulin_uU_mL", "triglycerides_mg_dL", "hdl_mg_dL",
-    "ast_U_L", "alt_U_L", "ggt_U_L", "bmi", "waist_cm", "platelets_1000_uL"
-]
+from src_code.data.schema import FeatureSchema
 
-DERIVED_INDICES = ["tyg", "homa_ir", "fli", "tg_hdl", "aip"]
-FEATURE_COLS = RAW_INPUTS + DERIVED_INDICES
+RAW_INPUTS = FeatureSchema.RAW_INPUTS
+DERIVED_INDICES = FeatureSchema.DERIVED_INDICES
+FEATURE_COLS = FeatureSchema.FEATURE_COLS
 
 def derive_features(df: pd.DataFrame) -> pd.DataFrame:
     df_out = df.copy()
@@ -18,6 +16,7 @@ def derive_features(df: pd.DataFrame) -> pd.DataFrame:
     df_out["tyg"] = np.log((df_out["triglycerides_mg_dL"] * df_out["fasting_glucose_mg_dL"]) / 2.0)
     df_out["tg_hdl"] = df_out["triglycerides_mg_dL"] / df_out["hdl_mg_dL"]
     df_out["aip"] = np.log10(df_out["tg_hdl"])
+    df_out["ast_alt"] = df_out["ast_U_L"] / df_out["alt_U_L"]
     y = (0.953 * np.log(df_out["triglycerides_mg_dL"]) + 0.139 * df_out["bmi"] +
          0.718 * np.log(df_out["ggt_U_L"]) + 0.053 * df_out["waist_cm"] - 15.745)
     df_out["fli"] = (np.exp(y) / (1 + np.exp(y))) * 100

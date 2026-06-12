@@ -88,7 +88,7 @@ def main():
     
     X_all, u_all, _, _, _, df_derived, _, _ = preprocess_data(df, scaler=scaler, u_encoder=u_encoder, is_train=False)
     
-    model = iVAE_MetabolicStateModel(beta=4.0, lambda_anchor=0.5)
+    model = iVAE_MetabolicStateModel(x_dim=14, beta=4.0)
     model.load_state_dict(torch.load(os.path.join(models_dir, "ivae_best.pt")))
     model.eval()
     
@@ -138,7 +138,7 @@ def main():
     features = [
         "fasting_glucose_mg_dL", "fasting_insulin_uU_mL", "triglycerides_mg_dL", "hdl_mg_dL",
         "ast_U_L", "alt_U_L", "ggt_U_L", "bmi", "waist_cm", "platelets_1000_uL",
-        "tyg", "homa_ir", "fli", "tg_hdl", "aip"
+        "tyg", "ast_alt", "tg_hdl", "aip"   # homa_ir removed — it's the anchor target, not an input
     ]
     
     for g in ancestry_groups:

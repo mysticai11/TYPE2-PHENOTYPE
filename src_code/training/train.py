@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 import torch
 import numpy as np
 from torch.utils.data import TensorDataset, DataLoader
@@ -19,42 +20,63 @@ def evaluate_validation(model, val_loader):
     with torch.no_grad():
         for x_b, u_b, h_b, m_b in val_loader:
             x_hat, mu_q, logvar_q, mu_p, logvar_p, h_hat, z = model(x_b, u_b)
-            loss, _, _, _ = model.loss(x_b, u_b, h_b, m_b, x_hat, mu_q, logvar_q, mu_p, logvar_p, h_hat)
+            loss, _, _, _ = model.loss(x_b, u_b, h_b, m_b, x_hat, mu_q, logvar_q, mu_p, logvar_p, h_hat, z)
             val_loss += loss.item() * x_b.size(0)
-    return - (val_loss / len(val_loader.dataset))
+    return -(val_loss / len(val_loader.dataset))
 
 def train_model(best_params=None):
     set_all_seeds(42, 1234)
-    if best_params is None: best_params = {"beta": 4.0, "lambda_anchor": 0.5, "k": 2}
+    if best_params is None:
+        best_params = {"beta": 4.0, "lam1": 0.8, "lam2": 1.2, "lam_ortho": 0.1}
     best_lr = best_params.pop("lr", 1e-3)
+
     df = load_data()
     df_train, df_temp = train_test_split(df, test_size=0.30, random_state=42)
     df_val, df_test = train_test_split(df_temp, test_size=0.50, random_state=42)
+
     X_train, u_train, h_train, m_train, y_train, df_derived_train, scaler, u_encoder = preprocess_data(df_train, is_train=True)
     X_val, u_val, h_val, m_val, y_val, df_derived_val, _, _ = preprocess_data(df_val, scaler=scaler, u_encoder=u_encoder, is_train=False)
     X_test, u_test, h_test, m_test, y_test, df_derived_test, _, _ = preprocess_data(df_test, scaler=scaler, u_encoder=u_encoder, is_train=False)
-    
-    train_dataset = TensorDataset(torch.tensor(X_train, dtype=torch.float32), torch.tensor(u_train, dtype=torch.float32), torch.tensor(h_train, dtype=torch.float32), torch.tensor(m_train, dtype=torch.float32))
-    val_dataset = TensorDataset(torch.tensor(X_val, dtype=torch.float32), torch.tensor(u_val, dtype=torch.float32), torch.tensor(h_val, dtype=torch.float32), torch.tensor(m_val, dtype=torch.float32))
+
+    train_dataset = TensorDataset(
+        torch.tensor(X_train, dtype=torch.float32),
+        torch.tensor(u_train, dtype=torch.float32),
+        torch.tensor(h_train, dtype=torch.float32),
+        torch.tensor(m_train, dtype=torch.float32)
+    )
+    val_dataset = TensorDataset(
+        torch.tensor(X_val, dtype=torch.float32),
+        torch.tensor(u_val, dtype=torch.float32),
+        torch.tensor(h_val, dtype=torch.float32),
+        torch.tensor(m_val, dtype=torch.float32)
+    )
     train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
-    
+
     model = iVAE_MetabolicStateModel(**best_params)
     optim = AdamW(model.parameters(), lr=best_lr, weight_decay=1e-4)
     sched = CosineAnnealingLR(optim, T_max=150, eta_min=1e-5)
-    
+
     models_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "models")
     os.makedirs(models_dir, exist_ok=True)
+
+    # Backup old checkpoint before overwriting
+    old_ckpt = os.path.join(models_dir, "ivae_best.pt")
+    if os.path.exists(old_ckpt):
+        import shutil
+        shutil.copy(old_ckpt, os.path.join(models_dir, "ivae_best_v1.pt"))
+        print("Backed up previous checkpoint to ivae_best_v1.pt")
+
     best_val_score, patience_counter = -np.inf, 0
     PATIENCE = 20
-    
-    print("Starting training...")
+
+    print("Starting training (x_dim=14, separate lam1/lam2, ortho regulariser)...")
     for epoch in range(150):
         model.train()
         epoch_loss = 0
         for x_b, u_b, h_b, m_b in train_loader:
             x_hat, mu_q, logvar_q, mu_p, logvar_p, h_hat, z = model(x_b, u_b)
-            loss, recon, kl, anchor = model.loss(x_b, u_b, h_b, m_b, x_hat, mu_q, logvar_q, mu_p, logvar_p, h_hat)
+            loss, recon, kl, anchor = model.loss(x_b, u_b, h_b, m_b, x_hat, mu_q, logvar_q, mu_p, logvar_p, h_hat, z)
             optim.zero_grad()
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
@@ -73,11 +95,35 @@ def train_model(best_params=None):
                 break
         if epoch % 10 == 0:
             print(f"Epoch {epoch:03d} | Train Loss: {epoch_loss/len(train_loader):.4f} | Val Score: {val_score:.4f}")
-    
+
     print("Training complete.")
     model.load_state_dict(torch.load(os.path.join(models_dir, "ivae_best.pt")))
     assert model.anchor.verify_monotonicity(), "Anchor monotonicity check FAILED"
     print("Anchor monotonicity check passed.")
+
+    # iVAE rank condition check
+    try:
+        from src_code.utils.ivae_checks import check_iVAE_rank_condition
+        print("Checking iVAE rank condition...")
+        rank_result = check_iVAE_rank_condition(model, u_train, k=2)
+        print(f"iVAE Rank Condition Result: {rank_result}")
+        results_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "results")
+        os.makedirs(results_dir, exist_ok=True)
+        with open(os.path.join(results_dir, "model_verification.json"), "w") as f:
+            json.dump(rank_result, f, indent=2)
+    except Exception as e:
+        print(f"Failed to check iVAE rank condition: {e}")
+
+    # Save anchor normalization statistics for backend un-standardization
+    anchor_stats = {
+        "homa_mean": float(np.nanmean(h_train[:, 0])),
+        "homa_std":  float(np.nanstd(h_train[:, 0]) + 1e-8),
+        "cap_mean":  float(np.nanmean(h_train[:, 1])),
+        "cap_std":   float(np.nanstd(h_train[:, 1]) + 1e-8),
+    }
+    with open(os.path.join(models_dir, "anchor_stats.json"), "w") as f:
+        json.dump(anchor_stats, f, indent=2)
+    print(f"Anchor stats saved: {anchor_stats}")
 
     # Generate Conformal Surface
     try:
@@ -85,14 +131,21 @@ def train_model(best_params=None):
         print("Generating conformal surface...")
         model.eval()
         with torch.no_grad():
-            mu_q_val, _ = model.encoder(torch.tensor(X_val, dtype=torch.float32), torch.tensor(u_val, dtype=torch.float32))
+            mu_q_val, _ = model.encoder(
+                torch.tensor(X_val, dtype=torch.float32),
+                torch.tensor(u_val, dtype=torch.float32)
+            )
             z_cal = mu_q_val.numpy()
-            mu_q_test, _ = model.encoder(torch.tensor(X_test, dtype=torch.float32), torch.tensor(u_test, dtype=torch.float32))
+            mu_q_test, _ = model.encoder(
+                torch.tensor(X_test, dtype=torch.float32),
+                torch.tensor(u_test, dtype=torch.float32)
+            )
             z_test = mu_q_test.numpy()
         fit_conformal_risk_surface(z_cal, y_val, z_test, y_test)
         print("Conformal surface generated and saved.")
     except Exception as e:
         print(f"Failed to generate conformal surface: {e}")
-    
+
 if __name__ == "__main__":
     train_model()
+

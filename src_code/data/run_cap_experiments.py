@@ -79,13 +79,13 @@ mapping = {
     'RIDRETH1': 'ancestry_proxy',
     'BMXBMI': 'bmi',
     'BMXWAIST': 'waist_cm',
-    'LBXSTR': 'triglycerides_mg_dL',
+    'LBXTR': 'triglycerides_mg_dL',     # TRIGLY file (LBXSTR is wrong)
     'LBDHDD': 'hdl_mg_dL',
-    'LBXSATSI': 'ast_U_L',
-    'LBXSAT': 'alt_U_L',
+    'LBXSATSI': 'ast_U_L',               # BIOPRO SI units
+    'LBXSAL': 'alt_U_L',                 # BIOPRO (LBXSAT is wrong)
     'LBXSGTSI': 'ggt_U_L',
     'LBXGLU': 'fasting_glucose_mg_dL',
-    'LBXIN': 'fasting_insulin_uIU_mL',
+    'LBXIN': 'fasting_insulin_uU_mL',    # Align with nhanes_loader convention
     'LBXPLTSI': 'platelets_1000_uL',
     'LUXCAPM': 'cap_score'
 }
@@ -101,7 +101,7 @@ final_cap_count = len(df_features)
 print(f"\nFinal CAP cohort (no missing biomarkers): {final_cap_count}")
 
 # Compute HOMA-IR
-df_features['homa_ir'] = (df_features['fasting_glucose_mg_dL'] * df_features['fasting_insulin_uIU_mL']) / 405.0
+df_features['homa_ir'] = (df_features['fasting_glucose_mg_dL'] * df_features['fasting_insulin_uU_mL']) / 405.0
 
 # --- 3. Correlation Analysis ---
 print("\n--- Spearman Correlations with CAP ---")

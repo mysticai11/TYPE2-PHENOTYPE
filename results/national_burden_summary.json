@@ -1,0 +1,18 @@
+{
+  "cohort": {
+    "n_combined": 1477,
+    "n_J": 574,
+    "n_P": 903
+  },
+  "dual_burden": {
+    "weighted_prevalence_pct": 29.89,
+    "national_estimate_M": 23.91,
+    "national_ci": "[0.00M, 64.36M]"
+  },
+  "quadrant_n": {
+    "MHNW": 385,
+    "IR-Dominant": 264,
+    "Steatosis-Dominant": 346,
+    "Dual-Burden": 482
+  }
+}
