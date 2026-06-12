@@ -602,11 +602,11 @@ The study has three primary limitations. First, the labeled subset (n=552 J-cycl
 **1. Causal Graph Discovery (Immediate next step)**
 Apply constraint-based causal structure learning (PC algorithm, NOTEARS, LiNGAM) separately to the normal-BMI and general-population NHANES cohorts. Test whether the causal direction between hepatic markers (GGT, ALT) and insulin resistance (HOMA-IR) reverses in the normal-BMI subpopulation — a finding that would suggest lean MASLD has a distinct pathogenic mechanism requiring different therapeutic sequencing.
 
-**2. Cross-Cycle Expansion**
-Extend the dataset to include NHANES 2019–March 2020 (LUX_K.XPT). This doubles the labeled subset size, expected to push Dual-Burden Mondrian coverage from 85.4% to the 90% target, and strengthens ancestral subgroup analyses.
+**2. KNHANES External Validation (Immediate Same-Modality Priority)**
+Apply the frozen model to the Korean National Health and Nutrition Examination Survey (KNHANES 2019 and 2021 cycles). These cycles include gold-standard FibroScan VCTE CAP measurements (`HE_CAP`) on thousands of normal-BMI Korean adults. This directly tests same-modality cross-ancestry generalisation and provides the statistical power to replicate and elevate our Non-Hispanic Asian HOMA-IR threshold finding (HOMA-IR ≈ 0.96) in thousands of East Asian participants.
 
-**3. UK Biobank External Validation**
-Apply the model trained on NHANES to UK Biobank participants with MRI-PDFF liver fat measurements. If Z₂ (trained to predict FibroScan CAP) generalizes to MRI-PDFF (a completely different imaging modality, different ancestry, different country), this provides strong evidence that Z₂ captures a universal biological signal, not a dataset artifact.
+**3. UK Biobank Cross-Modal Validation (Second-Line)**
+Apply the model trained on NHANES to UK Biobank participants with MRI-PDFF liver fat measurements. If Z₂ (trained to predict FibroScan CAP) generalizes to MRI-PDFF (a completely different imaging modality, different ancestry, different country), this provides cross-modal cross-national generalisation evidence that Z₂ captures core biology, not instrument-specific (CAP) artifacts.
 
 **4. Longitudinal Trajectory Modeling**
 Incorporate longitudinal data (ARIC study, 30-year follow-up) to extend the system from single-visit phenotyping to trajectory prediction. The question: of two patients with identical current latent coordinates, which will progress to clinical MASLD or T2DM first? This requires a dynamic latent variable model (e.g., State Space Model or Neural ODE) as the temporal component.

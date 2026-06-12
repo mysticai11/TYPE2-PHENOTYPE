@@ -1380,7 +1380,7 @@ WEB SYSTEM
 
 Maintaining scope discipline is as important as the technical content.
 
-This is not a diabetes classifier, a treatment recommendation engine, a longitudinal prediction system, or a general metabolic risk dashboard. It is not validated on a South Asian clinical cohort (NHANES does not include this group directly; that is future work). It does not claim to diagnose MASLD or insulin resistance. It is not a replacement for FibroScan.
+This is not a diabetes classifier, a treatment recommendation engine, a longitudinal prediction system, or a general metabolic risk dashboard. It is not validated on a South Asian clinical cohort (NHANES does not include this group directly; that is future work). Validation on the East Asian population using **KNHANES** (Korea National Health and Nutrition Examination Survey) to resolve the Asian HOMA-IR threshold sample size limitation, and cross-modal validation on the **UK Biobank** to verify representation generalisability on MRI-PDFF measurements, constitute the active, optimal future validation pathways. It does not claim to diagnose MASLD or insulin resistance. It is not a replacement for FibroScan.
 
 It is one thing: **the first system to prove that the concurrent hidden metabolic burden in normal-BMI adults is geometrically recoverable from routine blood biomarkers, that existing clinical tools fail to detect it by structural necessity, that this failure is ancestrally inequitable in a way that is formally characterisable, and that the recovered axes are pharmacologically responsive in the predicted direction with demonstrated double dissociation**.
 

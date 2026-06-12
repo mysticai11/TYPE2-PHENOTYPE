@@ -49,9 +49,11 @@ Six active workstreams to elevate this project from a strong Honours thesis to a
 *   **Confounding:** Calculate E-values for sensitivity analysis against unmeasured confounding. Pre-register hypotheses to avoid post-hoc storytelling.
 
 ### 2. External Validation (Kills the "NHANES-Only" Critique)
-*   **UK Biobank Integration:** Map $Z_2$ (calibrated on FibroScan CAP) to **MRI-PDFF** (MRI Proton Density Fat Fraction), the clinical gold standard.
-*   **Domain Adaptation:** Quantify and adjust for domain shift using CORAL (Correlation Alignment) or subspace alignment.
-*   **Recalibration:** Freeze the encoder weights and train a localized recalibration layer (Platt scaling or Isotonic Regression) on the anchor outputs.
+*   **KNHANES Validation (First-Line, Immediate):** Apply the frozen model to the **Korea National Health and Nutrition Examination Survey (2019/2021 cycles)**.
+    *   *Why KNHANES:* Includes FibroScan VCTE CAP measurements (`HE_CAP`) on thousands of normal-BMI Korean adults, directly testing same-modality cross-ancestry generalisation and the NHA threshold finding ($0.96$ HOMA-IR).
+    *   *Approach:* Map standardized variables (glucose: `HE_glu`, insulin: `LBX_INS`, lipids, etc.), handle homogeneous ancestry by fixing the conditional vector $u$, and check if the risk boundary $\tau_1$ is crossed below $2.5$.
+*   **UK Biobank Validation (Second-Line, Longitudinal/Cross-Modal):** Map $Z_2$ to **MRI-PDFF** (MRI Proton Density Fat Fraction) to check if $Z_2$ captures core liver fat biology or ultrasound-specific artifacts.
+    *   *Domain Adaptation:* Apply CORAL or subspace alignment to correct the cross-modal domain shift; report before/after recalibration (Platt/Isotonic).
 
 ### 3. Small-Area Estimation (SAE) (Fixes the Wide CI)
 *   **Problem:** The direct survey-weighted Dual-Burden 95% CI of $[0.00\text{M}, 64.36\text{M}]$ is mathematically honest but clinically uninformative due to small-domain survey design effects.
@@ -90,7 +92,8 @@ Six active workstreams to elevate this project from a strong Honours thesis to a
 | **EXP-08** | Pharmacological Dissociation| Trial Simulation ($n=187$) | Mann-Whitney $U$ $p$-value | Double dissociation: Metformin ($Z_1$), Fibrates ($Z_2$) | ✅ Completed | [`pharmacology_summary.md`](file:///c:/Users/singh/TYPE2-PHENOTYPE/results/pharmacology_summary.md) |
 | **EXP-09** | Symbolic Decoder Interpretability | Latent Samples ($n=2,000$) | PySR Equation Complexity | AIP: `abs((z1+z2+0.131)*(z2+0.385)) + z2` | ✅ Completed | [`symbolic_decoder/`](file:///c:/Users/singh/TYPE2-PHENOTYPE/results/symbolic_decoder/) |
 | **EXP-10** | Causal Graph Discovery | J+P Strata ($n=1,477$) | Bootstrapped edge freq | *Planned* | 📅 Planned | `src_code/causal/` |
-| **EXP-11** | UK Biobank Domain Shift | UKB MRI-PDFF ($n \approx 5,000$) | Adapted Spearman $\rho$ | *Planned* | 📅 Planned | `src_code/validation/ukb/` |
+| **EXP-11** | KNHANES Asian Validation | KNHANES 2019/2021 | Spearman $\rho \ge 0.45$ vs CAP | *Planned* | 📅 Planned | `src_code/validation/knhanes/` |
+| **EXP-12** | UK Biobank Domain Shift | UKB MRI-PDFF ($n \approx 5,000$) | Adapted Spearman $\rho$ | *Planned* | 📅 Planned | `src_code/validation/ukb/` |
 
 ---
 
@@ -103,6 +106,14 @@ Six active workstreams to elevate this project from a strong Honours thesis to a
 - [ ] Add E-value calculations to quantify sensitivity to unmeasured confounders.
 
 ### 2. External Validation
+*KNHANES (First-Line):*
+- [ ] Download KNHANES 2019 and 2021 cycles microdata from knhanes.kdca.go.kr.
+- [ ] Map raw KNHANES biochemical/examination columns to model features (`HE_glu`, `LBX_INS`, `LAB_TG`, `LAB_HDL`, `LAB_AST`, `LAB_ALT`, `LAB_GGT`, `LAB_PLT`, `HE_BMI`, `HE_WC`, `HE_CAP`).
+- [ ] Validate 8-hour fasting indicator column for KNHANES cohort selection.
+- [ ] Apply frozen model with fixed homogeneous ancestry vector to normal-BMI Korean cohort.
+- [ ] Compute $Z_2$ vs CAP correlation (ρ) and verify if HOMA-IR crosses boundary $\tau_1$ below 2.5 (replicate $0.96$ threshold).
+
+*UK Biobank (Second-Line):*
 - [ ] Define UK Biobank data extraction pipeline for routine biomarkers and MRI-PDFF labels.
 - [ ] Implement CORAL (Correlation Alignment) to align NHANES and UK Biobank biomarker feature domains.
 - [ ] Build a post-encoder recalibration network (Platt scaling/Isotonic Regression) calibrated to MRI-PDFF.

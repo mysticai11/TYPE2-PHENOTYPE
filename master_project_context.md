@@ -161,7 +161,15 @@ For a patient at input $x$ mapping to latent coordinates $z = [z_1, z_2]^T$, the
 
 ## 6. Scientific Limitations & Future Directions
 
-For academic and research discussions, these limitations should be addressed directly:
-1.  **Small Domain Ancestral Sample Size:** While the total cohort is $n=1,477$, the number of Non-Hispanic Asian participants in the HOMA-IR $[2.3, 2.7]$ band is only $n=12$. Extrapolating ancestral thresholds requires caution and larger datasets (e.g., UK Biobank or specialist registries).
-2.  **Observational/Cross-Sectional Nature:** The NHANES dataset represents a cross-sectional snapshot. Prospective validation in clinical trial cohorts is necessary to prove the VAE's utility in predicting longitudinal disease progression.
-3.  **Causal Discovery Path:** Immediate future work involves applying constraint-based causal structure learning (e.g., PC Algorithm, LiNGAM) separately to normal-BMI and obese cohorts to test if the causal direction between insulin resistance and hepatic steatosis reverses in normal-BMI pathophysiology.
+For academic and research discussions, these limitations and validation pathways are defined as follows:
+
+1.  **Small Domain Ancestral Sample Size & KNHANES Validation (Immediate Priority):** 
+    While the total combined cohort is $n=1,477$, the number of Non-Hispanic Asian (NHA) participants in the critical reference band HOMA-IR $[2.3, 2.7]$ is only $n=12$. Extrapolating ancestral thresholds from this small group is a limitation. To resolve this, **KNHANES (Korea National Health and Nutrition Examination Survey)** represents the immediate, first-line validation cohort.
+    *   *Why KNHANES:* KNHANES 2019 and 2021 cycles include gold-standard FibroScan VCTE measurements (`HE_CAP`), making the imaging modality identical to NHANES and eliminating cross-modal uncertainty.
+    *   *Scientific Payoff:* Applying the frozen NHANES model to KNHANES normal-BMI Korean adults allows us to test the HOMA-IR risk boundary ($\tau_1$) on thousands of East Asian participants. If the implied risk threshold crosses below $2.5$ (consistent with our NHA finding of $0.96$ and literature values of $1.4\text{--}2.0$), the finding is elevated from a speculative limitation to a replicated cross-national result.
+    *   *Biomarker Compatibility:* KNHANES uses standardized assays matching NHANES variables (Fasting glucose: `HE_glu`, Fasting insulin: `LBX_INS`, Triglycerides: `LAB_TG`, HDL-C: `LAB_HDL`, AST: `LAB_AST`, ALT: `LAB_ALT`, GGT: `LAB_GGT`, Platelets: `LAB_PLT`, BMI: `HE_BMI`, Waist circumference: `HE_WC`, CAP: `HE_CAP`).
+2.  **Cross-Modal External Validation (UK Biobank):**
+    As a complementary second-line validation, the model will be evaluated on the **UK Biobank**. Unlike KNHANES (which is same-modality), UK Biobank tests cross-modal generalization (FibroScan CAP to MRI-PDFF). This validates whether the VAE captures core liver fat biology or instrument-specific (ultrasound CAP) artifacts.
+3.  **Observational/Cross-Sectional Nature:** The NHANES and KNHANES datasets represent cross-sectional snapshots. Prospective validation in clinical trial cohorts is necessary to prove the VAE's utility in predicting longitudinal disease progression.
+4.  **Causal Discovery Path:** Immediate future work involves applying constraint-based causal structure learning (e.g., PC Algorithm, LiNGAM) separately to normal-BMI and obese cohorts to test if the causal direction between insulin resistance and hepatic steatosis reverses in normal-BMI pathophysiology.
+
