@@ -9,6 +9,12 @@
 
 ---
 
+## 🎨 Latent Space & Geodesic Pathway Visualizer
+
+![LMSIS Metabolic Atlas Geodesic Solver](results/figures/metabolic_atlas_animated.svg)
+
+---
+
 ## 🔬 The Clinical Paradox
 
 > *"Millions of adults worldwide receive a clean bill of health at their annual physical simply because their Body Mass Index (BMI) falls within the normal range ($18.5 \le \text{BMI} \le 24.9 \text{ kg/m}^2$). However, BMI is blind to fat distribution and ectopic tissue accumulation. Underneath a healthy-looking exterior, a patient may carry a silent, severe dual metabolic burden—simultaneous insulin resistance and hepatic steatosis—invisible to traditional screening and standard clinical markers."*
@@ -49,25 +55,25 @@ flowchart TD
 
 ---
 
-## 📊 Key Results & Scientific Honesty
+## 📊 Benchmarking & Performance Comparison
 
-We present our validated results with complete empirical transparency:
+We evaluate our model against standard clinical indicators on the normal-BMI cohort, ensuring complete empirical transparency:
 
 | Metric / Experiment | Baseline / Competitor | LMSIS VAE | Status & Clinical Interpretation |
 | :--- | :---: | :---: | :--- |
 | **$Z_2$ vs. CAP (J-Cycle Training)** | $\rho = 0.447$ (FLI) | **$\rho = 0.628$** | **✅ Verified:** Captures true biological signal from routine blood tests. |
 | **$Z_2$ vs. CAP (P-Cycle OOD)** | Not Evaluated | **$\rho = 0.501$** | **✅ Verified:** Frozen model generalises to independent pre-pandemic cohort. |
-| **HSI Benchmark ($\rho$ vs. CAP)** | **$0.111$** | **$0.628$** | **💥 Demolished:** Traditional index degrades to near-random on normal-BMI. |
-| **NAFLD-LFS Benchmark ($\rho$ vs. CAP)** | **$-0.069$** | **$0.628$** | **⚠️ Safety Inversion:** Traditional score ranks sick patients as healthier. |
+| **HSI Benchmark ($\rho$ vs. CAP)** | **$0.111$** | **$0.628$** | **📉 Outperformed:** Traditional index degrades significantly on normal-BMI. |
+| **NAFLD-LFS Benchmark ($\rho$ vs. CAP)** | **$-0.069$** | **$0.628$** | **🚨 Inverse Association:** Traditional score ranks sick patients as healthier. |
 | **Dual-Burden Conformal Coverage** | **$81.6\%$** (Marginal) | **$90.4\%$** (Mondrian) | **✅ Resolved:** Mondrian calibration bypasses Barber Impossibility Bound. |
 | **OOD Conformal Transfer** | Not Evaluated | **$95.2\%$** (Mondrian) | **✅ Verified:** Calibration intervals transfer out-of-distribution to P-Cycle. |
 | **Pharmacological Dissociation** | Confounded (Obs) | **$p < 0.001$** (Sim) | **✅ Verified:** Metformin selectively affects $Z_1$; statins/fibrates affect $Z_2$. |
-| **National Prevalence (Dual Burden)** | $39.8\%$ (Unweighted) | **$29.89\%$** | **⚠️ Wide CI:** Estimated ~23.91M adults, 95% CI: $[0.00\text{M}, 64.36\text{M}]$. |
+| **National Prevalence (Dual Burden)** | $39.8\%$ (Unweighted) | **$29.89\%$** | **⚠️ High Variance:** Estimated ~23.91M adults, 95% CI: $[0.00\text{M}, 64.36\text{M}]$. |
 | **Non-Hispanic Asian Threshold** | $2.5$ (Standard) | **$0.96$** | **🚨 Caveat:** Demoted to limitations due to sample size ($n=12$). |
 
 ### 🔍 Important Scientific Disclosures
 * **Temporal Correlation Drop ($0.628 \rightarrow 0.501$):** A drop of $\sim0.13$ is expected when evaluating a frozen, unadapted model on a temporally separate cohort (pre-pandemic 2019-2020). The fact that the correlation remains highly significant ($p = 1.85 \times 10^{-56}$ on $n=870$) confirms the pipeline's robustness.
-* **The HSI / NAFLD-LFS Collapse:** HSI fails because it relies heavily on BMI, which is invariant in this cohort. NAFLD-LFS actively inverts because metabolic syndrome criteria correlate positively with liver fat in mixed-BMI cohorts but negatively in normal-BMI cohorts.
+* **The HSI / NAFLD-LFS Collapse:** HSI fails because it relies heavily on BMI, which is invariant in this cohort. NAFLD-LFS exhibits a negative correlation because metabolic syndrome criteria correlate positively with liver fat in mixed-BMI cohorts but negatively in normal-BMI cohorts.
 * **Asian American HOMA-IR Cutoff (0.96):** While clinical literature supports lower metabolic thresholds for Asian ancestry, our calculated threshold of $0.96$ is derived from a small subpopulation ($n=12$ in the critical HOMA-IR reference band $[2.3, 2.7]$). We treat this finding strictly as *hypothesis-generating* and have demoted it from our main results.
 
 ---
