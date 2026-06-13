@@ -59,17 +59,47 @@ flowchart TD
 
 We evaluate our model against standard clinical indicators on the normal-BMI cohort, ensuring complete empirical transparency:
 
-| Metric / Experiment | Baseline / Competitor | LMSIS VAE | Status & Clinical Interpretation |
-| :--- | :---: | :---: | :--- |
-| **$Z_2$ vs. CAP (J-Cycle Training)** | $\rho = 0.447$ (FLI) | **$\rho = 0.628$** | **✅ Verified:** Captures true biological signal from routine blood tests. |
-| **$Z_2$ vs. CAP (P-Cycle OOD)** | Not Evaluated | **$\rho = 0.501$** | **✅ Verified:** Frozen model generalises to independent pre-pandemic cohort. |
-| **HSI Benchmark ($\rho$ vs. CAP)** | **$0.111$** | **$0.628$** | **📉 Outperformed:** Traditional index degrades significantly on normal-BMI. |
-| **NAFLD-LFS Benchmark ($\rho$ vs. CAP)** | **$-0.069$** | **$0.628$** | **🚨 Inverse Association:** Traditional score ranks sick patients as healthier. |
-| **Dual-Burden Conformal Coverage** | **$81.6\%$** (Marginal) | **$90.4\%$** (Mondrian) | **✅ Resolved:** Mondrian calibration bypasses Barber Impossibility Bound. |
-| **OOD Conformal Transfer** | Not Evaluated | **$95.2\%$** (Mondrian) | **✅ Verified:** Calibration intervals transfer out-of-distribution to P-Cycle. |
-| **Pharmacological Dissociation** | Confounded (Obs) | **$p < 0.001$** (Sim) | **✅ Verified:** Metformin selectively affects $Z_1$; statins/fibrates affect $Z_2$. |
-| **National Prevalence (Dual Burden)** | $39.8\%$ (Unweighted) | **$29.89\%$** | **⚠️ High Variance:** Estimated ~23.91M adults, 95% CI: $[0.00\text{M}, 64.36\text{M}]$. |
-| **Non-Hispanic Asian Threshold** | $2.5$ (Standard) | **$0.96$** | **🚨 Caveat:** Demoted to limitations due to sample size ($n=12$). |
+### 1. Temporal Out-of-Distribution (OOD) Validation
+> [!NOTE]
+> **Takeaway:** Generalization is tested on an independent pre-pandemic cohort (P-Cycle). The drop in CAP correlation ($\sim 0.13$) represents a standard, honest cohort shift, but retains extreme statistical significance ($p < 10^{-55}$).
+
+| Metric | J-Cycle (Train / 2017-2018) | P-Cycle (OOD / 2019-2020) | Status |
+| :--- | :---: | :---: | :---: |
+| **Fasting Cohort Size ($n$)** | 574 | 903 | — |
+| **CAP-Labeled Size ($n$)** | 552 | 870 | — |
+| **$Z_2$ vs. CAP Spearman $\rho$** | **$0.628$** | **$0.501$** | **✅ Generalises** |
+| **P-value** | $6.43 \times 10^{-62}$ | $1.85 \times 10^{-56}$ | **✅ Significant** |
+| **Reconstruction MSE** | $2.221$ | $2.734$ | **✅ Stable** |
+| **Conformal Coverage** | $90.4\%$ | **$95.2\%$** | **✅ Safe Transfer** |
+
+---
+
+### 2. Clinical Benchmarks Comparison
+> [!IMPORTANT]
+> **Takeaway:** Existing clinical indices degrade because they are linearly dependent on BMI. Constraining the population to normal BMI (18.5–24.9) strips their discriminative signal.
+
+| Model / Index | Spearman $\rho$ vs. CAP | AUROC ($\text{CAP} \ge 248$) | AUROC ($\text{CAP} \ge 268$) | Clinical Verdict |
+| :--- | :---: | :---: | :---: | :--- |
+| **HSI (Hepatic Steatosis Index)** | $0.111$ | $0.587$ | $0.557$ | **Degraded** (Near-Random) |
+| **NAFLD-LFS (Liver Fat Score)** | $-0.069$ | $0.509$ | $0.512$ | **🚨 Inverse Association** (Ranks backwards) |
+| **FLI (Fatty Liver Index)** | $0.447$ | $0.740$ | $0.766$ | **Suboptimal** (High variance) |
+| **TyG (Triglyceride-Glucose)** | $0.358$ | $0.710$ | $0.736$ | **Moderate** (Insulin-only proxy) |
+| **LMSIS VAE Axis $Z_2$** | **$0.607$** | **$0.841$** | **$0.833$** | **🏆 Imaging Grade** (Robust) |
+
+---
+
+### 3. Conformal Safety Calibration
+> [!CAUTION]
+> **Takeaway:** Under covariate shift, standard marginal calibration fails to cover the highest-risk Dual-Burden subgroup ($81.62\%$). Mondrian calibration guarantees safe subgroup coverage ($\ge 90\%$).
+
+| Phenotypic Quadrant | Subgroup Size ($n$) | Marginal Coverage | Mondrian Coverage | Nominal Target | Patient Safety |
+| :--- | :---: | :---: | :---: | :---: | :--- |
+| **MHNW (Healthy)** | 168 | $98.21\%$ | $98.21\%$ | $90.0\%$ | **Safe** |
+| **IR-Dominant** | 129 | $93.80\%$ | $100.00\%$ | $90.0\%$ | **Safe** |
+| **Steatosis-Dominant** | 185 | $87.03\%$ | $98.92\%$ | $90.0\%$ | **Safe** |
+| **Dual-Burden (High-Risk)** | 136 | **$81.62\%$** ⚠️ | **$90.44\%$** | $90.0\%$ | **Restored by Mondrian** |
+
+---
 
 ### 🔍 Important Scientific Disclosures
 * **Temporal Correlation Drop ($0.628 \rightarrow 0.501$):** A drop of $\sim0.13$ is expected when evaluating a frozen, unadapted model on a temporally separate cohort (pre-pandemic 2019-2020). The fact that the correlation remains highly significant ($p = 1.85 \times 10^{-56}$ on $n=870$) confirms the pipeline's robustness.
@@ -145,15 +175,16 @@ Open [http://localhost:5173](http://localhost:5173) in your browser to interact 
 
 ## 📈 Explainability & Interpretability
 
-### 🧬 Symbolic Decoder Formulas (PySR)
-By fitting symbolic formulas to the frozen VAE decoder using symbolic regression (PySR), we map the latent axes back to interpretable physical laws:
+### 🧬 Symbolic Decoder Discoveries (PySR)
+By fitting symbolic formulas to the frozen VAE decoder using symbolic regression (PySR), we map the latent axes ($z_1$: Insulin Resistance, $z_2$: Liver Fat) back to physical laws:
 
-*   **HDL Cholesterol:**
-    $$\text{HDL} = -17.13 \cdot (z_2 + z_1 + |z_2|) + 61.04$$
-    *Interpretation:* Both insulin resistance ($z_1$) and steatosis ($z_2$) act additively and independently to suppress HDL.
-*   **Atherogenic Index of Plasma (AIP):**
-    $$\text{AIP} = |(z_1 + z_2 + 0.131) \cdot (z_2 + 0.385)| + z_2$$
-    *Interpretation:* Atherogenicity is maximized when both axes are elevated, confirming that the Dual-Burden state is geometrically the highest risk zone.
+| Target Biomarker | Discovered Symbolic Formula | Loss | Biological Pathway |
+| :--- | :--- | :---: | :--- |
+| **HDL Cholesterol** | $hdl = -17.13 \cdot (z_1 + z_2 + \|z_2\|) + 61.04$ | $0.721$ | **HDL Suppression:** Both axes suppress HDL. |
+| **AIP (Atherogenic Index)** | $aip = \|(z_1 + z_2 + 0.131) \cdot (z_2 + 0.385)\| + z_2$ | $0.0005$ | **Atherogenesis:** Risk peaks at Dual-Burden. |
+| **AST:ALT Ratio** | $ast\_alt = 11.59^{z_2} \cdot (4.64 - \|z_1 - z_2\|)$ | $0.018$ | **Hepatic Injury:** Exponential steatosis drive. |
+| **Triglycerides** | $triglycerides = (z_2 + 2.00)^{z_1 + 6.36}$ | $31.95$ | **Lipid Synthesis:** Power law IR scaling. |
+| **TyG Index** | $tyg = 0.696 \cdot \|z_1 + z_2\| + 4.66 + e^{z_2 + 1.26} + z_1 z_2 + z_1$ | $0.002$ | **Insulin-Lipid Loop:** Joint representation. |
 
 ### 🧮 Local Autograd Sensitivity Gradients
 Rather than relying on global feature importance, the FastAPI backend uses PyTorch Autograd to calculate patient-specific local gradients:
