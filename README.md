@@ -17,7 +17,7 @@
 
 <br/>
 
-> *"Millions of adults worldwide receive a clean bill of health simply because their Body Mass Index (BMI) falls within the normal range ($18.5 \le \text{BMI} \le 24.9 \text{ kg/m}^2$). However, BMI is blind to fat distribution and ectopic tissue accumulation. Underneath a healthy-looking exterior, a patient may carry a silent, severe dual metabolic burden—simultaneous insulin resistance and hepatic steatosis—invisible to traditional screening."*
+> *"Millions of adults worldwide receive a clean bill of health simply because their Body Mass Index (BMI) falls within the normal range (18.5 ≤ BMI ≤ 24.9 kg/m²). However, BMI is blind to fat distribution and ectopic tissue accumulation. Underneath a healthy-looking exterior, a patient may carry a silent, severe dual metabolic burden—simultaneous insulin resistance and hepatic steatosis—invisible to traditional screening."*
 
 ---
 
@@ -44,7 +44,7 @@ Our system is rigorously validated against gold-standard clinical indices, provi
 
 <div align="center">
 
-| Model / Index | Spearman $\rho$ | AUROC ($\ge 248$) | AUROC ($\ge 268$) | Clinical Verdict |
+| Model / Index | Spearman ρ | AUROC (≥ 248) | AUROC (≥ 268) | Clinical Verdict |
 | :--- | :---: | :---: | :---: | :--- |
 | **LMSIS VAE (Z2)** | **`0.607`** | **`0.841`** | **`0.833`** | 🟢 **State-of-the-Art Reference** |
 | FLI (Fatty Liver Index) | `0.447` | `0.740` | `0.766` | 🟡 Suboptimal (High variance) |
@@ -58,7 +58,7 @@ Our system is rigorously validated against gold-standard clinical indices, provi
 
 ### 2. Conformal Safety Calibration
 > [!WARNING]
-> Under covariate shift, standard marginal calibration fails the highest-risk "Dual-Burden" subgroup (dropping to 81.6% coverage). Our **Mondrian calibration** successfully guarantees safe subgroup coverage ($\ge 90\%$) across all populations.
+> Under covariate shift, standard marginal calibration fails the highest-risk "Dual-Burden" subgroup (dropping to 81.6% coverage). Our **Mondrian calibration** successfully guarantees safe subgroup coverage (≥ 90%) across all populations.
 
 <div align="center">
 
@@ -80,8 +80,8 @@ We simulated the specific physiological pathways of Metformin, Statins, and Fibr
 
 | Drug Class | Target Axis | Target $p$-value | Effect Size | Off-Target $p$-value | Mechanism |
 | :--- | :---: | :---: | :---: | :---: | :--- |
-| **Metformin** | **Z1 (IR)** | **$< 1.3 \times 10^{-19}$** | **`1.000`** | `0.554` (NS) | ✔️ Exclusively targets Insulin Resistance |
-| **Statin / Fibrate** | **Z2 (Steatosis)** | **$< 2.2 \times 10^{-26}$** | **`0.888`** | `0.549` (NS) | ✔️ Exclusively targets Hepatic Steatosis |
+| **Metformin** | **Z1 (IR)** | **< 1.3e-19** | **`1.000`** | `0.554` (NS) | ✔️ Exclusively targets Insulin Resistance |
+| **Statin / Fibrate** | **Z2 (Steatosis)** | **< 2.2e-26** | **`0.888`** | `0.549` (NS) | ✔️ Exclusively targets Hepatic Steatosis |
 
 </div>
 
@@ -91,9 +91,9 @@ We simulated the specific physiological pathways of Metformin, Statins, and Fibr
 
 Standard VAEs fail metabolic phenotyping because their latent spaces are **non-identifiable** (arbitrary rotations achieve identical reconstruction error). LMSIS resolves this through three novel constraints:
 
-1. 🧬 **iVAE Identifiability (Khemakhem et al., 2020):** Conditioning the prior $p_\theta(z|u)$ on demographic auxiliaries $u$ (age, sex, ancestry).
-2. 🔗 **Dual Monotone Anchoring:** Constraining anchor networks using a Softplus activation on weights, forcing $z_1 \rightarrow \text{HOMA-IR}$ and $z_2 \rightarrow \text{CAP}$ to be strictly monotonic.
-3. 🎭 **Semi-Supervised Masking:** Leveraging all $1,477$ cohort participants for the $Z_1$ anchor, while safely masking the $Z_2$ anchor for the participants missing ultrasound FibroScan records.
+1. 🧬 **iVAE Identifiability (Khemakhem et al., 2020):** Conditioning the prior `p(z|u)` on demographic auxiliaries `u` (age, sex, ancestry).
+2. 🔗 **Dual Monotone Anchoring:** Constraining anchor networks using a Softplus activation on weights, forcing `z₁ → HOMA-IR` and `z₂ → CAP` to be strictly monotonic.
+3. 🎭 **Semi-Supervised Masking:** Leveraging all 1,477 cohort participants for the Z₁ anchor, while safely masking the Z₂ anchor for the participants missing ultrasound FibroScan records.
 
 ---
 
@@ -154,9 +154,9 @@ We mapped the "black-box" decoder using Symbolic Regression (`PySR`), recovering
 
 | Biomarker | Discovered Symbolic Formula | Biological Interpretation |
 | :--- | :--- | :--- |
-| **HDL Cholesterol** | $hdl = -17.13 \cdot (z_1 + z_2 + \|z_2\|) + 61.04$ | Both resistance and steatosis actively suppress HDL. |
-| **Atherogenic Index** | $aip = \|(z_1 + z_2 + 0.131) \cdot (z_2 + 0.385)\| + z_2$ | Cardiovascular risk scales non-linearly, peaking at Dual-Burden. |
-| **AST:ALT Ratio** | $ast\_alt = 11.59^{z_2} \cdot (4.64 - \|z_1 - z_2\|)$ | Liver injury correlates exponentially with the Z2 Steatosis axis. |
+| **HDL Cholesterol** | <code>hdl = -17.13 * (z₁ + z₂ + &#124;z₂&#124;) + 61.04</code> | Both resistance and steatosis actively suppress HDL. |
+| **Atherogenic Index** | <code>aip = &#124;(z₁ + z₂ + 0.131) * (z₂ + 0.385)&#124; + z₂</code> | Cardiovascular risk scales non-linearly, peaking at Dual-Burden. |
+| **AST:ALT Ratio** | <code>ast_alt = 11.59^z₂ * (4.64 - &#124;z₁ - z₂&#124;)</code> | Liver injury correlates exponentially with the Z2 Steatosis axis. |
 
 ---
 
