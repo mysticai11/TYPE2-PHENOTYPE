@@ -39,37 +39,7 @@
 > [!IMPORTANT]
 > LMSIS is not intended to diagnose MASLD or insulin resistance. Instead, it provides a non-invasive risk-stratification framework that identifies normal-weight individuals who may benefit from further metabolic evaluation (such as specialist referrals, FibroScan, or longitudinal tracking) despite having a normal BMI and normal individual biomarker levels.
 
-```mermaid
-flowchart TD
-    subgraph Input ["📋 Patient Inputs (Routine Profile)"]
-        B1["14 Blood Biomarkers (x)"]
-        B2["6 Demographic Conditioners (u)"]
-    end
-
-    subgraph Core ["🧠 DA-SS-iVAE Pipeline"]
-        Enc["Conditional Encoder q_φ(z | x, u)"]
-        Lat["2D Latent Space z = (z₁, z₂)"]
-        Dec["Biomarker Decoder p_θ(x | z)"]
-    end
-
-    subgraph Grounding ["🔗 Monotone Biological Anchors"]
-        A1["Monotone Anchor 1: g_1(z₁)"]
-        A2["Monotone Anchor 2: g_2(z₂)"]
-        T1["Target: HOMA-IR (Insulin Resistance)"]
-        T2["Target: FibroScan CAP (Liver Fat)"]
-    end
-
-    B1 --> Enc
-    B2 --> Enc
-    Enc --> Lat
-    Lat --> Dec
-    Dec -->|"Reconstructs"| B1
-    
-    Lat -->|z₁| A1
-    Lat -->|z₂| A2
-    A1 -->|"Monotone Fit"| T1
-    A2 -->|"Masked (Semi-Supervised)"| T2
-```
+![LMSIS DA-SS-iVAE Pipeline Architecture](results/figures/model_pipeline_animated.svg)
 
 ---
 

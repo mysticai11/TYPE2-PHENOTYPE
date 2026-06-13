@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350" width="100%" height="100%">
+  <defs>
+    <!-- Background Radial Gradient -->
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="75%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="60%" stop-color="#f8fafc" />
+      <stop offset="100%" stop-color="#f1f5f9" />
+    </radialGradient>
+
+    <!-- Drop Shadows for Cards -->
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#64748b" flood-opacity="0.08" />
+    </filter>
+
+    <!-- Glowing effect for active flow packets -->
+    <filter id="packetGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.5" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;display=swap');
+    
+    .panel-bg { fill: url(#bgGlow); stroke: #e2e8f0; stroke-width: 2; }
+    .card { filter: url(#shadow); }
+    
+    /* Text Styles */
+    .section-title { font-family: 'Outfit', system-ui, sans-serif; font-size: 11px; font-weight: 700; fill: #475569; letter-spacing: 0.12em; }
+    .card-header { font-family: 'Outfit', system-ui, sans-serif; font-size: 12px; font-weight: 600; fill: #0f172a; }
+    .card-detail { font-family: 'Outfit', system-ui, sans-serif; font-size: 10px; fill: #64748b; font-weight: 400; }
+    .math-text { font-family: 'Outfit', 'Cambria Math', serif; font-size: 13px; font-weight: 600; fill: #6366f1; }
+    .arrow-label { font-family: 'Outfit', system-ui, sans-serif; font-size: 9px; font-weight: 600; fill: #94a3b8; letter-spacing: 0.05em; }
+
+    /* Connection Lines */
+    .connect-path { fill: none; stroke: #cbd5e1; stroke-width: 2; stroke-linecap: round; }
+    .connect-path-active { fill: none; stroke: #93c5fd; stroke-width: 2; stroke-dasharray: 4 6; }
+    
+    /* Animated flow packets */
+    .flow-packet {
+      fill: #6366f1;
+      filter: url(#packetGlow);
+    }
+    .flow-packet.recon { fill: #0d9488; }
+    .flow-packet.anchor { fill: #ec4899; }
+  </style>
+
+  <!-- Background Canvas -->
+  <rect width="100%" height="100%" class="panel-bg" rx="16" />
+
+  <!-- Section Boundaries & Titles -->
+  <!-- Inputs -->
+  <text x="30" y="35" class="section-title">📋 CLINICAL INPUT PROFILE</text>
+  <!-- Model Pipeline -->
+  <text x="240" y="35" class="section-title">🧠 DA-SS-iVAE CORE PIPELINE</text>
+  <!-- Anchors -->
+  <text x="630" y="35" class="section-title">🔗 BIOLOGICAL ANCHORS</text>
+
+  <!-- Connection Paths (Behind Cards) -->
+  <!-- Path 1: Biomarkers -> Encoder -->
+  <path id="pathBiomarkers" d="M 190 85 L 215 85 L 215 130 L 240 130" class="connect-path" />
+  <!-- Path 2: Demographics -> Encoder -->
+  <path id="pathDemographics" d="M 190 195 L 215 195 L 215 150 L 240 150" class="connect-path" />
+  <!-- Path 3: Encoder -> Latent Space -->
+  <path id="pathEncoderToLatent" d="M 400 140 L 460 140" class="connect-path" />
+  <!-- Path 4: Latent Space -> Decoder -->
+  <path id="pathLatentToDecoder" d="M 520 175 L 520 250 L 400 250" class="connect-path" />
+  <!-- Path 5: Decoder -> Reconstructs Biomarkers -->
+  <path id="pathDecoderToRecon" d="M 240 250 L 110 250 L 110 120" class="connect-path" />
+  <!-- Path 6: Latent Space -> Anchor 1 -->
+  <path id="pathLatentToAnchor1" d="M 580 130 L 605 130 L 605 92 L 630 92" class="connect-path" />
+  <!-- Path 7: Latent Space -> Anchor 2 -->
+  <path id="pathLatentToAnchor2" d="M 580 150 L 605 150 L 605 187 L 630 187" class="connect-path" />
+
+  <!-- Flow Arrows (Static Markers) -->
+  <path d="M 235 130 L 240 130 L 235 127 Z" fill="#cbd5e1" />
+  <path d="M 235 150 L 240 150 L 235 147 Z" fill="#cbd5e1" />
+  <path d="M 455 140 L 460 140 L 455 137 Z" fill="#cbd5e1" />
+  <path d="M 405 250 L 400 250 L 405 247 Z" fill="#cbd5e1" />
+  <path d="M 110 125 L 110 120 L 107 125 Z" fill="#cbd5e1" />
+  <path d="M 625 92 L 630 92 L 625 89 Z" fill="#cbd5e1" />
+  <path d="M 625 187 L 630 187 L 625 184 Z" fill="#cbd5e1" />
+
+  <!-- Animated Data Flow Packets -->
+  <!-- Packet 1: Biomarkers to Encoder -->
+  <circle r="3.5" class="flow-packet">
+    <animateMotion dur="2.5s" repeatCount="indefinite" path="M 190 85 L 215 85 L 215 130 L 240 130" />
+  </circle>
+  <!-- Packet 2: Demographics to Encoder -->
+  <circle r="3.5" class="flow-packet">
+    <animateMotion dur="2.5s" repeatCount="indefinite" path="M 190 195 L 215 195 L 215 150 L 240 150" />
+  </circle>
+  <!-- Packet 3: Encoder to Latent Space -->
+  <circle r="3.5" class="flow-packet">
+    <animateMotion dur="1.8s" repeatCount="indefinite" path="M 400 140 L 460 140" />
+  </circle>
+  <!-- Packet 4: Latent Space to Decoder -->
+  <circle r="3.5" class="flow-packet recon">
+    <animateMotion dur="3s" repeatCount="indefinite" path="M 520 175 L 520 250 L 400 250" />
+  </circle>
+  <!-- Packet 5: Decoder to Reconstructed Input -->
+  <circle r="3.5" class="flow-packet recon">
+    <animateMotion dur="4s" repeatCount="indefinite" path="M 240 250 L 110 250 L 110 120" />
+  </circle>
+  <!-- Packet 6: Latent Space to Anchor 1 -->
+  <circle r="3.5" class="flow-packet anchor">
+    <animateMotion dur="2.8s" repeatCount="indefinite" path="M 580 130 L 605 130 L 605 92 L 630 92" />
+  </circle>
+  <!-- Packet 7: Latent Space to Anchor 2 -->
+  <circle r="3.5" class="flow-packet anchor">
+    <animateMotion dur="2.8s" repeatCount="indefinite" path="M 580 150 L 605 150 L 605 187 L 630 187" />
+  </circle>
+
+  <!-- Labels on Paths -->
+  <rect x="95" y="238" width="60" height="15" fill="#f8fafc" rx="4" />
+  <text x="125" y="249" text-anchor="middle" class="arrow-label" fill="#0d9488">Reconstructs</text>
+
+  <!-- CARDS SECTION -->
+  <!-- Card 1: 14 Blood Biomarkers (x) -->
+  <g class="card" transform="translate(30, 50)">
+    <rect width="160" height="70" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" rx="8" />
+    <text x="12" y="22" class="card-header">14 Biomarkers</text>
+    <text x="12" y="38" class="card-detail">Glucose, Insulin, Lipids,</text>
+    <text x="12" y="52" class="card-detail">ALT, AST, GGT, PLT...</text>
+    <text x="148" y="25" text-anchor="end" class="math-text">x</text>
+  </g>
+
+  <!-- Card 2: 6 Demographic Conditioners (u) -->
+  <g class="card" transform="translate(30, 160)">
+    <rect width="160" height="70" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2" rx="8" />
+    <text x="12" y="22" class="card-header">6 Conditioners</text>
+    <text x="12" y="38" class="card-detail">Age, Sex,</text>
+    <text x="12" y="52" class="card-detail">Ancestry Proxy</text>
+    <text x="148" y="25" text-anchor="end" class="math-text">u</text>
+  </g>
+
+  <!-- Card 3: Conditional Encoder -->
+  <g class="card" transform="translate(240, 95)">
+    <rect width="160" height="90" fill="#f5f3ff" stroke="#ddd6fe" stroke-width="1.2" rx="8" />
+    <text x="12" y="22" class="card-header" fill="#5b21b6">Conditional Encoder</text>
+    <text x="12" y="38" class="card-detail" fill="#7c3aed">Approximates posterior</text>
+    <text x="12" y="52" class="card-detail" fill="#7c3aed">distribution over latent</text>
+    <text x="12" y="66" class="card-detail" fill="#7c3aed">coordinates.</text>
+    <text x="148" y="25" text-anchor="end" class="math-text" fill="#6d28d9">q_φ</text>
+  </g>
+
+  <!-- Card 4: 2D Latent Space -->
+  <g class="card" transform="translate(460, 105)">
+    <rect width="120" height="70" fill="#fff1f2" stroke="#fecdd3" stroke-width="1.2" rx="8" />
+    <text x="12" y="22" class="card-header" fill="#9f1239">2D Latent Space</text>
+    <text x="12" y="38" class="card-detail" fill="#e11d48">z₁ = Insulin Axis</text>
+    <text x="12" y="52" class="card-detail" fill="#e11d48">z₂ = Steatosis Axis</text>
+    <text x="108" y="25" text-anchor="end" class="math-text" fill="#be123c">z</text>
+  </g>
+
+  <!-- Card 5: Biomarker Decoder -->
+  <g class="card" transform="translate(240, 215)">
+    <rect width="160" height="70" fill="#f0fdfa" stroke="#ccfbf1" stroke-width="1.2" rx="8" />
+    <text x="12" y="22" class="card-header" fill="#0f766e">Biomarker Decoder</text>
+    <text x="12" y="38" class="card-detail" fill="#0d9488">Reconstructs input profile</text>
+    <text x="12" y="52" class="card-detail" fill="#0d9488">from latent coordinates.</text>
+    <text x="148" y="25" text-anchor="end" class="math-text" fill="#0f766e">p_θ</text>
+  </g>
+
+  <!-- Card 6: Monotone Anchor 1 (HOMA-IR) -->
+  <g class="card" transform="translate(630, 50)">
+    <rect width="140" height="85" fill="#fdf2f8" stroke="#fbcfe8" stroke-width="1.2" rx="8" />
+    <text x="10" y="18" class="card-header" fill="#9d174d">Anchor 1: g₁(z₁)</text>
+    <text x="10" y="34" class="card-detail" fill="#c2185b">Monotone alignment</text>
+    <text x="10" y="52" class="card-header" fill="#9d174d" font-size="11px">Target: HOMA-IR</text>
+    <text x="10" y="66" class="card-detail" fill="#c2185b">Fasting insulin/glucose</text>
+  </g>
+
+  <!-- Card 7: Monotone Anchor 2 (FibroScan CAP) -->
+  <g class="card" transform="translate(630, 155)">
+    <rect width="140" height="85" fill="#fdf2f8" stroke="#fbcfe8" stroke-width="1.2" rx="8" />
+    <text x="10" y="18" class="card-header" fill="#9d174d">Anchor 2: g₂(z₂)</text>
+    <text x="10" y="34" class="card-detail" fill="#c2185b">Masked Semi-Supervised</text>
+    <text x="10" y="52" class="card-header" fill="#9d174d" font-size="11px">Target: Ultrasound CAP</text>
+    <text x="10" y="66" class="card-detail" fill="#c2185b">FibroScan ground truth</text>
+  </g>
+</svg>
