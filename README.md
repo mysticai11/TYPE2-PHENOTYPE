@@ -17,6 +17,7 @@
 
 ## 📍 Table of Contents
 * [🔬 The Clinical Paradox](#-the-clinical-paradox)
+  * [🩺 Clinical Impact & Scope](#-clinical-impact--scope)
 * [📊 Benchmarking & Performance Comparison](#-benchmarking--performance-comparison)
 * [🛠️ Technology Stack](#️-technology-stack)
 * [⚙️ Model Architecture: DA-SS-iVAE](#️-model-architecture-da-ss-ivae)
@@ -33,6 +34,10 @@
 > *"Millions of adults worldwide receive a clean bill of health at their annual physical simply because their Body Mass Index (BMI) falls within the normal range ($18.5 \le \text{BMI} \le 24.9 \text{ kg/m}^2$). However, BMI is blind to fat distribution and ectopic tissue accumulation. Underneath a healthy-looking exterior, a patient may carry a silent, severe dual metabolic burden—simultaneous insulin resistance and hepatic steatosis—invisible to traditional screening and standard clinical markers."*
 
 **LMSIS** addresses this gap by training a **Dual-Anchored Semi-Supervised Identifiable Variational Autoencoder (DA-SS-iVAE)**. It recovers a continuous 2D latent metabolic geometry from 14 routine blood biomarkers, validated against gold-standard FibroScan ultrasound elastography.
+
+### 🩺 Clinical Impact & Scope
+> [!IMPORTANT]
+> LMSIS is not intended to diagnose MASLD or insulin resistance. Instead, it provides a non-invasive risk-stratification framework that identifies normal-weight individuals who may benefit from further metabolic evaluation (such as specialist referrals, FibroScan, or longitudinal tracking) despite having a normal BMI and normal individual biomarker levels.
 
 ```mermaid
 flowchart TD
@@ -97,7 +102,7 @@ We evaluate our model against standard clinical indicators on the normal-BMI coh
 | **NAFLD-LFS (Liver Fat Score)** | $-0.069$ | $0.509$ | $0.512$ | **🚨 Inverse Association** (Ranks backwards) |
 | **FLI (Fatty Liver Index)** | $0.447$ | $0.740$ | $0.766$ | **Suboptimal** (High variance) |
 | **TyG (Triglyceride-Glucose)** | $0.358$ | $0.710$ | $0.736$ | **Moderate** (Insulin-only proxy) |
-| **LMSIS VAE Axis $Z_2$** | **$0.607$** | **$0.841$** | **$0.833$** | **🏆 Imaging Grade** (Robust) |
+| **LMSIS VAE Axis $Z_2$** | **$0.607$** | **$0.841$** | **$0.833$** | **Closest to Imaging Reference** |
 
 ---
 
@@ -201,7 +206,7 @@ Open [http://localhost:5173](http://localhost:5173) in your browser to interact 
 ## 📈 Explainability & Interpretability
 
 ### 🧬 Symbolic Decoder Discoveries (PySR)
-By fitting symbolic formulas to the frozen VAE decoder using symbolic regression (PySR), we map the latent axes ($z_1$: Insulin Resistance, $z_2$: Liver Fat) back to physical laws:
+By fitting symbolic formulas to the frozen VAE decoder using symbolic regression (PySR), we derive interpretable approximations of decoder behavior to explain what the model has learned relative to coordinates ($z_1$: Insulin Resistance, $z_2$: Liver Fat):
 
 | Target Biomarker | Discovered Symbolic Formula | Loss | Biological Pathway |
 | :--- | :--- | :---: | :--- |
