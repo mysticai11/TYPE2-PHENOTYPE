@@ -4,7 +4,7 @@
 [![Integration Tests](https://github.com/mysticai11/TYPE2-PHENOTYPE/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/mysticai11/TYPE2-PHENOTYPE/actions)
 [![Python Version](https://img.shields.io/badge/python-3.12%20%7C%203.13-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Framework](https://img.shields.io/badge/backend-FastAPI-009688.svg)](https://fastapi.tiangolo.com/)
+[![Backend](https://img.shields.io/badge/backend-FastAPI-009688.svg)](https://fastapi.tiangolo.com/)
 [![Frontend](https://img.shields.io/badge/frontend-React%20%7C%20Vite%20%7C%20Tailwind-61dafb.svg)](https://vitejs.dev/)
 
 ---
@@ -12,6 +12,19 @@
 ## 🎨 Latent Space & Geodesic Pathway Visualizer
 
 ![LMSIS Metabolic Atlas Geodesic Solver](results/figures/metabolic_atlas_animated.svg)
+
+---
+
+## 📍 Table of Contents
+* [🔬 The Clinical Paradox](#-the-clinical-paradox)
+* [📊 Benchmarking & Performance Comparison](#-benchmarking--performance-comparison)
+* [🛠️ Technology Stack](#️-technology-stack)
+* [⚙️ Model Architecture: DA-SS-iVAE](#️-model-architecture-da-ss-ivae)
+* [📂 Repository Structure](#-repository-structure)
+* [🚀 Getting Started](#-getting-started)
+* [📈 Explainability & Interpretability](#-explainability--interpretability)
+* [⚠️ Limitations & Future Directions](#️-limitations--future-directions)
+* [📜 References & Citations](#-references--citations)
 
 ---
 
@@ -105,6 +118,18 @@ We evaluate our model against standard clinical indicators on the normal-BMI coh
 * **Temporal Correlation Drop ($0.628 \rightarrow 0.501$):** A drop of $\sim0.13$ is expected when evaluating a frozen, unadapted model on a temporally separate cohort (pre-pandemic 2019-2020). The fact that the correlation remains highly significant ($p = 1.85 \times 10^{-56}$ on $n=870$) confirms the pipeline's robustness.
 * **The HSI / NAFLD-LFS Collapse:** HSI fails because it relies heavily on BMI, which is invariant in this cohort. NAFLD-LFS exhibits a negative correlation because metabolic syndrome criteria correlate positively with liver fat in mixed-BMI cohorts but negatively in normal-BMI cohorts.
 * **Asian American HOMA-IR Cutoff (0.96):** While clinical literature supports lower metabolic thresholds for Asian ancestry, our calculated threshold of $0.96$ is derived from a small subpopulation ($n=12$ in the critical HOMA-IR reference band $[2.3, 2.7]$). We treat this finding strictly as *hypothesis-generating* and have demoted it from our main results.
+
+---
+
+## 🛠️ Technology Stack
+
+*   **Core Logic:** `Python 3.12/3.13`
+*   **Deep Learning & Math:** `PyTorch` · `NumPy` · `SciPy` · `Scikit-Learn`
+*   **Statistical Coverage & Dimension:** `MAPIE` · `Scikit-Dimension`
+*   **Symbolic Regression:** `PySR` (symbolic formula search via Julia backend)
+*   **Hyperparameter Tuning & Tracking:** `Optuna` · `MLflow 2.x`
+*   **Deployment API:** `FastAPI` · `Uvicorn` · `Pydantic v2`
+*   **Diagnostic Client:** `React` · `Vite` · `Tailwind CSS` · `D3.js`
 
 ---
 
