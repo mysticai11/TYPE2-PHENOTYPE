@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🧬 LMSIS 2.0
+# 🧬 LMSIS
 ### Latent Metabolic State Inference System
 
 <img src="results/figures/metabolic_atlas_animated.svg" width="800px" alt="LMSIS Metabolic Atlas Geodesic Solver" />
@@ -178,4 +178,4 @@ TYPE2-PHENOTYPE/
 
 ---
 
-> **LMSIS 2.0** — Built for the intersection of clinical insight and computational rigor.
+> **LMSIS** — Built for the intersection of clinical insight and computational rigor.
