@@ -67,3 +67,18 @@ models/ivae_best_v*.pt
 *.sw?
 .DS_Store
 
+
+# Project documentation files (ignored locally to prevent pushing to GitHub)
+deep_research_strategy.md
+dissertion.md
+engineering.md
+frontend_design_specification.md
+master_project_context.md
+project_hub.md
+research_enhancement_plan.md
+research_strategy.md
+results/ancestry_summary.md
+results/benchmark_summary.md
+results/changes_summary.md
+results/national_burden.md
+results/pharmacology_summary.md
