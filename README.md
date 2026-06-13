@@ -1,68 +1,91 @@
 # 🧬 LMSIS: Latent Metabolic State Inference System
+> **A Clinical Machine Learning Pipeline for Detecting Silent Concurrent Metabolic Dysfunction in Normal-BMI Adults**
 
 [![Integration Tests](https://github.com/mysticai11/TYPE2-PHENOTYPE/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/mysticai11/TYPE2-PHENOTYPE/actions)
 [![Python Version](https://img.shields.io/badge/python-3.12%20%7C%203.13-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-
-LMSIS (Latent Metabolic State Inference System) is a clinical machine learning research pipeline designed to detect **silent concurrent metabolic dysfunction**—specifically, the simultaneous presence of insulin resistance (IR) and hepatic steatosis (liver fat)—in adults of **normal body weight** ($18.5 \le \text{BMI} \le 24.9 \text{ kg/m}^2$).
-
-Standard clinical screening heuristics fail this population because they rely heavily on Body Mass Index (BMI). In normal-weight adults, BMI is near-invariant and fails as a linear discriminant. LMSIS recovers a continuous, 2D latent metabolic geometry from 14 routine blood biomarkers, validated against gold-standard FibroScan ultrasound elastography.
+[![Framework](https://img.shields.io/badge/backend-FastAPI-009688.svg)](https://fastapi.tiangolo.com/)
+[![Frontend](https://img.shields.io/badge/frontend-React%20%7C%20Vite%20%7C%20Tailwind-61dafb.svg)](https://vitejs.dev/)
 
 ---
 
-## 🔬 Scientific Overview & Contributions
+## 🔬 The Clinical Paradox
 
-### 1. Geometric Latent Space Recovery
-LMSIS recovers a continuous 2D latent space where $Z_1$ represents insulin resistance and $Z_2$ represents hepatic steatosis.
-*   **J-Cycle Training Baseline (2017–2018):** Spearman $\rho = 0.628$ ($p = 6.4 \times 10^{-62}$, $n=552$) between latent $Z_2$ and FibroScan CAP.
-*   **Temporal OOD Validation (2019–March 2020 pre-pandemic):** Spearman $\rho = 0.501$ ($p = 1.85 \times 10^{-56}$, $n=870$) using a frozen, unadapted model. This demonstrates strong temporal out-of-distribution generalization.
+> *"Millions of adults worldwide receive a clean bill of health at their annual physical simply because their Body Mass Index (BMI) falls within the normal range ($18.5 \le \text{BMI} \le 24.9 \text{ kg/m}^2$). However, BMI is blind to fat distribution and ectopic tissue accumulation. Underneath a healthy-looking exterior, a patient may carry a silent, severe dual metabolic burden—simultaneous insulin resistance and hepatic steatosis—invisible to traditional screening and standard clinical markers."*
 
-### 2. Clinical Benchmark Demolition
-Clinical scores containing BMI collapse when applied strictly to normal-BMI adults:
-*   **HSI (Hepatic Steatosis Index):** Spearman $\rho = 0.111$ (near-random).
-*   **NAFLD-LFS (NAFLD Liver Fat Score):** Spearman $\rho = -0.069$ (active safety inversion; ranks high-risk patients as low-risk).
-*   **LMSIS Latent $Z_2$:** Spearman $\rho = 0.628$ (J-cycle) / $0.501$ (P-cycle temporal OOD).
+**LMSIS** addresses this gap by training a **Dual-Anchored Semi-Supervised Identifiable Variational Autoencoder (DA-SS-iVAE)**. It recovers a continuous 2D latent metabolic geometry from 14 routine blood biomarkers, validated against gold-standard FibroScan ultrasound elastography.
 
-### 3. Conformal Coverage Guarantees
-*   Marginal conformal predictors (90% global target) under-cover high-risk patients, collapsing to **$81.6\%$** coverage on the Dual-Burden subgroup (matching the **Barber et al. (2023) impossibility bound** under covariate shift).
-*   Our **Mondrian conformal predictor** restores equitable coverage, achieving **$90.4\%$** coverage on the held-out test set and transferring out-of-distribution to the P-cycle cohort at **$95.2\%$** coverage.
+```mermaid
+flowchart TD
+    subgraph Input ["📋 Patient Inputs (Routine Profile)"]
+        B1["14 Blood Biomarkers (x)"]
+        B2["6 Demographic Conditioners (u)"]
+    end
 
-### 4. Pharmacological Double Dissociation
-Propensity score matching (PSM) and drug response trial simulations confirm that the latent axes correspond to independent biological pathways:
-*   **Metformin** selectively lowers the insulin resistance axis $Z_1$ ($p < 0.001$), leaving $Z_2$ unchanged.
-*   **Fibrates & Statins** selectively lower the liver fat axis $Z_2$ ($p < 0.001$), leaving $Z_1$ unchanged.
+    subgraph Core ["🧠 DA-SS-iVAE Pipeline"]
+        Enc["Conditional Encoder q_φ(z | x, u)"]
+        Lat["2D Latent Space z = (z₁, z₂)"]
+        Dec["Biomarker Decoder p_θ(x | z)"]
+    end
 
-### 5. National Burden Prevalence
-Survey-weighted analysis on the combined cohort ($n=1,477$) using NHANES complex survey design variables (PSUs, strata, and pooled examination weights `WTMEC_POOLED`) estimates that **$29.89\%$** of normal-BMI US adults (approximately **$23.91\text{ million}$** people, 95% CI: $[0.00\text{M}, 64.36\text{M}]$) carry a silent Dual-Burden.
+    subgraph Grounding ["🔗 Monotone Biological Anchors"]
+        A1["Monotone Anchor 1: g_1(z₁)"]
+        A2["Monotone Anchor 2: g_2(z₂)"]
+        T1["Target: HOMA-IR (Insulin Resistance)"]
+        T2["Target: FibroScan CAP (Liver Fat)"]
+    end
+
+    B1 --> Enc
+    B2 --> Enc
+    Enc --> Lat
+    Lat --> Dec
+    Dec -->|"Reconstructs"| B1
+    
+    Lat -->|z₁| A1
+    Lat -->|z₂| A2
+    A1 -->|"Monotone Fit"| T1
+    A2 -->|"Masked (Semi-Supervised)"| T2
+```
+
+---
+
+## 📊 Key Results & Scientific Honesty
+
+We present our validated results with complete empirical transparency:
+
+| Metric / Experiment | Baseline / Competitor | LMSIS VAE | Status & Clinical Interpretation |
+| :--- | :---: | :---: | :--- |
+| **$Z_2$ vs. CAP (J-Cycle Training)** | $\rho = 0.447$ (FLI) | **$\rho = 0.628$** | **✅ Verified:** Captures true biological signal from routine blood tests. |
+| **$Z_2$ vs. CAP (P-Cycle OOD)** | Not Evaluated | **$\rho = 0.501$** | **✅ Verified:** Frozen model generalises to independent pre-pandemic cohort. |
+| **HSI Benchmark ($\rho$ vs. CAP)** | **$0.111$** | **$0.628$** | **💥 Demolished:** Traditional index degrades to near-random on normal-BMI. |
+| **NAFLD-LFS Benchmark ($\rho$ vs. CAP)** | **$-0.069$** | **$0.628$** | **⚠️ Safety Inversion:** Traditional score ranks sick patients as healthier. |
+| **Dual-Burden Conformal Coverage** | **$81.6\%$** (Marginal) | **$90.4\%$** (Mondrian) | **✅ Resolved:** Mondrian calibration bypasses Barber Impossibility Bound. |
+| **OOD Conformal Transfer** | Not Evaluated | **$95.2\%$** (Mondrian) | **✅ Verified:** Calibration intervals transfer out-of-distribution to P-Cycle. |
+| **Pharmacological Dissociation** | Confounded (Obs) | **$p < 0.001$** (Sim) | **✅ Verified:** Metformin selectively affects $Z_1$; statins/fibrates affect $Z_2$. |
+| **National Prevalence (Dual Burden)** | $39.8\%$ (Unweighted) | **$29.89\%$** | **⚠️ Wide CI:** Estimated ~23.91M adults, 95% CI: $[0.00\text{M}, 64.36\text{M}]$. |
+| **Non-Hispanic Asian Threshold** | $2.5$ (Standard) | **$0.96$** | **🚨 Caveat:** Demoted to limitations due to sample size ($n=12$). |
+
+### 🔍 Important Scientific Disclosures
+* **Temporal Correlation Drop ($0.628 \rightarrow 0.501$):** A drop of $\sim0.13$ is expected when evaluating a frozen, unadapted model on a temporally separate cohort (pre-pandemic 2019-2020). The fact that the correlation remains highly significant ($p = 1.85 \times 10^{-56}$ on $n=870$) confirms the pipeline's robustness.
+* **The HSI / NAFLD-LFS Collapse:** HSI fails because it relies heavily on BMI, which is invariant in this cohort. NAFLD-LFS actively inverts because metabolic syndrome criteria correlate positively with liver fat in mixed-BMI cohorts but negatively in normal-BMI cohorts.
+* **Asian American HOMA-IR Cutoff (0.96):** While clinical literature supports lower metabolic thresholds for Asian ancestry, our calculated threshold of $0.96$ is derived from a small subpopulation ($n=12$ in the critical HOMA-IR reference band $[2.3, 2.7]$). We treat this finding strictly as *hypothesis-generating* and have demoted it from our main results.
 
 ---
 
 ## ⚙️ Model Architecture: DA-SS-iVAE
 
-The core architecture is a **Dual-Anchored Semi-Supervised Identifiable Variational Autoencoder (DA-SS-iVAE)**.
-
-```
-                       [Auxiliary Demographics u]
-                                   │
-                                   ▼
-[14 Biomarkers x] ──► [Residual Encoder q_φ(z|x,u)] ──► [2D Latent Space z = (z₁, z₂)]
-                                                               │  │
-                        ┌──────────────────────────────────────┘  └───────────────────┐
-                        ▼                                                             ▼
-             [Monotone Anchor 1]                                           [Monotone Anchor 2]
-             ŷ_homa = f_anchor1(z₁)                                        ŷ_cap = f_anchor2(z₂)
-              (Target: HOMA-IR)                                              (Target: CAP)
-```
-
-Identifiability (ensuring the VAE axes are non-arbitrary and biologically aligned) is achieved by conditioning the prior $p_\theta(z|u)$ on demographics $u$ (satisfying the Khemakhem et al. (2020) theorem) and constraining the anchor networks with monotone positive weights. The model trains semi-supervised, masking missing FibroScan CAP targets.
+Standard VAEs fail metabolic phenotyping because their latent spaces are **non-identifiable** (arbitrary rotations achieve identical reconstruction error). LMSIS resolves this through:
+1. **iVAE Identifiability (Khemakhem et al., 2020):** Conditioning the prior $p_\theta(z|u)$ on demographics $u$ (age, sex, ancestry).
+2. **Dual Monotone Anchoring:** Constraining anchor networks using a Softplus activation on weights, forcing $z_1 \rightarrow \text{HOMA-IR}$ and $z_2 \rightarrow \text{CAP}$ to be strictly monotonic.
+3. **Semi-Supervised Masking:** Leveraging all $1,477$ cohort participants for the $Z_1$ anchor, while masking the $Z_2$ anchor for the $55$ participants missing FibroScan records.
 
 ---
 
-## 📂 Project Structure
+## 📂 Repository Structure
 
 ```
 ├── backend/                  # FastAPI Backend API
-│   ├── main.py               # API Endpoints (/infer, /counterfactual, etc.)
+│   ├── main.py               # API Endpoints (/infer, /counterfactual, /geodesic_pathway)
 │   ├── schemas.py            # Input/Output Pydantic schemas (with strict validators)
 │   └── model_registry.py     # Centralized model checkpoint loader
 ├── frontend/                 # React (Vite) + Tailwind + D3.js Visual Dashboard
@@ -72,15 +95,13 @@ Identifiability (ensuring the VAE axes are non-arbitrary and biologically aligne
 │   ├── ivae_best.pt          # Trained PyTorch Model weights (869 KB)
 │   ├── scaler.pkl            # Input RobustScaler model pipeline
 │   └── conformal_surface.pkl # Mondrian Conformal calibration surfaces
-├── results/                  # Experimental Results, Summary CSVS, and Figures
-│   ├── symbolic_decoder/     # PySR Symbolic regression equations & LaTeX formulas
-│   └── changes_summary.md    # Dissertation committee patch notes and summaries
+├── results/                  # Experimental Results, Summary CSVs, and Figures
+│   └── symbolic_decoder/     # PySR Symbolic regression equations & LaTeX formulas
 ├── src_code/                 # Core Python Library & Pipeline Logic
 │   ├── data/                 # NHANES multi-cycle loading, schema & preprocessing
 │   ├── model/                # VAE, Encoder, Decoder, Prior and Anchors definitions
-│   ├── counterfactual/       # Riemannian geodesic ODE solver &Brent's inversion
-│   ├── validation/           # Benchmarking, conformal testing & pharmacology PSM
-│   └── training/             # PyTorch training loops & optuna sweeps
+│   ├── counterfactual/       # Riemannian geodesic ODE solver & Brent's inversion
+│   └── validation/           # Benchmarking, conformal testing & pharmacology PSM
 └── test_integration.py       # Comprehensive regression and monotonicity tests
 ```
 
@@ -89,51 +110,63 @@ Identifiability (ensuring the VAE axes are non-arbitrary and biologically aligne
 ## 🚀 Getting Started
 
 ### 1. Installation
-Install core dependencies:
+Clone the repository and install core dependencies:
 ```bash
 pip install -r requirements.txt
 ```
-*(Optional)* Install PySR (requires Julia) for symbolic equation searches:
-```bash
-pip install pysr
-```
 
 ### 2. Run Integration Tests
-We maintain strict integration tests asserting schema order consistency, VAE monotonicity compliance, explainability gradient sums, and endpoint response boundaries:
+Assert system safety, FastAPI endpoints, monotonicity bounds, and VAE weight alignments:
 ```bash
 python -m pytest test_integration.py -v
 ```
 
-### 3. Run the Development API
-Launch the FastAPI server (response times are optimized to P95 < 200ms using threaded non-blocking solvers):
+### 3. Launch FastAPI Development Server
 ```bash
 uvicorn backend.main:app --reload
 ```
-Interactive API docs will be available at: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+Interactive API documentation will be available at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
 
-### 4. Run the Visual Dashboard
-Start the React visual client (dashboard displays a dark-themed Metabolic Atlas with counterfactual pathways and ancestral warning guards):
+### 4. Launch visual Dashboard
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
+Open [http://localhost:5173](http://localhost:5173) in your browser to interact with the **Metabolic Atlas**.
 
 ---
 
-## 📈 Post-Hoc Interpretability & explainability
+## 📈 Explainability & Interpretability
 
-### Symbolic Decoder (PySR Formulae)
-By mapping latent coordinates ($z_1, z_2$) back to biomarker levels via symbolic regression, we extract human-interpretable formulae confirming the model's geometric alignment:
-*   **AIP (Atherogenic Index of Plasma):** $\text{AIP} = \left| (z_1 + z_2 + 0.131) \cdot (z_2 + 0.385) \right| + z_2$
-*   **HDL Cholesterol:** $\text{HDL} = -17.13 \cdot (z_2 + z_1 + \left| z_2 \right|) + 61.04$
+### 🧬 Symbolic Decoder Formulas (PySR)
+By fitting symbolic formulas to the frozen VAE decoder using symbolic regression (PySR), we map the latent axes back to interpretable physical laws:
 
-### Local Autograd Sensitivity Gradients
-Clinicians receive local feature sensitivities ($\frac{\partial z_i}{\partial x_j}$) computed at the patient's position using PyTorch autograd. This identifies which specific biomarkers are driving the patient's metabolic risk coordinates.
+*   **HDL Cholesterol:**
+    $$\text{HDL} = -17.13 \cdot (z_2 + z_1 + |z_2|) + 61.04$$
+    *Interpretation:* Both insulin resistance ($z_1$) and steatosis ($z_2$) act additively and independently to suppress HDL.
+*   **Atherogenic Index of Plasma (AIP):**
+    $$\text{AIP} = |(z_1 + z_2 + 0.131) \cdot (z_2 + 0.385)| + z_2$$
+    *Interpretation:* Atherogenicity is maximized when both axes are elevated, confirming that the Dual-Burden state is geometrically the highest risk zone.
+
+### 🧮 Local Autograd Sensitivity Gradients
+Rather than relying on global feature importance, the FastAPI backend uses PyTorch Autograd to calculate patient-specific local gradients:
+$$\text{Sensitivity} = \frac{\partial z_i}{\partial x_j}$$
+This provides clinicians with real-time feedback on which biomarkers are driving a patient's position on the metabolic map at that exact moment.
+
+---
+
+## ⚠️ Limitations & Future Directions
+
+While LMSIS represents a major step forward, its deployment in clinical workflows is subject to several active research limitations:
+1. **Ancestral Sample Constraints:** The Non-Hispanic Asian HOMA-IR shift is highly significant ($p = 2.67 \times 10^{-3}$) but based on a small cohort ($n=12$ in reference band).
+2. **Cross-Sectional Snapshots:** NHANES data provides cross-sectional slices. We cannot infer longitudinal trajectories without cohort follow-up.
+3. **Validation Strategy:** Immediate next steps involve validating the frozen model on **KNHANES** (Korea National Health and Nutrition Examination Survey) to replicate the Asian threshold finding on thousands of subjects, and **UK Biobank** to test cross-modal generalization (CAP to MRI-PDFF).
 
 ---
 
 ## 📜 References & Citations
-*   **VAE Identifiability Theorem:** Khemakhem et al., "Variational Autoencoders and Non-linear ICA", *NeurIPS* 2020.
+*   **iVAE Identifiability:** Khemakhem et al., "Variational Autoencoders and Non-linear ICA", *NeurIPS* 2020.
 *   **Conformal Impossibility Bound:** Barber et al., "Limits of Out-of-Distribution Conformal Prediction", *Annals of Statistics* 2023.
 *   **Symbolic Regression Tool:** Cranmer et al., "Interpretable Machine Learning for Physics with Symbolic Regression", *arXiv:2006.11287*.
+*   **Lean MASLD Review:** Dey et al., "The Pathogenesis and Management of Lean NAFLD", *Frontiers in Endocrinology* 2025.
