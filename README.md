@@ -3,8 +3,6 @@
 # 🧬 LMSIS
 ### Latent Metabolic State Inference System
 
-<img src="results/figures/metabolic_atlas_animated.svg" width="800px" alt="LMSIS Metabolic Atlas Geodesic Solver" />
-
 *A Clinical Machine Learning Pipeline for Detecting Silent Concurrent Metabolic Dysfunction in Normal-BMI Adults*
 
 <br/>
@@ -121,13 +119,6 @@ Constraining anchor networks using a Softplus activation on weights, forcing str
 
 ### 3. 🎭 Semi-Supervised Loss Masking
 All 1,477 cohort participants contribute to the Z₁ HOMA-IR anchor. The Z₂ CAP anchor is safely masked for participants missing ultrasound records — maximizing data usage without introducing bias.
-
-<br/>
-
-<div align="center">
-  <img src="results/figures/model_pipeline_animated.svg" width="700px" alt="DA-SS-iVAE Pipeline Architecture" />
-  <p><small><em>Figure 2: DA-SS-iVAE Neural Architecture and Latent Anchoring Flow.</em></small></p>
-</div>
 
 ---
 
