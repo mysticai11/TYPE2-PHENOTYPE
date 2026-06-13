@@ -1,228 +1,266 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 450" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 480" width="100%" height="100%">
   <defs>
-    <!-- Background Gradient (Soft Professional Clinical Light Blue-Grey Glow) -->
-    <radialGradient id="bgGlow" cx="50%" cy="50%" r="75%">
+    <!-- Background Soft Radial Glow -->
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="70%">
       <stop offset="0%" stop-color="#ffffff" />
-      <stop offset="60%" stop-color="#f8fafc" />
-      <stop offset="100%" stop-color="#f1f5f9" />
+      <stop offset="60%" stop-color="#fcfdfe" />
+      <stop offset="100%" stop-color="#f3f6fa" />
     </radialGradient>
 
-    <!-- Glowing effect for the active patient coordinate -->
-    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="3" result="blur1" />
-      <feMerge>
-        <feMergeNode in="blur1" />
-        <feMergeNode in="SourceGraphic" />
-      </feMerge>
+    <!-- Quadrant Specific Gradients -->
+    <radialGradient id="safeGrad" cx="0%" cy="100%" r="100%">
+      <stop offset="0%" stop-color="#00c47d" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#00c47d" stop-opacity="0.0" />
+    </radialGradient>
+    <radialGradient id="irGrad" cx="0%" cy="0%" r="100%">
+      <stop offset="0%" stop-color="#f5a623" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#f5a623" stop-opacity="0.0" />
+    </radialGradient>
+    <radialGradient id="steatosisGrad" cx="100%" cy="100%" r="100%">
+      <stop offset="0%" stop-color="#3d8ef8" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#3d8ef8" stop-opacity="0.0" />
+    </radialGradient>
+    <radialGradient id="dualGrad" cx="100%" cy="0%" r="100%">
+      <stop offset="0%" stop-color="#e8394a" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#e8394a" stop-opacity="0.0" />
+    </radialGradient>
+
+    <!-- Path Gradient: Patient (Red) to Target (Teal) -->
+    <linearGradient id="pathGrad" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e8394a" />
+      <stop offset="40%" stop-color="#f5a623" />
+      <stop offset="100%" stop-color="#00c47d" />
+    </linearGradient>
+
+    <!-- Glowing Filters -->
+    <filter id="patientGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
 
-    <!-- Geodesic Path Gradient: Red/Rose (Risk) to Teal/Green (Safe) -->
-    <linearGradient id="geodesicGrad" x1="100%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#f43f5e" />   <!-- High Risk (Rose) -->
-      <stop offset="50%" stop-color="#6366f1" />  <!-- Transition (Indigo) -->
-      <stop offset="100%" stop-color="#0d9488" /> <!-- Safe Target (Teal) -->
-    </linearGradient>
+    <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0c1a30" flood-opacity="0.03" />
+    </filter>
   </defs>
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap');
     
-    .title-text { font-family: 'Outfit', system-ui, -apple-system, sans-serif; font-size: 13px; fill: #0f172a; font-weight: 700; letter-spacing: 0.1em; }
-    .label-text { font-family: 'Outfit', system-ui, -apple-system, sans-serif; font-size: 11px; fill: #64748b; font-weight: 500; }
-    .quadrant-title { font-family: 'Outfit', system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; }
-    .axis-title { font-family: 'Outfit', system-ui, -apple-system, sans-serif; font-size: 11px; fill: #475569; font-weight: 600; letter-spacing: 0.12em; }
+    /* Global classes */
+    .canvas-bg { fill: url(#bgGlow); stroke: #e2e8f0; stroke-width: 1.5; }
+    .quadrant-bg { stroke-width: 1; rx: 12; }
     
-    /* Animation Keyframes */
-    @keyframes pulse-ring {
-      0% { r: 7px; opacity: 0.5; }
-      50% { r: 15px; opacity: 0; filter: drop-shadow(0 0 6px #6366f1); }
-      100% { r: 7px; opacity: 0.5; }
+    /* Typography */
+    .title-label { font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700; fill: #0f172a; letter-spacing: 0.12em; }
+    .quad-label { font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; }
+    .legend-label { font-family: 'Outfit', sans-serif; font-size: 10px; fill: #64748b; font-weight: 500; }
+    .axis-label { font-family: 'Outfit', sans-serif; font-size: 10px; fill: #475569; font-weight: 600; letter-spacing: 0.12em; }
+    .hud-text { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; fill: #6366f1; }
+    
+    /* Animation Easing */
+    @keyframes pulse-halo {
+      0% { r: 6px; opacity: 0.8; }
+      100% { r: 16px; opacity: 0; }
     }
-    
-    @keyframes pulse-slow {
-      0% { opacity: 0.35; }
-      50% { opacity: 0.70; }
-      100% { opacity: 0.35; }
+    @keyframes march-dots {
+      to { stroke-dashoffset: -24; }
+    }
+    @keyframes ecg-pulsate {
+      to { stroke-dashoffset: -80; }
+    }
+    @keyframes breathe-contour {
+      0%, 100% { transform: scale(1.0); opacity: 0.1; }
+      50% { transform: scale(1.02); opacity: 0.15; }
     }
 
-    @keyframes path-dash {
-      to { stroke-dashoffset: -30; }
-    }
-
-    @keyframes ecg-dash {
-      to { stroke-dashoffset: -120; }
-    }
-
-    .geodesic-line {
-      stroke: url(#geodesicGrad);
-      stroke-width: 3.0;
+    .geodesic-route {
+      stroke: url(#pathGrad);
+      stroke-width: 3.5;
       stroke-linecap: round;
       stroke-linejoin: round;
-      stroke-dasharray: 7 5;
-      animation: path-dash 1.8s linear infinite;
+      stroke-dasharray: 6 5;
+      animation: march-dots 1.5s linear infinite;
     }
-
-    .patient-core-dot {
-      fill: #6366f1;
+    .patient-dot {
+      fill: #e8394a;
       stroke: #ffffff;
-      stroke-width: 1.5;
-      filter: url(#glow);
+      stroke-width: 2;
+      filter: url(#patientGlow);
     }
-
-    .patient-pulse-ring {
+    .halo-effect {
       fill: none;
-      stroke: #6366f1;
-      stroke-width: 2.0;
-      animation: pulse-ring 2s infinite ease-out;
+      stroke: #e8394a;
+      stroke-width: 1.5;
+      animation: pulse-halo 2.2s infinite cubic-bezier(0.16, 1, 0.3, 1);
     }
-
-    .cohort-dot {
-      opacity: 0.55;
-      animation: pulse-slow 3s infinite ease-in-out;
+    .contour-line {
+      fill: none;
+      stroke: #94a3b8;
+      stroke-width: 0.8;
+      stroke-dasharray: 5 3;
+      opacity: 0.12;
     }
-    
-    .cohort-dot.mhnw { fill: #0d9488; }
-    .cohort-dot.ir { fill: #d97706; }
-    .cohort-dot.steatosis { fill: #2563eb; }
-    .cohort-dot.dual { fill: #e11d48; }
-    
     .ecg-path {
       stroke: #6366f1;
       stroke-width: 1.5;
-      stroke-dasharray: 40 80;
-      animation: ecg-dash 3s linear infinite;
+      fill: none;
+      stroke-dasharray: 20 60;
+      animation: ecg-pulsate 2.5s linear infinite;
+    }
+    .interactive-quad:hover {
+      filter: drop-shadow(0 4px 8px rgba(15, 23, 42, 0.04));
     }
   </style>
 
-  <!-- Background -->
-  <rect width="100%" height="100%" fill="url(#bgGlow)" rx="18" stroke="#e2e8f0" stroke-width="2" />
+  <!-- Background Canvas -->
+  <rect width="100%" height="100%" class="canvas-bg" rx="22" />
 
-  <!-- Ultra-Crisp Grid Layout -->
-  <g opacity="0.35">
-    <line x1="50" y1="50" x2="650" y2="50" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-    <line x1="50" y1="100" x2="650" y2="100" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-    <line x1="50" y1="150" x2="650" y2="150" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-    <line x1="50" y1="200" x2="650" y2="200" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-    <line x1="50" y1="250" x2="650" y2="250" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-    <line x1="50" y1="300" x2="650" y2="300" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-    <line x1="50" y1="350" x2="650" y2="350" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-    <line x1="50" y1="400" x2="650" y2="400" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-
-    <line x1="100" y1="50" x2="100" y2="400" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-    <line x1="150" y1="50" x2="150" y2="400" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-    <line x1="200" y1="50" x2="200" y2="400" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-    <line x1="250" y1="50" x2="250" y2="400" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-    <line x1="300" y1="50" x2="300" y2="400" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-    <line x1="350" y1="50" x2="350" y2="400" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-    <line x1="400" y1="50" x2="400" y2="400" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-    <line x1="450" y1="50" x2="450" y2="400" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-    <line x1="500" y1="50" x2="500" y2="400" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-    <line x1="550" y1="50" x2="550" y2="400" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-    <line x1="600" y1="50" x2="600" y2="400" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
-    <line x1="650" y1="50" x2="650" y2="400" stroke="#cbd5e1" stroke-width="0.8" stroke-dasharray="2 4" />
+  <!-- Technical Coordinate Grid -->
+  <g opacity="0.3">
+    <!-- Grid vertical lines -->
+    <line x1="60" y1="50" x2="60" y2="430" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2 3" />
+    <line x1="120" y1="50" x2="120" y2="430" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2 3" />
+    <line x1="180" y1="50" x2="180" y2="430" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2 3" />
+    <line x1="240" y1="50" x2="240" y2="430" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2 3" />
+    <line x1="300" y1="50" x2="300" y2="430" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2 3" />
+    <line x1="360" y1="50" x2="360" y2="430" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2 3" />
+    <line x1="420" y1="50" x2="420" y2="430" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2 3" />
+    <line x1="480" y1="50" x2="480" y2="430" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2 3" />
+    <line x1="540" y1="50" x2="540" y2="430" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2 3" />
+    <line x1="600" y1="50" x2="600" y2="430" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2 3" />
+    <line x1="660" y1="50" x2="660" y2="430" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2 3" />
+    
+    <!-- Grid horizontal lines -->
+    <line x1="60" y1="80" x2="660" y2="80" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2 3" />
+    <line x1="60" y1="140" x2="660" y2="140" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2 3" />
+    <line x1="60" y1="200" x2="660" y2="200" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2 3" />
+    <line x1="60" y1="260" x2="660" y2="260" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2 3" />
+    <line x1="60" y1="320" x2="660" y2="320" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2 3" />
+    <line x1="60" y1="380" x2="660" y2="380" stroke="#cbd5e1" stroke-width="0.5" stroke-dasharray="2 3" />
   </g>
 
-  <!-- Central Origin Axes (Threshold Boundaries) -->
-  <line x1="350" y1="35" x2="350" y2="415" stroke="#94a3b8" stroke-width="1.8" />
-  <line x1="35" y1="225" x2="665" y2="225" stroke="#94a3b8" stroke-width="1.8" />
+  <!-- Golden Threshold Intersecting Axes -->
+  <line x1="360" y1="40" x2="360" y2="440" stroke="#d97706" stroke-width="1.5" opacity="0.6" />
+  <line x1="50" y1="260" x2="670" y2="260" stroke="#d97706" stroke-width="1.5" opacity="0.6" />
 
-  <!-- Quadrants Panels (Glassmorphism-Style Pastel Fills & Crisp Borders) -->
-  <!-- Top Left: IR-Dominant -->
-  <rect x="50" y="50" width="280" height="160" fill="#fffbeb" stroke="#fde68a" stroke-width="1.2" rx="10" />
-  <text x="68" y="76" class="quadrant-title" fill="#b45309">QUADRANT II: IR-DOMINANT</text>
+  <!-- FOUR METABOLIC TERRITORIES -->
   
-  <!-- Top Right: Dual Burden -->
-  <rect x="370" y="50" width="280" height="160" fill="#fff1f2" stroke="#fecdd3" stroke-width="1.2" rx="10" />
-  <text x="388" y="76" class="quadrant-title" fill="#be123c">QUADRANT III: DUAL-BURDEN (THIN-FAT)</text>
+  <!-- Quadrant II: Insulin Resistant (Top-Left) -->
+  <g class="interactive-quad" filter="url(#cardShadow)">
+    <rect x="60" y="50" width="280" height="190" fill="url(#irGrad)" stroke="#fde68a" stroke-width="1" rx="12" />
+    <text x="76" y="76" class="quad-label" fill="#d97706">QUADRANT II · INSULIN RESISTANT</text>
+  </g>
 
-  <!-- Bottom Left: MHNW (Healthy) -->
-  <rect x="50" y="240" width="280" height="160" fill="#f0fdfa" stroke="#99f6e4" stroke-width="1.2" rx="10" />
-  <text x="68" y="384" class="quadrant-title" fill="#0f766e">QUADRANT I: HEALTHY (MHNW)</text>
+  <!-- Quadrant III: Dual Burden (Top-Right) -->
+  <g class="interactive-quad" filter="url(#cardShadow)">
+    <rect x="380" y="50" width="280" height="190" fill="url(#dualGrad)" stroke="#fecdd3" stroke-width="1" rx="12" />
+    <text x="396" y="76" class="quad-label" fill="#e11d48">QUADRANT III · DUAL-BURDEN (HIGH RISK)</text>
+  </g>
 
-  <!-- Bottom Right: Steatotic -->
-  <rect x="370" y="240" width="280" height="160" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1.2" rx="10" />
-  <text x="388" y="384" class="quadrant-title" fill="#1d4ed8">QUADRANT IV: STEATOTIC-DOMINANT</text>
+  <!-- Quadrant I: Healthy MHNW (Bottom-Left) -->
+  <g class="interactive-quad" filter="url(#cardShadow)">
+    <rect x="60" y="270" width="280" height="160" fill="url(#safeGrad)" stroke="#a7f3d0" stroke-width="1" rx="12" />
+    <text x="76" y="414" class="quad-label" fill="#059669">QUADRANT I · METABOLICALLY HEALTHY (MHNW)</text>
+  </g>
 
-  <!-- Background Cohort Scatter Scatter Simulation -->
-  <!-- MHNW Cluster -->
-  <circle cx="150" cy="300" r="3" class="cohort-dot mhnw" style="animation-delay: 0.1s;" />
-  <circle cx="180" cy="340" r="2.5" class="cohort-dot mhnw" style="animation-delay: 0.5s;" />
-  <circle cx="210" cy="280" r="3" class="cohort-dot mhnw" style="animation-delay: 0.9s;" />
-  <circle cx="120" cy="320" r="3.5" class="cohort-dot mhnw" style="animation-delay: 0.2s;" />
-  <circle cx="240" cy="310" r="2.5" class="cohort-dot mhnw" style="animation-delay: 1.4s;" />
-  <circle cx="160" cy="270" r="3" class="cohort-dot mhnw" style="animation-delay: 0.7s;" />
-  <circle cx="200" cy="350" r="3.5" class="cohort-dot mhnw" style="animation-delay: 1.1s;" />
-  
+  <!-- Quadrant IV: Steatotic Dominant (Bottom-Right) -->
+  <g class="interactive-quad" filter="url(#cardShadow)">
+    <rect x="380" y="270" width="280" height="160" fill="url(#steatosisGrad)" stroke="#bfdbfe" stroke-width="1" rx="12" />
+    <text x="396" y="414" class="quad-label" fill="#2563eb">QUADRANT IV · STEATOTIC-DOMINANT</text>
+  </g>
+
+  <!-- COHORT CONTORS (Visual representation of NHANES density distribution) -->
+  <!-- Contours around MHNW center (170, 350) -->
+  <path d="M120 350 A 50 40 0 1 1 220 350 A 50 40 0 1 1 120 350 Z" class="contour-line" />
+  <path d="M100 350 A 70 55 0 1 1 240 350 A 70 55 0 1 1 100 350 Z" class="contour-line" />
+  <!-- Contours around Dual-Burden center (520, 140) -->
+  <path d="M470 140 A 50 45 0 1 1 570 140 A 50 45 0 1 1 470 140 Z" class="contour-line" />
+  <path d="M450 140 A 75 60 0 1 1 600 140 A 75 60 0 1 1 450 140 Z" class="contour-line" opacity="0.08" />
+
+  <!-- STATIC REFERENCE COHORT REPRESENTATIVES -->
+  <!-- Healthy Cluster -->
+  <circle cx="160" cy="330" r="3" fill="#10b981" opacity="0.3" />
+  <circle cx="190" cy="360" r="3.5" fill="#10b981" opacity="0.4" />
+  <circle cx="210" cy="320" r="2.5" fill="#10b981" opacity="0.3" />
+  <circle cx="130" cy="350" r="3" fill="#10b981" opacity="0.3" />
+  <circle cx="175" cy="380" r="3.5" fill="#10b981" opacity="0.2" />
   <!-- IR Cluster -->
-  <circle cx="140" cy="110" r="3" class="cohort-dot ir" style="animation-delay: 0.3s;" />
-  <circle cx="180" cy="150" r="3" class="cohort-dot ir" style="animation-delay: 0.8s;" />
-  <circle cx="220" cy="100" r="2.5" class="cohort-dot ir" style="animation-delay: 1.2s;" />
-  <circle cx="110" cy="160" r="3.5" class="cohort-dot ir" style="animation-delay: 0.4s;" />
-  <circle cx="250" cy="140" r="2.5" class="cohort-dot ir" style="animation-delay: 1.6s;" />
-
-  <!-- Steatosis Cluster -->
-  <circle cx="480" cy="320" r="3" class="cohort-dot steatosis" style="animation-delay: 0.2s;" />
-  <circle cx="520" cy="280" r="2.5" class="cohort-dot steatosis" style="animation-delay: 0.7s;" />
-  <circle cx="450" cy="350" r="3.5" class="cohort-dot steatosis" style="animation-delay: 1.1s;" />
-  <circle cx="560" cy="310" r="3" class="cohort-dot steatosis" style="animation-delay: 0.5s;" />
-  <circle cx="490" cy="270" r="2.5" class="cohort-dot steatosis" style="animation-delay: 1.5s;" />
-
+  <circle cx="180" cy="140" r="3" fill="#f5a623" opacity="0.35" />
+  <circle cx="210" cy="170" r="3" fill="#f5a623" opacity="0.3" />
+  <circle cx="150" cy="110" r="3.5" fill="#f5a623" opacity="0.25" />
+  <!-- Steatotic Cluster -->
+  <circle cx="490" cy="330" r="3" fill="#3d8ef8" opacity="0.35" />
+  <circle cx="530" cy="360" r="3" fill="#3d8ef8" opacity="0.4" />
+  <circle cx="460" cy="310" r="3.5" fill="#3d8ef8" opacity="0.2" />
   <!-- Dual Burden Cluster -->
-  <circle cx="490" cy="90" r="3" class="cohort-dot dual" style="animation-delay: 0.4s;" />
-  <circle cx="530" cy="140" r="3.5" class="cohort-dot dual" style="animation-delay: 0.9s;" />
-  <circle cx="460" cy="120" r="2.5" class="cohort-dot dual" style="animation-delay: 1.3s;" />
-  <circle cx="570" cy="100" r="3" class="cohort-dot dual" style="animation-delay: 0.6s;" />
-  <circle cx="510" cy="160" r="2.5" class="cohort-dot dual" style="animation-delay: 1.8s;" />
+  <circle cx="510" cy="110" r="3" fill="#e8394a" opacity="0.3" />
+  <circle cx="550" cy="150" r="3.5" fill="#e8394a" opacity="0.35" />
+  <circle cx="480" cy="130" r="3" fill="#e8394a" opacity="0.2" />
 
-  <!-- Origin Dot -->
-  <circle cx="350" cy="225" r="3" fill="#64748b" />
+  <!-- Center Origin Marker -->
+  <circle cx="360" cy="260" r="4" fill="#64748b" stroke="#ffffff" stroke-width="1" />
 
-  <!-- The Geodesic Path -->
-  <path id="geodesicPath" d="M 520 120 C 440 220, 260 210, 180 310" fill="none" class="geodesic-line" />
+  <!-- GEODESIC SOLUTION PATHWAY (Rose to Green Gradient) -->
+  <path id="geodesicPath" d="M 520 130 Q 430 250, 180 340" fill="none" class="geodesic-route" />
 
-  <!-- Start & End Targets -->
-  <circle cx="520" cy="120" r="6.5" fill="#f43f5e" stroke="#ffe4e6" stroke-width="1.8" />
-  <circle cx="180" cy="310" r="6.5" fill="#0d9488" stroke="#ccfbf1" stroke-width="1.8" />
-  
-  <text x="535" y="116" class="label-text" fill="#be123c" font-weight="700">Patient Baseline (z_start)</text>
-  <text x="90" y="334" class="label-text" fill="#0f766e" font-weight="700">Metabolic Target (z_safe)</text>
+  <!-- Pathway Milestones -->
+  <circle cx="520" cy="130" r="6" fill="#e8394a" stroke="#ffffff" stroke-width="1.5" />
+  <circle cx="180" cy="340" r="6" fill="#00c47d" stroke="#ffffff" stroke-width="1.5" />
 
-  <!-- Animated Patient Group (Core + Pulsing Outer Ring) -->
+  <text x="532" y="125" class="legend-label" fill="#e8394a" font-weight="700">Patient Baseline (z_start)</text>
+  <text x="96" y="362" class="legend-label" fill="#00c47d" font-weight="700">Safe Target (z_safe)</text>
+
+  <!-- GEODESIC DISTANCE mid-way waypoint marker -->
+  <g transform="translate(325, 205)">
+    <rect width="90" height="20" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" rx="4" />
+    <!-- Small Diamond Icon -->
+    <rect x="6" y="6" width="8" height="8" fill="#00c47d" transform="rotate(45 10 10)" />
+    <text x="24" y="13" font-family="'Outfit', sans-serif" font-size="8px" font-weight="700" fill="#334155">1.8 units to safe</text>
+  </g>
+
+  <!-- ACTIVE PATIENT PIN (Moves along the solved Geodesic Pathway) -->
   <g>
-    <circle r="6" class="patient-pulse-ring" />
-    <circle r="5.5" class="patient-core-dot" />
-    <animateMotion dur="7s" repeatCount="indefinite" keyTimes="0;0.18;0.5;0.68;1" keyPoints="0;0;1;1;0" calcMode="spline" keySplines="0.42 0 0.58 1; 0.42 0 0.58 1; 0.42 0 0.58 1; 0.42 0 0.58 1">
+    <!-- Pulsing ring behind -->
+    <circle r="6" class="halo-effect" />
+    <!-- Pin dot -->
+    <circle r="5.5" class="patient-dot" />
+    
+    <!-- Motion animation along the path -->
+    <animateMotion dur="7.5s" repeatCount="indefinite" keyTimes="0; 0.2; 0.55; 0.75; 1" keyPoints="0; 0; 1; 1; 0" calcMode="spline" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1; 0.4 0 0.2 1; 0.4 0 0.2 1">
       <mpath href="#geodesicPath" />
     </animateMotion>
   </g>
 
-  <!-- Axes Labels -->
-  <text x="630" y="245" class="axis-title">Z₁ (IR)</text>
-  <path d="M 660 225 L 652 220 L 652 230 Z" fill="#94a3b8" />
-  
-  <text x="365" y="45" class="axis-title">Z₂ (Steatosis)</text>
-  <path d="M 350 35 L 345 43 L 355 43 Z" fill="#94a3b8" />
+  <!-- AXIS TITLES -->
+  <g transform="translate(620, 280)">
+    <text x="0" y="0" class="axis-label">Z₁ (INSULIN RESISTANCE) →</text>
+  </g>
+  <g transform="translate(375, 45)">
+    <text x="0" y="0" class="axis-label" transform="rotate(-90)">LIVER FAT (Z₂) →</text>
+  </g>
 
-  <!-- Live HUD Monitor Display -->
-  <!-- Header Badge Overlay -->
-  <rect x="230" y="15" width="240" height="30" fill="#ffffff" rx="15" stroke="#e2e8f0" stroke-width="1.2" />
-  <text x="350" y="34" text-anchor="middle" class="title-text" fill="#0f172a">METABOLIC ATLAS</text>
-  
-  <!-- Running Metrics / Indicator -->
-  <g transform="translate(490, 30)">
-    <!-- Main Box -->
-    <rect width="180" height="48" fill="#ffffff" rx="6" stroke="#e2e8f0" stroke-width="1.2" />
+  <!-- CLINICAL HUD HEADER / MONITOR -->
+  <g transform="translate(260, 15)">
+    <rect width="240" height="28" fill="#ffffff" rx="14" stroke="#e2e8f0" stroke-width="1" />
+    <text x="120" y="18" text-anchor="middle" class="title-label">METABOLIC MAP RESOLVER</text>
+  </g>
+
+  <!-- PHYSIOLOGICAL telemetry / monitor card -->
+  <g transform="translate(540, 290)">
+    <!-- Card Frame -->
+    <rect width="160" height="60" fill="#ffffff" rx="8" stroke="#e2e8f0" stroke-width="1" />
     
-    <!-- Pulse indicator dot -->
-    <circle cx="18" cy="24" r="4.5" fill="#6366f1">
-      <animate attributeName="opacity" values="0.3;1;0.3" dur="1.5s" repeatCount="indefinite" />
+    <!-- Pulse signal dot -->
+    <circle cx="16" cy="30" r="4" fill="#6366f1">
+      <animate attributeName="opacity" values="0.2; 1; 0.2" dur="2s" repeatCount="indefinite" />
     </circle>
     
-    <!-- Animated ECG Waveform -->
-    <path d="M 120 28 L 130 28 L 134 18 L 138 38 L 142 28 L 170 28" fill="none" class="ecg-path" />
+    <!-- Tiny ECG trace -->
+    <path d="M 100 30 L 110 30 L 114 18 L 118 40 L 122 30 L 145 30" fill="none" class="ecg-path" />
     
-    <!-- Titles -->
-    <text x="30" y="20" font-family="'Outfit', sans-serif" font-size="8px" fill="#94a3b8" font-weight="700" letter-spacing="0.08em">GEODESIC PATHWAY</text>
-    <text x="30" y="35" font-family="'Outfit', sans-serif" font-size="11px" fill="#6366f1" font-weight="700">solving ODE...</text>
+    <!-- Metric texts -->
+    <text x="28" y="22" font-family="'Outfit', sans-serif" font-size="8px" font-weight="700" fill="#94a3b8" letter-spacing="0.08em">OPTIMIZATION TELEMETRY</text>
+    <text x="28" y="36" class="hud-text">Riemannian-Geodesic</text>
+    <text x="28" y="48" font-family="'Outfit', sans-serif" font-size="8px" fill="#64748b">Status: Solved (Tol &lt; 1e-6)</text>
   </g>
 </svg>

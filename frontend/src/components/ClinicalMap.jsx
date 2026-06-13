@@ -149,7 +149,7 @@ export const ClinicalMap = ({ z1, z2, quadrantKey, researchMode, isSafe, geodesi
           .datum(geodesicPath)
           .attr('d', lineGen)
           .attr('fill', 'none').attr('stroke', 'var(--territory-safe)').attr('stroke-width', 3)
-          .attr('class', 'route-path').style('filter', 'drop-shadow(0 0 4px var(--territory-safe))');
+          .attr('class', 'geodesic-route').style('filter', 'drop-shadow(0 0 4px var(--territory-safe))');
 
         // Destination marker (the safe-zone target point)
         const dest = geodesicPath[geodesicPath.length - 1];
@@ -182,6 +182,36 @@ export const ClinicalMap = ({ z1, z2, quadrantKey, researchMode, isSafe, geodesi
             .attr('fill', 'var(--white-data)').style('font-size', '10px').text(label);
         });
 
+        // Add Distance Callout Box at the midpoint of the geodesic path
+        const midIdx = Math.floor(geodesicPath.length / 2);
+        const midPt = geodesicPath[midIdx];
+        if (midPt) {
+          const mx = xScale(midPt[0]);
+          const my = yScale(midPt[1]);
+          const latentDist = Math.sqrt(
+            Math.pow(z1 - geodesicPath[geodesicPath.length - 1][0], 2) +
+            Math.pow(z2 - geodesicPath[geodesicPath.length - 1][1], 2)
+          );
+
+          let severityPhrase = "Significant metabolic burden";
+          if (latentDist < 0.5) severityPhrase = "On the boundary — minor adjustment";
+          else if (latentDist < 1.5) severityPhrase = "Mild intervention recommended";
+          else if (latentDist < 3.0) severityPhrase = "Moderate intervention required";
+
+          const callout = patientGroup.append('g').attr('transform', `translate(${mx - 85}, ${my - 45})`);
+          callout.append('rect')
+            .attr('width', 170).attr('height', 36).attr('rx', 4)
+            .attr('fill', 'var(--bg-panel)').attr('stroke', 'var(--territory-safe)').attr('stroke-width', 1);
+          callout.append('text')
+            .attr('x', 85).attr('y', 14).attr('text-anchor', 'middle')
+            .attr('fill', 'var(--white-data)').style('font-size', '10px').style('font-weight', '600')
+            .text(`◆ ${latentDist.toFixed(1)} units to safety`);
+          callout.append('text')
+            .attr('x', 85).attr('y', 26).attr('text-anchor', 'middle')
+            .attr('fill', 'var(--text-muted)').style('font-size', '8px')
+            .text(severityPhrase);
+        }
+
       } else {
         // Euclidean fallback
         const destX = xScale(-0.5), destY = yScale(-0.5);
@@ -190,11 +220,32 @@ export const ClinicalMap = ({ z1, z2, quadrantKey, researchMode, isSafe, geodesi
         path.quadraticCurveTo(px - (px - destX), py, destX, destY);
         patientGroup.append('path').attr('d', path.toString()).attr('fill', 'none')
           .attr('stroke', 'var(--territory-safe)').attr('stroke-width', 3)
-          .attr('class', 'route-path').style('filter', 'drop-shadow(0 0 4px var(--territory-safe))');
+          .attr('class', 'geodesic-route').style('filter', 'drop-shadow(0 0 4px var(--territory-safe))');
         patientGroup.append('circle').attr('cx', destX).attr('cy', destY).attr('r', 6)
           .attr('fill', 'none').attr('stroke', 'var(--territory-safe)').attr('stroke-width', 2);
-        patientGroup.append('text').attr('x', (px + destX) / 2 + 12).attr('y', (py + destY) / 2 + 4)
-          .attr('fill', 'var(--white-data)').style('font-size', '10px').text('◆ Moderate intervention');
+
+        // Add Fallback Distance Callout Box
+        const mx = (px + destX) / 2;
+        const my = (py + destY) / 2;
+        const latentDist = Math.sqrt(Math.pow(z1 - (-0.5), 2) + Math.pow(z2 - (-0.5), 2));
+        
+        let severityPhrase = "Significant metabolic burden";
+        if (latentDist < 0.5) severityPhrase = "On the boundary — minor adjustment";
+        else if (latentDist < 1.5) severityPhrase = "Mild intervention recommended";
+        else if (latentDist < 3.0) severityPhrase = "Moderate intervention required";
+
+        const callout = patientGroup.append('g').attr('transform', `translate(${mx - 85}, ${my - 45})`);
+        callout.append('rect')
+          .attr('width', 170).attr('height', 36).attr('rx', 4)
+          .attr('fill', 'var(--bg-panel)').attr('stroke', 'var(--territory-safe)').attr('stroke-width', 1);
+        callout.append('text')
+          .attr('x', 85).attr('y', 14).attr('text-anchor', 'middle')
+          .attr('fill', 'var(--white-data)').style('font-size', '10px').style('font-weight', '600')
+          .text(`◆ ${latentDist.toFixed(1)} units to safety`);
+        callout.append('text')
+          .attr('x', 85).attr('y', 26).attr('text-anchor', 'middle')
+          .attr('fill', 'var(--text-muted)').style('font-size', '8px')
+          .text(severityPhrase);
       }
     }
 
@@ -205,7 +256,7 @@ export const ClinicalMap = ({ z1, z2, quadrantKey, researchMode, isSafe, geodesi
       .attr('stroke', '#fff').attr('stroke-width', 1).attr('stroke-dasharray', '4 4').attr('opacity', 0).attr('class', 'crosshair');
 
     patientGroup.append('circle').attr('cx', px).attr('cy', py).attr('r', 35)
-      .attr('fill', pColor).attr('class', 'halo-breathe');
+      .attr('fill', pColor).attr('class', 'patient-halo');
 
     const pinGroup = patientGroup.append('g').attr('class', 'pin-drop')
       .attr('transform', `translate(${px},${py})`).style('cursor', 'pointer')

@@ -1,0 +1,2 @@
+Cohort,Sample_Size,Implied_Threshold,CI_Lower,CI_Upper,Spearman_Rho,P_Value,Misclassified_Percent
+KNHANES (Korean),3500,1.79,1.76,1.82,0.705,0.0,23.3

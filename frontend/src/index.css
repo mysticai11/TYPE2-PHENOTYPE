@@ -302,13 +302,13 @@ body {
   font-size: 18px;
 }
 
-.banner-pulse {
-  animation: pulse-dot 2s infinite;
+.pulse {
+  animation: pulse-dot 2s ease-in-out infinite;
 }
 
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.8); }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
 }
 
 .main-layout {
@@ -391,22 +391,23 @@ body {
   100% { transform: translateY(0); opacity: 1; }
 }
 
-.halo-breathe {
-  animation: breathe 3s ease-in-out infinite alternate;
+.patient-halo {
+  animation: breathe 3s ease-in-out infinite;
 }
 
 @keyframes breathe {
-  0% { opacity: 0.4; transform: scale(0.95); }
-  100% { opacity: 0.8; transform: scale(1.05); }
+  0%, 100% { r: 30px; opacity: 0.15; }
+  50% { r: 36px; opacity: 0.22; }
 }
 
-.route-path {
+.geodesic-route {
   stroke-dasharray: 10, 10;
-  animation: march 2s linear infinite;
+  animation: route-flow 2s linear infinite;
 }
 
-@keyframes march {
-  to { stroke-dashoffset: -20; }
+@keyframes route-flow {
+  0% { stroke-dashoffset: 100; }
+  100% { stroke-dashoffset: 0; }
 }
 
 

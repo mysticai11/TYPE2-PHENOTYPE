@@ -137,6 +137,9 @@ export const ClinicalReadoutPanel = ({ patientData, quadrantData, interventions,
         ) : (
           <div style={{fontSize: '13px', color: 'var(--text-muted)'}}>Patient is in the safe zone. No acute metabolic interventions required.</div>
         )}
+        <div style={{ marginTop: '16px', fontSize: '11px', color: 'var(--text-muted)', lineHeight: '1.4', fontStyle: 'italic' }}>
+          *Clinical Simulation: The levers above project the biomarker changes required to transition the patient's latent metabolic coordinate into the safe zone, based on the model's learned representation. This is a model finding, not a direct clinical prescription.
+        </div>
       </div>
 
       {/* SECTION 4: Model Confidence */}

@@ -195,6 +195,60 @@ def test_explainability_contributions(client):
     assert abs(sum_z1 - 1.0) < 1e-2
     assert abs(sum_z2 - 1.0) < 1e-2
 
+def test_dca_endpoint(client):
+    response = client.get("/dca_results")
+    assert response.status_code == 200
+    data = response.json()
+    assert isinstance(data, list)
+    assert len(data) > 0
+    # verify schema
+    first = data[0]
+    assert "threshold" in first
+    assert "LMSIS" in first
+    assert "FLI" in first
+    assert "HSI" in first
+    assert "Treat All" in first
+    assert "Treat None" in first
+
+def test_validation_data_endpoint(client):
+    response = client.get("/validation_data")
+    assert response.status_code == 200
+    data = response.json()
+    assert "benchmark" in data
+    assert "drugs" in data
+    assert len(data["benchmark"]) > 0
+    assert len(data["drugs"]) > 0
+
+def test_compare_endpoint(client):
+    payload = {
+        "patient_a": VALID_INPUT,
+        "patient_b": VALID_INPUT
+    }
+    response = client.post("/compare", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert "inference_a" in data
+    assert "inference_b" in data
+    assert "euclidean_distance" in data
+    assert "geodesic_distance" in data
+
+def test_export_pdf_endpoint(client):
+    payload = {
+        "patient_data": {
+            "quadrant_name": "Test Quadrant",
+            "pred_homa_ir": 2.5,
+            "pred_cap": 250,
+            "risk_score": 0.5
+        },
+        "interventions": [
+            {"name": "Triglycerides", "current": 200, "target": 150, "diff": -50, "unit": "mg/dL"}
+        ]
+    }
+    response = client.post("/export_pdf", json=payload)
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "application/pdf"
+    assert len(response.content) > 1000
+
 if __name__ == "__main__":
     print("Running integration tests...")
     import sys

@@ -33,7 +33,7 @@ export const PhenotypeBanner = ({ quadrantKey }) => {
 
   return (
     <div className="phenotype-banner" style={{ backgroundColor: data.color }}>
-      <span className={`banner-dot ${data.pulse ? 'banner-pulse' : ''}`}>
+      <span className={`banner-dot ${data.pulse ? 'pulse' : ''}`}>
         {data.title.charAt(0)}
       </span>
       {data.title.slice(2)} <span style={{opacity: 0.7, margin: '0 16px'}}>·</span> <span style={{opacity: 0.85, textTransform: 'none', fontFamily: 'var(--font-sans)', fontSize: '18px'}}>{data.desc}</span>

@@ -106,3 +106,44 @@ class CohortPoint(BaseModel):
     z1: float
     z2: float
     quadrant: int
+
+class DCAResult(BaseModel):
+    threshold: str
+    LMSIS: float
+    FLI: float
+    HSI: float
+    Treat_All: float = Field(alias="Treat All")
+    Treat_None: float = Field(alias="Treat None")
+    
+    class Config:
+        populate_by_name = True
+
+class BenchmarkData(BaseModel):
+    name: str
+    rho: float
+
+class DrugData(BaseModel):
+    name: str
+    effect: float
+    axis: str
+    pval: str
+
+class ValidationDataOutput(BaseModel):
+    benchmark: list[BenchmarkData]
+    drugs: list[DrugData]
+
+class CompareInput(BaseModel):
+    patient_a: BiomarkerInput
+    patient_b: BiomarkerInput
+
+class CompareOutput(BaseModel):
+    inference_a: InferenceOutput
+    inference_b: InferenceOutput
+    euclidean_distance: float
+    geodesic_distance: float
+
+class ExportPdfInput(BaseModel):
+    patient_data: dict
+    interventions: list
+
+
