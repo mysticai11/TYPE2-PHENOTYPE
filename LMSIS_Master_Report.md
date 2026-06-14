@@ -138,14 +138,32 @@ Standard marginal calibration fails to cover the high-risk Dual-Burden subgroup,
 
 *   **OOD Conformal Transfer:** When calibration thresholds learned on the J-cycle are applied to the independent P-cycle cohort, Mondrian conformal coverage achieves **$95.2\%$** empirical coverage for the Dual-Burden subgroup, validating that safety guarantees successfully transfer out-of-distribution.
 
-### 4.3 Causal Pharmacological Dissociation
-To validate the biological specificity of the axes, we simulated clinical drug response pathways. Because baseline cross-sectional cohorts contain confounding-by-indication (treated patients have higher coordinates), we simulated baseline-to-treatment shifts:
+### 4.3 National Prevalence Extrapolation (NHANES Survey Design)
+To estimate the scale of metabolic dysfunction in normal-BMI adults across the United States, we extrapolated findings using NHANES complex survey design variables (PSU: `SDMVPSU`, Stratification: `SDMVSTRA`, and pooled MEC examination weights: `WTMEC_POOLED` where $W_{\text{pooled}} = W_{\text{MEC}} / 2$ for each cycle).
+*   **Dual-Burden Prevalence:** **$29.89\%$** of normal-BMI US adults (approximately **$23.91\text{ million}$** people).
+*   **High-Variance Disclaimer:** Due to the small-domain estimation required under complex survey designs for this specific normal-weight subpopulation, the 95% confidence interval is extremely wide (**$[0.00\text{M}, 64.36\text{M}]$**). This wide interval is mathematically correct and reflects the high sampling variance inherent in NHANES complex designs for restricted subgroups, rather than definitive point precision.
+
+### 4.4 Zero-Shot External Validation on Simulated KNHANES Cohort
+We evaluated the frozen VAE model’s generalization capacity on a simulated cohort matching the Korean National Health and Nutrition Examination Survey (KNHANES) demographics ($n=3,500$ complete cases).
+*   **Correlation Result:** Latent coordinate $Z_2$ achieved a Spearman correlation of **$\rho = 0.705$** ($p = 0.0$) against CAP.
+*   **Inflated Correlation Disclaimer:** It is critical to note that this correlation is artificially inflated relative to the true out-of-distribution (OOD) performance on real-world clinical data ($\rho = 0.501$ on the NHANES P-cycle). This inflation occurs because the validation cohort was generated via a statistical synthesizer and lacks the natural, random measurement noise, assay variability, and unobserved clinical confounders present in raw physical datasets.
+
+### 4.5 Ancestral Equity Analysis & Threshold Bias
+We evaluated the ancestral equivalence of the universal HOMA-IR clinical threshold of $2.5$ by comparing latent insulin resistance ($Z_1$) coordinates across demographic subgroups in the reference HOMA-IR band of $[2.3, 2.7]$.
+*   **Kruskal-Wallis Test:** Confirming significant differences in latent risk positions across groups at the same HOMA-IR cutoff ($p = 2.67 \times 10^{-3}$, corrected from an inflated $7.09 \times 10^{-7}$).
+*   **Implied Risk Thresholds:** Non-Hispanic Asian (NHA) adults crossed the latent risk boundary ($\tau_1$) at an implied HOMA-IR of **$\approx 0.96$**, compared to White adults at $\approx 3.05$.
+*   **Small Sample Size Limitation:** In the combined cohort, the Non-Hispanic Asian subgroup within the reference HOMA-IR band contains only **$n=12$** participants. Because of this small sample size, this threshold calculation is considered pilot-grade and is formally demoted to limitations; it must not be interpreted as a primary clinical recommendation.
+
+### 4.6 Causal Pharmacological Dissociation (Controlled Simulation)
+To validate the biological specificity of the coordinates, we simulated drug action pathways by applying baseline-to-treatment biomarker shifts. This controlled simulation isolates drug response from the cross-sectional confounding-by-indication present in NHANES prescription records:
 
 | Drug Class | Target Axis | Target p-value | Effect Size (r) | Off-Target p-value | Clinical Validation Verdict |
 | :--- | :---: | :---: | :---: | :---: | :--- |
 | **Metformin** | **Z₁ (IR)** | **`< 1.4e-19`** | **`1.000`** | `0.554` (NS) | ✔ Exclusively shifts peripheral insulin resistance |
 | **Statin** | **Z₂ (Steatosis)** | **`< 2.3e-26`** | **`0.888`** | `0.550` (NS) | ✔ Exclusively shifts hepatic lipid clearance |
 | **Fibrate** | **Z₂ (Steatosis)** | **`< 7.1e-10`** | **`1.000`** | `0.431` (NS) | ✔ Exclusively targets triglyceride clearing |
+
+*   **Simulation Disclaimer:** Since these pharmacological interventions are modeled as deterministic shifts without real-world biological variance, target effect sizes ($r$) approach theoretical maximums ($1.000$). These numbers validate the model's structural disentanglement of the axes, but do not represent actual longitudinal treatment efficacy in patients.
 
 The double dissociation proves that the coordinates $Z_1$ and $Z_2$ capture distinct, non-overlapping biological pathways.
 

@@ -95,9 +95,12 @@ LMSIS projects every patient onto a two-axis plane, where each axis corresponds 
 | Steatosis-Dominant | 185 | `87.0%` | **`98.9%`** ✓ | `90.0%` | 🟢 Safe |
 | **Dual-Burden (High-Risk)** | 136 | `81.6%` ⚠️ | **`90.4%`** 🛡️ | `90.0%` | 🟢 Safe (Calibrated) |
 
-### 3 — Causal Pharmacological Dissociation
+### 3 — Causal Pharmacological Dissociation (Controlled Simulation)
 
-The model perfectly disentangles the biological mechanisms of drug action (double dissociation), confirming structural identifiability. Each drug class affects exclusively its target latent axis; off-target p-values are all non-significant (NS).
+To validate the biological specificity of the axes, drug response pathways were evaluated using simulated cohort-level shifts.
+
+> [!NOTE]
+> These results represent deterministic model-based simulations designed to demonstrate that the latent axes capture distinct, non-overlapping biological pathways (identifiability). They do not represent physical longitudinal clinical trial outcomes, and target effect sizes ($r = 1.000$) reflect perfect simulation shifts rather than real-world clinical efficacy.
 
 | Drug Class | Target Axis | Target p-value | Effect Size (r) | Off-Target p-value | Clinical Mechanism |
 | :--- | :---: | :---: | :---: | :---: | :--- |

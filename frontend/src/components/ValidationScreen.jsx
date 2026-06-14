@@ -64,7 +64,7 @@ export function ValidationScreen() {
         <div style={{ flex: 1, backgroundColor: 'var(--bg-panel)', padding: '20px', borderRadius: '8px' }}>
           <h3 style={{ fontSize: '14px', textTransform: 'uppercase', color: 'var(--text-primary)', marginBottom: '8px' }}>Pharmacological Double Dissociation</h3>
           <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '24px' }}>
-            Causal confirmation of the latent axes via Propensity Score Matched drug cohorts.
+            Controlled simulation of drug response pathways using Propensity Score Matched cohorts (demonstrating model axis target specificity).
           </p>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -93,7 +93,7 @@ export function ValidationScreen() {
           </div>
 
           <div style={{ marginTop: '24px', fontSize: '12px', color: 'var(--text-muted)', lineHeight: '1.5' }}>
-            * This proves Z1 and Z2 are not arbitrary rotations, but discrete, pharmacologically responsive biological vectors.
+            * Note: These results represent simulated shifts to demonstrate target axis specificity. They do not represent physical longitudinal clinical trial outcomes.
           </div>
         </div>
 
@@ -104,10 +104,10 @@ export function ValidationScreen() {
         
         {/* Left: KNHANES Replication Chart */}
         <div style={{ flex: 1, backgroundColor: 'var(--bg-panel)', padding: '20px', borderRadius: '8px' }}>
-          <h3 style={{ fontSize: '14px', textTransform: 'uppercase', color: 'var(--text-primary)', marginBottom: '8px' }}>External Validation (KNHANES)</h3>
+          <h3 style={{ fontSize: '14px', textTransform: 'uppercase', color: 'var(--text-primary)', marginBottom: '8px' }}>External Validation (Simulated KNHANES)</h3>
           <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '24px' }}>
-            Replicating the Asian HOMA-IR threshold shift on a large-scale Korean cohort ($n=3,500$). 
-            Replicated threshold converges precisely to **1.79** (95% CI: **1.76–1.82**).
+            Evaluating the Asian HOMA-IR threshold shift on a simulated Korean cohort ($n=3,500$) matching KNHANES demographics.
+            The model-implied cutoff converges to **1.79** (95% CI: **1.76–1.82**).
           </p>
           <div style={{ height: '200px' }}>
             <ResponsiveContainer width="100%" height="100%">
@@ -132,11 +132,10 @@ export function ValidationScreen() {
 
         {/* Right: KNHANES Clinical Impact Stat */}
         <div style={{ width: '300px', backgroundColor: 'var(--bg-panel)', padding: '20px', borderRadius: '8px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <div style={{ fontSize: '11px', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '8px' }}>Clinical Impact (KNHANES)</div>
+          <div style={{ fontSize: '11px', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '8px' }}>Clinical Impact (Simulated)</div>
           <div style={{ fontSize: '42px', fontFamily: 'var(--font-display)', color: 'var(--territory-dual)', fontWeight: 800, marginBottom: '12px' }}>23.3%</div>
           <div style={{ fontSize: '13px', lineHeight: '1.5', color: 'var(--text-primary)' }}>
-            of normal-BMI Korean adults are misclassified as healthy under the standard HOMA-IR threshold of 2.5. 
-            The VAE places them in a high-risk metabolic state (Spearman $\rho = 0.705$ against FibroScan CAP).
+            of normal-BMI Korean adults are estimated to be misclassified as healthy under the standard cutoff of 2.5 on the simulated cohort. Note that correlation (Spearman $\rho = 0.705$ against CAP) is inflated due to the absence of real-world clinical measurement noise.
           </div>
         </div>
 
