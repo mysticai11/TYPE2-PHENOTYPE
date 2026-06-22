@@ -1,9 +1,9 @@
 <div align="center">
 
-# 🧬 LMSIS
-### Latent Metabolic State Inference System
+# Predictive Risk Intelligence for Metabolic Screening in Diabetes
+### LMSIS
 
-*A Clinical Machine Learning Pipeline for Detecting Silent Concurrent Metabolic Dysfunction in Normal-BMI Adults*
+*A Semi-Supervised Deep Learning Framework for Early Detection of Metabolic Dysfunction in Normal-BMI Adults*
 
 <br/>
 
@@ -18,14 +18,16 @@
 
 ---
 
-## 🧬 Silent metabolic risk, made visible.
+## Silent metabolic risk, made visible.
 
-> Millions of adults worldwide receive a clean bill of health simply because their Body Mass Index falls within the normal range (18.5 ≤ BMI ≤ 24.9 kg/m²). However, BMI is blind to fat distribution and ectopic tissue accumulation. Underneath a healthy-looking exterior, a patient may carry a silent, severe dual metabolic burden — simultaneous insulin resistance and hepatic steatosis — invisible to traditional screening.
+> This dissertation, *Predictive Risk Intelligence for Metabolic Screening in Diabetes*, presents the **Latent Metabolic State Inference System (LMSIS)**, a computational pipeline designed to detect silent concurrent metabolic dysfunction in normal-BMI adults from routine blood biomarkers.
+
+Millions of adults worldwide receive a clean bill of health simply because their Body Mass Index falls within the normal range (18.5 ≤ BMI ≤ 24.9 kg/m²). However, BMI is blind to fat distribution and ectopic tissue accumulation. Underneath a healthy-looking exterior, a patient may carry a silent, severe dual metabolic burden — simultaneous insulin resistance and hepatic steatosis — invisible to traditional screening.
 
 **LMSIS** recovers a continuous 2D latent metabolic geometry from 14 routine blood biomarkers, validated against gold-standard FibroScan ultrasound elastography. It deploys a **Dual-Anchored Semi-Supervised Identifiable Variational Autoencoder (DA-SS-iVAE)** to identify the four phenotypic quadrants of metabolic health in normal-weight individuals.
 
 > [!IMPORTANT]
-> **Full Documentation**: For the complete dissertation, mathematical formulation (ELBO, Monotone Anchors), experimental validation metrics, conformal calibration guarantees, symbolic interpretability proofs, and system blueprints, please refer directly to the [LMSIS Master Project Report](LMSIS_Master_Report.md).
+> **Full Documentation**: For the complete dissertation, mathematical formulation (ELBO, Monotone Anchors), experimental validation metrics, conformal calibration guarantees, symbolic interpretability proofs, and system blueprints, please refer directly to the LaTeX source [dissertation.tex](file:///c:/Users/singh/TYPE2-PHENOTYPE/dissertation.tex).
 
 ---
 
