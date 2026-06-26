@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>"Predictive Risk Intelligence for Metabolic Screening in Diabetes"</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top Scroll Progress Bar -->
+  <div class="scroll-progress-container">
+    <div class="scroll-progress-bar"></div>
+  </div>
+
+  <!-- Sticky Top Navigation Bar -->
+  <nav class="top-nav">
+    <a href="#" class="nav-brand">"LMSIS — Latent Metabolic State Inference System"</a>
+    <ul class="nav-links">
+      <li><a href="#abstract">"Abstract"</a></li>
+      <li><a href="#method">"Method"</a></li>
+      <li><a href="#demo">"Demo"</a></li>
+      <li><a href="#results">"Results"</a></li>
+      <li><a href="#questions">"Questions"</a></li>
+    </ul>
+  </nav>
+
+  <!-- Vertical Dot Navigation on the Right Edge -->
+  <div class="dots-nav"></div>
+
+  <!-- Background Mesh Gradients -->
+  <div class="mesh-bg-container">
+    <div class="mesh-blob mesh-blob-healthy"></div>
+    <div class="mesh-blob mesh-blob-ir"></div>
+    <div class="mesh-blob mesh-blob-liver"></div>
+    <div class="mesh-blob mesh-blob-dual"></div>
+  </div>
+
+  <!-- MAIN SCENE CONTAINER -->
+  <main id="presentation">
+
+    <!-- SCENE 1 — Hero -->
+    <section class="scene hero-scene" id="scene-1">
+      <h1 class="scene-title animate-element">"Predictive Risk Intelligence for Metabolic Screening in Diabetes"</h1>
+      <h2 class="scene-subtitle animate-element">"LMSIS — Latent Metabolic State Inference System"</h2>
+      <p class="scene-subtitle animate-element">"A deep generative model that recovers hidden metabolic risk from routine blood biomarkers in adults with a normal body weight."</p>
+      <div class="authors animate-element">"Karamjeet Singh   ·   Sarandeep Singh   ·   Ubaid Ahmad   ·   Aiman Younus Dar"</div>
+      <div class="pill-container animate-element">
+        <a href="[GITHUB_URL]" class="pill-link">"View on GitHub"</a>
+        <a href="[REPORT_URL]" class="pill-link">"Read the Full Report"</a>
+        <a href="#demo" class="pill-link pill-link-primary">"Try the Live Demo"</a>
+      </div>
+    </section>
+
+    <!-- SCENE 2 — Abstract -->
+    <section class="scene" id="scene-2">
+      <div class="animate-element">
+        <p class="abstract-text">"Millions of adults with a clinically normal body weight may carry hidden, concurrent insulin resistance and hepatic steatosis — a combination of metabolic dysfunction that routine screening, built around Body Mass Index, is structurally unable to detect. LMSIS is a semi-supervised deep generative model that learns a two-dimensional metabolic coordinate space directly from fourteen routine blood biomarkers, with each axis mathematically anchored to a real clinical reference measurement: insulin resistance and liver fat content. The system places every patient on this map, provides a calibrated confidence range specific to their risk group, and computes a route back toward a metabolically healthy position."</p>
+      </div>
+    </section>
+
+    <!-- SCENE 3 — The Problem -->
+    <section class="scene" id="scene-3">
+      <div class="problem-columns animate-element">
+        <div class="problem-text-col">
+          <p>"Normal BMI. Normal cholesterol. No symptoms. Their doctor sent them home — but they had severe liver disease."</p>
+          <p class="secondary">"BMI measures total body weight. It cannot see where fat is stored, and storage location is what actually drives metabolic disease risk."</p>
+        </div>
+        <div class="problem-diagram-col">
+          <div class="silhouette-box">
+            <svg viewBox="0 0 100 200" class="silhouette-svg">
+              <circle cx="50" cy="22" r="11" />
+              <rect x="47" y="33" width="6" height="5" />
+              <path d="M 36 38 L 64 38 L 59 110 L 41 110 Z" />
+              <path d="M 33 38 C 29 48 29 78 33 88 C 34 91 38 91 38 88 C 36 78 36 48 39 40 Z" />
+              <path d="M 67 38 C 71 48 71 78 67 88 C 66 91 62 91 62 88 C 64 78 64 48 61 40 Z" />
+              <rect x="42" y="110" width="7" height="75" rx="3" />
+              <rect x="51" y="110" width="7" height="75" rx="3" />
+            </svg>
+            <div class="silhouette-label">"BMI 22"</div>
+          </div>
+          <div class="silhouette-box active">
+            <svg viewBox="0 0 100 200" class="silhouette-svg">
+              <circle cx="50" cy="22" r="11" />
+              <rect x="47" y="33" width="6" height="5" />
+              <path d="M 36 38 L 64 38 L 59 110 L 41 110 Z" />
+              <path d="M 33 38 C 29 48 29 78 33 88 C 34 91 38 91 38 88 C 36 78 36 48 39 40 Z" />
+              <path d="M 67 38 C 71 48 71 78 67 88 C 66 91 62 91 62 88 C 64 78 64 48 61 40 Z" />
+              <rect x="42" y="110" width="7" height="75" rx="3" />
+              <rect x="51" y="110" width="7" height="75" rx="3" />
+              <!-- Visceral Fat Glow Circle -->
+              <ellipse cx="50" cy="72" rx="14" ry="10" class="visceral-fat-indicator" />
+            </svg>
+            <div class="visceral-tag">"hidden visceral fat"</div>
+            <div class="silhouette-label">"BMI 22"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bento-grid scene3-bento animate-element">
+        <div class="glass-card">
+          <div class="bento-card-title">"Clinical risk scores lose accuracy once body weight is restricted to the normal range"</div>
+        </div>
+        <div class="glass-card">
+          <div class="bento-card-title">"One widely used score actively ranks higher-risk patients as healthier"</div>
+        </div>
+        <div class="glass-card">
+          <div class="bento-card-title">"Standard AI models give predictions nobody can explain"</div>
+        </div>
+        <div class="glass-card">
+          <div class="bento-card-title">"Off-the-shelf confidence estimates fail exactly the patients who need them most"</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 4 — Related Work and the Gap -->
+    <section class="scene" id="scene-4">
+      <h2 class="scene-title animate-element">"Several recent systems have approached pieces of this problem. None combine all four properties this problem requires."</h2>
+      
+      <div class="table-container animate-element">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>"System"</th>
+              <th>"Normal-weight specific"</th>
+              <th>"Axes tied to real clinical tests"</th>
+              <th>"Reliable for the riskiest subgroup"</th>
+              <th>"Explainable"</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>"Wearable + blood biomarker models (2026)"</td>
+              <td><span class="table-dash">"─"</span></td>
+              <td><span class="table-dash">"─"</span></td>
+              <td><span class="table-dash">"─"</span></td>
+              <td><span class="table-dash">"─"</span></td>
+            </tr>
+            <tr>
+              <td>"Tree-based classifiers on national survey data (2025)"</td>
+              <td><span class="table-dash">"─"</span></td>
+              <td><span class="table-dash">"─"</span></td>
+              <td><span class="table-dash">"─"</span></td>
+              <td><span class="table-dash">"─"</span></td>
+            </tr>
+            <tr>
+              <td>"Biopsy-based clustering studies (2024)"</td>
+              <td><span class="table-dash">"─"</span></td>
+              <td><span class="table-check">"✓"</span></td>
+              <td><span class="table-dash">"─"</span></td>
+              <td><span class="table-dash">"─"</span></td>
+            </tr>
+            <tr>
+              <td>"Causal representation learning on genetic data (2025)"</td>
+              <td><span class="table-dash">"─"</span></td>
+              <td><span class="table-dash">"─"</span></td>
+              <td><span class="table-dash">"─"</span></td>
+              <td><span class="table-check">"✓"</span></td>
+            </tr>
+            <tr class="highlighted-row">
+              <td>"LMSIS (this work)"</td>
+              <td><span class="table-check">"✓"</span></td>
+              <td><span class="table-check">"✓"</span></td>
+              <td><span class="table-check">"✓"</span></td>
+              <td><span class="table-check">"✓"</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SCENE 5 — Method and System Architecture -->
+    <section class="scene" id="scene-5">
+      <h2 class="scene-title animate-element">"The system reads all fourteen blood values together as a single pattern, rather than checking each one against a normal range in isolation. From that pattern, it produces two coordinates — one standing in for insulin resistance, the other for liver fat — each mathematically locked to a real, independently measured clinical test, so the coordinates always increase in the same direction as the disease they represent."</h2>
+      
+      <!-- SVG Horizontal Architecture Diagram with Scroll-Linked Draw -->
+      <div class="diagram-container animate-element">
+        <svg viewBox="0 0 1000 320" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Background grids/connectors -->
+          <path class="draw-path" d="M 180 80 H 260" stroke="var(--border)" stroke-width="2" />
+          <path class="draw-path" d="M 370 80 H 420" stroke="var(--border)" stroke-width="2" />
+          
+          <!-- Branching paths from coordinate -->
+          <path class="draw-path" d="M 520 80 Q 570 80 570 50 H 620" stroke="var(--border)" stroke-width="2" />
+          <path class="draw-path" d="M 520 80 Q 570 80 570 110 H 620" stroke="var(--border)" stroke-width="2" />
+          <path class="draw-path" d="M 520 80 Q 570 80 570 170 H 620" stroke="var(--border)" stroke-width="2" />
+
+          <!-- Post decoder path -->
+          <path class="draw-path" d="M 720 170 H 770" stroke="var(--border)" stroke-width="2" />
+          <path class="draw-path" d="M 870 170 H 920" stroke="var(--border)" stroke-width="2" />
+
+          <!-- Nodes as HTML overlay approximations or SVG shapes -->
+          <!-- Node 1: Biomarkers -->
+          <rect x="10" y="45" width="170" height="70" rx="10" fill="var(--panel)" stroke="var(--border)" stroke-width="1.5" />
+          <text x="95" y="80" fill="var(--text)" font-size="10" font-weight="500" text-anchor="middle">"14 blood biomarkers + age, sex, ancestry"</text>
+
+          <!-- Node 2: Encoder -->
+          <rect x="260" y="45" width="110" height="70" rx="10" fill="var(--panel)" stroke="var(--border)" stroke-width="1.5" />
+          <text x="315" y="85" fill="var(--text)" font-size="12" font-weight="500" text-anchor="middle">"Encoder"</text>
+
+          <!-- Node 3: 2D coordinate -->
+          <rect x="420" y="45" width="100" height="70" rx="10" fill="var(--panel)" stroke="var(--healthy)" stroke-width="2" />
+          <text x="470" y="85" fill="var(--text)" font-size="10" font-weight="600" text-anchor="middle">"2D metabolic coordinate"</text>
+
+          <!-- Branch 1: IR Anchor -->
+          <rect x="620" y="20" width="180" height="50" rx="10" fill="var(--panel)" stroke="var(--border)" stroke-width="1.5" />
+          <text x="710" y="50" fill="var(--text)" font-size="11" font-weight="500" text-anchor="middle">"Insulin-resistance anchor"</text>
+
+          <!-- Branch 2: Liver Fat Anchor -->
+          <rect x="620" y="85" width="180" height="50" rx="10" fill="var(--panel)" stroke="var(--border)" stroke-width="1.5" />
+          <text x="710" y="115" fill="var(--text)" font-size="11" font-weight="500" text-anchor="middle">"Liver-fat anchor"</text>
+
+          <!-- Branch 3: Decoder -->
+          <rect x="620" y="145" width="100" height="50" rx="10" fill="var(--panel)" stroke="var(--border)" stroke-width="1.5" />
+          <text x="670" y="175" fill="var(--text)" font-size="12" font-weight="500" text-anchor="middle">"Decoder"</text>
+
+          <!-- Node 4: Confidence -->
+          <rect x="770" y="145" width="100" height="50" rx="10" fill="var(--panel)" stroke="var(--border)" stroke-width="1.5" />
+          <text x="820" y="175" fill="var(--text)" font-size="9" font-weight="500" text-anchor="middle">"Per-group confidence calibration"</text>
+
+          <!-- Node 5: Route back -->
+          <rect x="920" y="145" width="70" height="50" rx="10" fill="var(--panel)" stroke="var(--border)" stroke-width="1.5" />
+          <!-- Map pin SVG icon embedded within diagram -->
+          <g transform="translate(935, 155) scale(0.6)">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="var(--healthy)" stroke-width="2" fill="none" />
+            <circle cx="12" cy="10" r="3" fill="var(--healthy)" />
+          </g>
+          <text x="955" y="185" fill="var(--text)" font-size="8" font-weight="500" text-anchor="middle">"Route back to a healthy position"</text>
+        </svg>
+      </div>
+
+      <!-- Expandable "+ Technical details" Accordion Parent -->
+      <div class="details-toggle-container accordion-parent animate-element">
+        <button class="details-btn" onclick="toggleAccordion(this, '.details-content')">
+          <span>"+ Technical details"</span>
+          <svg class="details-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="details-content">
+          <div class="details-inner-card">
+            <p class="details-text">"The architecture is a Dual-Anchored Semi-Supervised Identifiable Variational Autoencoder (DA-SS-iVAE). Identifiability follows from conditioning the latent prior on demographic covariates, per Khemakhem et al. (2020). Each anchor network is constrained to strictly positive weights via a Softplus reprojection. The steatosis anchor trains semi-supervised through a binary availability mask, since FibroScan-derived labels exist for only a subset of participants. Per-subgroup uncertainty uses Mondrian conformal prediction, stratified by phenotypic quadrant, directly addressing the subgroup coverage impossibility result of Barber et al. (2023). Intervention pathways are geodesics on the Riemannian manifold induced by the decoder Jacobian."</p>
+            <table class="details-table">
+              <tbody>
+                <tr>
+                  <td>"Latent dimension"</td>
+                  <td>"2"</td>
+                </tr>
+                <tr>
+                  <td>"Encoder / decoder hidden layers"</td>
+                  <td>"128, 64, 32"</td>
+                </tr>
+                <tr>
+                  <td>"Training epochs"</td>
+                  <td>"150 (early stopping ≈70-80)"</td>
+                </tr>
+                <tr>
+                  <td>"Parameters"</td>
+                  <td>"14,842"</td>
+                </tr>
+                <tr>
+                  <td>"Anchor loss weights (λ1, λ2)"</td>
+                  <td>"10.0, 5.0"</td>
+                </tr>
+                <tr>
+                  <td>"Disentanglement weight (λ3)"</td>
+                  <td>"0.1"</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 6 — Live Interactive Demo -->
+    <section class="scene" id="scene-6">
+      <h2 class="scene-title animate-element">"See it for yourself"</h2>
+      <p class="scene-subtitle animate-element">"Choose a patient profile and watch where they land."</p>
+
+      <div class="demo-widget animate-element">
+        
+        <!-- Interactive Controls Column -->
+        <div class="demo-controls-col">
+          <div class="demo-btn-group">
+            <button class="demo-pill-btn" onclick="selectProfile('healthy', this)">
+              <span class="demo-dot" style="background-color: var(--healthy)"></span>
+              <span>"Healthy"</span>
+            </button>
+            <button class="demo-pill-btn" onclick="selectProfile('ir', this)">
+              <span class="demo-dot" style="background-color: var(--ir-risk)"></span>
+              <span>"IR-dominant"</span>
+            </button>
+            <button class="demo-pill-btn" onclick="selectProfile('steatosis', this)">
+              <span class="demo-dot" style="background-color: var(--liver-risk)"></span>
+              <span>"Steatosis-dominant"</span>
+            </button>
+            <button class="demo-pill-btn" onclick="selectProfile('dual', this)">
+              <span class="demo-dot" style="background-color: var(--dual-risk)"></span>
+              <span>"Dual-burden"</span>
+            </button>
+          </div>
+
+          <!-- Description Banner -->
+          <div class="glass-card banner-card">
+            <h4 class="banner-profile-name" id="demo-banner-name"></h4>
+            <p class="banner-profile-desc" id="demo-banner-desc">"Choose a patient profile and watch where they land."</p>
+          </div>
+
+          <!-- Metrics Row -->
+          <div class="metrics-row">
+            <div class="glass-card metric-card">
+              <div class="metric-card-val" id="demo-val-ir">"—"</div>
+              <span class="metric-card-label">"Insulin-resistance anchor"</span>
+            </div>
+            <div class="glass-card metric-card">
+              <div class="metric-card-val" id="demo-val-fat">"—"</div>
+              <span class="metric-card-label">"Liver-fat anchor"</span>
+            </div>
+            <div class="glass-card metric-card">
+              <div class="metric-card-val" id="demo-val-risk">"—"</div>
+              <span class="metric-card-label">"latent risk boundary"</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scatter Coordinates Map Column -->
+        <div class="demo-map-col">
+          <div class="map-svg-container">
+            <svg id="demo-map-svg" viewBox="0 0 640 400" width="100%" height="100%">
+              <!-- Quadrant Background Color Zones (low opacity) -->
+              <!-- Top-Left: Steatosis-dominant -->
+              <rect x="40" y="40" width="280" height="160" fill="var(--liver-risk)" fill-opacity="0.05" />
+              <!-- Top-Right: Dual-burden -->
+              <rect x="320" y="40" width="280" height="160" fill="var(--dual-risk)" fill-opacity="0.05" />
+              <!-- Bottom-Left: Healthy -->
+              <rect x="40" y="200" width="280" height="160" fill="var(--healthy)" fill-opacity="0.05" />
+              <!-- Bottom-Right: IR-dominant -->
+              <rect x="320" y="200" width="280" height="160" fill="var(--ir-risk)" fill-opacity="0.05" />
+
+              <!-- Cross lines -->
+              <line x1="320" y1="40" x2="320" y2="360" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4,4" />
+              <line x1="40" y1="200" x2="600" y2="200" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4,4" />
+
+              <!-- Static Proportionate Scatter Dots -->
+              <!-- Healthy bottom-left quadrant (n=168) -->
+              <circle cx="100" cy="300" r="3" fill="var(--healthy)" fill-opacity="0.25" />
+              <circle cx="130" cy="270" r="3.5" fill="var(--healthy)" fill-opacity="0.25" />
+              <circle cx="150" cy="320" r="2.5" fill="var(--healthy)" fill-opacity="0.25" />
+              <circle cx="180" cy="290" r="3" fill="var(--healthy)" fill-opacity="0.25" />
+              <circle cx="110" cy="250" r="3" fill="var(--healthy)" fill-opacity="0.25" />
+              <circle cx="210" cy="310" r="3.5" fill="var(--healthy)" fill-opacity="0.25" />
+              <circle cx="160" cy="260" r="3" fill="var(--healthy)" fill-opacity="0.25" />
+              <circle cx="230" cy="270" r="2.5" fill="var(--healthy)" fill-opacity="0.25" />
+              <circle cx="200" cy="330" r="3" fill="var(--healthy)" fill-opacity="0.25" />
+              <circle cx="140" cy="340" r="3" fill="var(--healthy)" fill-opacity="0.25" />
+              <circle cx="85" cy="280" r="2" fill="var(--healthy)" fill-opacity="0.25" />
+              <circle cx="240" cy="230" r="3.5" fill="var(--healthy)" fill-opacity="0.25" />
+              <circle cx="125" cy="315" r="3" fill="var(--healthy)" fill-opacity="0.25" />
+              <circle cx="170" cy="345" r="2.5" fill="var(--healthy)" fill-opacity="0.25" />
+              <circle cx="225" cy="285" r="3" fill="var(--healthy)" fill-opacity="0.25" />
+              <circle cx="190" cy="245" r="3" fill="var(--healthy)" fill-opacity="0.25" />
+              <circle cx="105" cy="325" r="3" fill="var(--healthy)" fill-opacity="0.25" />
+              <circle cx="135" cy="285" r="3.5" fill="var(--healthy)" fill-opacity="0.25" />
+              <circle cx="215" cy="265" r="2.5" fill="var(--healthy)" fill-opacity="0.25" />
+
+              <!-- IR bottom-right quadrant (n=129) -->
+              <circle cx="360" cy="250" r="3" fill="var(--ir-risk)" fill-opacity="0.2" />
+              <circle cx="410" cy="280" r="3" fill="var(--ir-risk)" fill-opacity="0.2" />
+              <circle cx="450" cy="230" r="2.5" fill="var(--ir-risk)" fill-opacity="0.2" />
+              <circle cx="490" cy="310" r="3.5" fill="var(--ir-risk)" fill-opacity="0.2" />
+              <circle cx="380" cy="300" r="3" fill="var(--ir-risk)" fill-opacity="0.2" />
+              <circle cx="430" cy="260" r="2.5" fill="var(--ir-risk)" fill-opacity="0.2" />
+              <circle cx="510" cy="270" r="3" fill="var(--ir-risk)" fill-opacity="0.2" />
+              <circle cx="460" cy="320" r="3" fill="var(--ir-risk)" fill-opacity="0.2" />
+              <circle cx="400" cy="225" r="3.5" fill="var(--ir-risk)" fill-opacity="0.2" />
+              <circle cx="480" cy="290" r="3" fill="var(--ir-risk)" fill-opacity="0.2" />
+              <circle cx="370" cy="275" r="2.5" fill="var(--ir-risk)" fill-opacity="0.2" />
+              <circle cx="530" cy="245" r="3" fill="var(--ir-risk)" fill-opacity="0.2" />
+
+              <!-- Steatosis top-left quadrant (n=185) -->
+              <circle cx="120" cy="90" r="3" fill="var(--liver-risk)" fill-opacity="0.2" />
+              <circle cx="160" cy="140" r="2.5" fill="var(--liver-risk)" fill-opacity="0.2" />
+              <circle cx="180" cy="70" r="3.5" fill="var(--liver-risk)" fill-opacity="0.2" />
+              <circle cx="210" cy="110" r="3" fill="var(--liver-risk)" fill-opacity="0.2" />
+              <circle cx="250" cy="150" r="3" fill="var(--liver-risk)" fill-opacity="0.2" />
+              <circle cx="140" cy="165" r="2.5" fill="var(--liver-risk)" fill-opacity="0.2" />
+              <circle cx="220" cy="80" r="3" fill="var(--liver-risk)" fill-opacity="0.2" />
+              <circle cx="190" cy="130" r="3" fill="var(--liver-risk)" fill-opacity="0.2" />
+              <circle cx="105" cy="115" r="3.5" fill="var(--liver-risk)" fill-opacity="0.2" />
+              <circle cx="270" cy="120" r="3" fill="var(--liver-risk)" fill-opacity="0.2" />
+              <circle cx="150" cy="60" r="2.5" fill="var(--liver-risk)" fill-opacity="0.2" />
+              <circle cx="230" cy="160" r="3" fill="var(--liver-risk)" fill-opacity="0.2" />
+              <circle cx="130" cy="135" r="3" fill="var(--liver-risk)" fill-opacity="0.2" />
+              <circle cx="200" cy="95" r="3" fill="var(--liver-risk)" fill-opacity="0.2" />
+
+              <!-- Dual-burden top-right quadrant (n=136) -->
+              <circle cx="390" cy="120" r="3.5" fill="var(--dual-risk)" fill-opacity="0.2" />
+              <circle cx="440" cy="70" r="3" fill="var(--dual-risk)" fill-opacity="0.2" />
+              <circle cx="490" cy="150" r="2.5" fill="var(--dual-risk)" fill-opacity="0.2" />
+              <circle cx="520" cy="90" r="3" fill="var(--dual-risk)" fill-opacity="0.2" />
+              <circle cx="370" cy="160" r="3" fill="var(--dual-risk)" fill-opacity="0.2" />
+              <circle cx="410" cy="95" r="2.5" fill="var(--dual-risk)" fill-opacity="0.2" />
+              <circle cx="460" cy="130" r="3" fill="var(--dual-risk)" fill-opacity="0.2" />
+              <circle cx="510" cy="65" r="3.5" fill="var(--dual-risk)" fill-opacity="0.2" />
+              <circle cx="475" cy="100" r="3" fill="var(--dual-risk)" fill-opacity="0.2" />
+              <circle cx="540" cy="125" r="3" fill="var(--dual-risk)" fill-opacity="0.2" />
+              <circle cx="380" cy="75" r="2.5" fill="var(--dual-risk)" fill-opacity="0.2" />
+              <circle cx="430" cy="155" r="3" fill="var(--dual-risk)" fill-opacity="0.2" />
+
+              <!-- Fixed Safe-Zone Ring Marker -->
+              <g transform="translate(189.3, 269.3)">
+                <circle cx="0" cy="0" r="10" fill="none" stroke="var(--healthy)" stroke-width="2" />
+                <circle cx="0" cy="0" r="4" fill="var(--healthy)" />
+                <circle cx="0" cy="0" r="20" fill="none" stroke="var(--healthy)" stroke-width="1" stroke-dasharray="3,3" opacity="0.5" />
+              </g>
+
+              <!-- Animated Intervention Pathway Route Curve (Dashed) -->
+              <path id="demo-route" fill="none" stroke-width="2.5" stroke-dasharray="6,6" class="anim-path" style="display: none;" />
+
+              <!-- Waypoint Label text path target -->
+              <text id="demo-waypoint-label" font-family="var(--font-body)" font-weight="600" font-size="11" text-anchor="middle" style="display: none;"></text>
+
+              <!-- Smooth Animating Active Profile locator pin -->
+              <circle id="demo-pin" r="8" style="display: none; transition: cx 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), cy 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);" />
+
+              <!-- Axis Labels -->
+              <!-- Insulin resistance along the bottom -->
+              <text x="320" y="385" fill="var(--muted)" font-size="11" font-weight="500" text-anchor="middle">"Insulin resistance ->"</text>
+              <!-- Liver fat along the left edge -->
+              <text x="25" y="200" fill="var(--muted)" font-size="11" font-weight="500" text-anchor="middle" transform="rotate(-90 25 200)">"Liver fat ^"</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <p class="demo-caption animate-element">"This is a simplified, illustrative preview using four representative profiles, based on the real phenotypic quadrants identified in this study. The full clinical interface accepts a complete blood panel."</p>
+      
+      <div class="demo-pill-link-container animate-element">
+        <a href="[DASHBOARD_URL]" class="pill-link">"Open the full interactive dashboard"</a>
+      </div>
+    </section>
+
+    <!-- SCENE 7 — Results -->
+    <section class="scene" id="scene-7">
+      <h2 class="scene-title animate-element">"Performance was evaluated against five widely used clinical scores and validated on data the model never saw during training."</h2>
+      
+      <p class="scene-subtitle animate-element">"Results at a glance"</p>
+      
+      <!-- Bento Grid of Statistics -->
+      <div class="bento-grid results-grid animate-element">
+        <div class="glass-card stat-card">
+          <div class="stat-card-label">"Liver-fat detection accuracy"</div>
+          <div class="stat-card-val count-up" data-val="0.841" data-decimals="3" data-prefix="AUROC ">"AUROC 0.841"</div>
+        </div>
+        <div class="glass-card stat-card">
+          <div class="stat-card-label">"Reliability for the highest-risk subgroup"</div>
+          <div class="stat-card-val count-up" data-val="90.4" data-decimals="1" data-suffix="%">"90.4%"</div>
+          <div class="stat-card-subtext">"restored from 81.6% under standard calibration"</div>
+        </div>
+        <div class="glass-card stat-card">
+          <div class="stat-card-label">"Performance on unseen, later-collected data"</div>
+          <div class="stat-card-val count-up" data-val="0.583" data-decimals="3" data-prefix="ρ = " data-suffix=" ± 0.027">"ρ = 0.583 ± 0.027"</div>
+        </div>
+      </div>
+
+      <!-- Charts Section (Grid containing Horizontal & Vertical Charts) -->
+      <div class="results-charts-container animate-element">
+        
+        <!-- Left: Horizontal Comparison Chart -->
+        <div class="chart-section">
+          <h4 class="chart-title">"Performance on unseen, later-collected data"</h4>
+          <div class="horizontal-bar-chart">
+            <!-- Row 1: LMSIS -->
+            <div class="bar-row">
+              <div class="bar-label-row">
+                <span class="bar-label">"LMSIS"</span>
+                <span class="bar-val">"0.583"</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" data-target-width="58.3" style="background-color: var(--healthy)"></div>
+              </div>
+            </div>
+            <!-- Row 2: Fatty Liver Index -->
+            <div class="bar-row">
+              <div class="bar-label-row">
+                <span class="bar-label">"Fatty Liver Index"</span>
+                <span class="bar-val">"0.385"</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" data-target-width="38.5" style="background-color: var(--muted)"></div>
+              </div>
+            </div>
+            <!-- Row 3: TyG Index -->
+            <div class="bar-row">
+              <div class="bar-label-row">
+                <span class="bar-label">"TyG Index"</span>
+                <span class="bar-val">"0.312"</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" data-target-width="31.2" style="background-color: var(--muted)"></div>
+              </div>
+            </div>
+            <!-- Row 4: Hepatic Steatosis Index -->
+            <div class="bar-row">
+              <div class="bar-label-row">
+                <span class="bar-label">"Hepatic Steatosis Index"</span>
+                <span class="bar-val">"0.092"</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" data-target-width="9.2" style="background-color: var(--muted)"></div>
+              </div>
+            </div>
+            <!-- Row 5: NAFLD Liver Fat Score -->
+            <div class="bar-row">
+              <div class="bar-label-row">
+                <span class="bar-label">"NAFLD Liver Fat Score"</span>
+                <span class="bar-val">"−0.051"</span>
+              </div>
+              <div class="bar-track-neg">
+                <div class="bar-fill-neg" data-target-width="5.1"></div>
+              </div>
+            </div>
+          </div>
+          <p class="results-caption">"One widely used clinical score ranks higher-risk patients as healthier than lower-risk ones — the opposite of its intended purpose."</p>
+        </div>
+
+        <!-- Right: Vertical Before/After Conformal Correction Chart -->
+        <div class="chart-section" style="align-items: center;">
+          <h4 class="chart-title">"Reliability for the highest-risk subgroup"</h4>
+          <div class="vertical-bars-container" style="width: 250px;">
+            <!-- Before -->
+            <div class="v-bar-item">
+              <span class="bar-val">"81.6%"</span>
+              <div class="v-bar-track">
+                <div class="v-bar-fill muted-grey" data-target-height="81.6"></div>
+              </div>
+              <span class="bar-label">"Standard calibration"</span>
+            </div>
+            <!-- After -->
+            <div class="v-bar-item">
+              <span class="bar-val" style="color: var(--healthy)">"90.4%"</span>
+              <div class="v-bar-track">
+                <div class="v-bar-fill healthy-teal" data-target-height="90.4"></div>
+              </div>
+              <span class="bar-label" style="color: var(--healthy)">"Corrected calibration"</span>
+            </div>
+          </div>
+          <p class="results-caption" style="text-align: center;">"Standard uncertainty estimates quietly fail the patients who need them most. A targeted correction restores their reliability — and it holds up two years later, on data the model never saw."</p>
+        </div>
+
+      </div>
+
+      <!-- Additional Bento Findings Cards -->
+      <div class="bento-grid results-grid animate-element">
+        <!-- Callout finding -->
+        <div class="glass-card highlight-callout-card">
+          <div class="callout-header">"An interesting side-finding"</div>
+          <p class="bento-card-title">"Symbolic regression applied to the model's internal mapping recovered a simple closed-form expression showing that cardiovascular risk rises sharply only when both coordinates are elevated together — not from either one alone. The model discovered this structure on its own; it was not built in by hand."</p>
+        </div>
+        
+        <!-- Equity finding -->
+        <div class="glass-card equity-card">
+          <div class="equity-header">"A finding about fairness"</div>
+          <p class="bento-card-title">"Evaluated on a real group of Non-Hispanic Asian participants (n=355), the model's implied risk threshold sits at a HOMA-IR of approximately 1.77 — well below the standard clinical cutoff of 2.5. Using the standard cutoff alone, roughly one in four patients in this group are classified as healthy despite crossing the model's own latent risk boundary."</p>
+        </div>
+      </div>
+
+      <!-- Large count-up prevalence callout -->
+      <div class="prevalence-callout animate-element">
+        <div class="prevalence-number count-up" data-val="29.89" data-decimals="2" data-suffix="%">"29.89%"</div>
+        <div class="prevalence-text">"of normal-BMI U.S. adults — an estimated 23.9 million people"</div>
+        <div class="prevalence-ci">"(95% CI: 0 – 64.4 million; this width reflects the limits of survey sample size for this specific subgroup, not a flaw in the model — see the full report for the complete uncertainty analysis)"</div>
+      </div>
+    </section>
+
+    <!-- SCENE 8 — Validation and Testing -->
+    <section class="scene" id="scene-8">
+      <div class="bento-grid validation-grid animate-element">
+        <div class="glass-card validation-card">
+          <svg class="validation-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <p class="validation-text">"15 automated tests verifying core model behavior, all passing"</p>
+        </div>
+        <div class="glass-card validation-card">
+          <svg class="validation-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <p class="validation-text">"Evaluated across five independent random seeds for reproducibility, with zero participant overlap between training and evaluation verified directly"</p>
+        </div>
+        <div class="glass-card validation-card">
+          <svg class="validation-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <p class="validation-text">"Full source code openly available for inspection and replication"</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 9 — Questions This Work Is Likely to Raise -->
+    <section class="scene" id="scene-9">
+      <h2 class="scene-title animate-element">"Answered here, with the real numbers behind each answer"</h2>
+      
+      <div class="bento-grid faq-grid animate-element">
+        
+        <!-- FAQ 1 -->
+        <div class="glass-card faq-card">
+          <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
+            <h4 class="faq-question">"Is this system ready to be used on real patients?"</h4>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq-body">
+            <p class="faq-answer">"No. This is a research prototype intended to demonstrate technical feasibility, not a diagnostic device. It has not undergone clinical trials or regulatory review, and using it to direct real patient care would be inappropriate at this stage."</p>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="glass-card faq-card">
+          <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
+            <h4 class="faq-question">"Why not just use a simpler model, like Random Forest?"</h4>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq-body">
+            <p class="faq-answer">"On the same matched test split, Random Forest reaches a marginally higher raw correlation with liver fat (0.596 vs 0.542). But at the actual clinical decision threshold, this system reaches a higher AUROC (0.791 vs 0.766), while also providing a biologically anchored coordinate system, per-subgroup confidence calibration, and an interpretable decoder — none of which a single-output tree model can provide."</p>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="glass-card faq-card">
+          <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
+            <h4 class="faq-question">"How do you know the two coordinates actually mean insulin resistance and liver fat, rather than being arbitrary numbers?"</h4>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq-body">
+            <p class="faq-answer">"Removing the anchor networks in a controlled ablation collapses the model's correlation with liver fat from 0.542 to 0.180 — direct evidence that the anchors, not coincidence, are what gives the coordinates their clinical meaning. Each coordinate is also mathematically constrained to increase only when its real clinical target increases."</p>
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="glass-card faq-card">
+          <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
+            <h4 class="faq-question">"Could this just be overfit to one dataset?"</h4>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq-body">
+            <p class="faq-answer">"It was evaluated on a separate group of patients from a survey cycle collected two years later, with zero participant overlap verified directly, across five independent training runs (ρ = 0.583 ± 0.027, every run exceeding the original estimate). It was separately evaluated on a real demographic subgroup outside its primary training composition, with consistent results."</p>
+          </div>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="glass-card faq-card">
+          <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
+            <h4 class="faq-question">"Does this work fairly across different ancestries?"</h4>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq-body">
+            <p class="faq-answer">"Evaluated on a real cohort of 355 Non-Hispanic Asian participants, the model's implied risk threshold is substantially lower than the universal clinical cutoff — consistent with published ancestry-specific research. This is reported as a clinically important finding, not a limitation to hide."</p>
+          </div>
+        </div>
+
+        <!-- FAQ 6 -->
+        <div class="glass-card faq-card">
+          <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
+            <h4 class="faq-question">"Why is the national estimate given with such a wide range?"</h4>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq-body">
+            <p class="faq-answer">"That width honestly reflects how few patients in a national survey fall into this specific, narrowly defined subgroup — a property of the underlying sample size, not a flaw in the model. The estimate is never reported without that range."</p>
+          </div>
+        </div>
+
+        <!-- FAQ 7 -->
+        <div class="glass-card faq-card">
+          <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
+            <h4 class="faq-question">"What is the single biggest limitation of this work right now?"</h4>
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <div class="faq-body">
+            <p class="faq-answer">"Every patient in the dataset was measured exactly once. The system has not yet been shown to predict what happens to a real patient over time, only that it can recover a snapshot of their current hidden state."</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SCENE 10 — Key Contributions -->
+    <section class="scene" id="scene-10">
+      <div class="bento-grid contributions-grid animate-element">
+        <div class="glass-card contrib-card">
+          <p class="contrib-text">"A generative model whose internal coordinates are mathematically anchored to real, independently verifiable clinical measurements."</p>
+        </div>
+        <div class="glass-card contrib-card">
+          <p class="contrib-text">"A calibration method that restores reliable confidence estimates specifically for the highest-risk patient subgroup, verified to hold even on data collected two years later."</p>
+        </div>
+        <div class="glass-card contrib-card">
+          <p class="contrib-text">"An interpretability layer that extracts plain mathematical formulas describing how the model's internal coordinates relate to real biomarkers."</p>
+        </div>
+        <div class="glass-card contrib-card">
+          <p class="contrib-text">"A complete, tested, end-to-end research system — from data pipeline through model to an interactive clinical interface."</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENE 11 — Limitations and Future Work -->
+    <section class="scene" id="scene-11">
+      <div class="limitations-row animate-element">
+        
+        <!-- Left: What we don't yet know -->
+        <div class="limitations-column left-side">
+          <h3>"What we don't yet know"</h3>
+          <div class="limitations-list">
+            <div class="lim-item">
+              <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span class="lim-text">"All data comes from a single national health survey."</span>
+            </div>
+            <div class="lim-item">
+              <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span class="lim-text">"Every measurement is a one-time snapshot, not tracked over time."</span>
+            </div>
+            <div class="lim-item">
+              <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span class="lim-text">"This is a research prototype, not a diagnostic device."</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: What's next -->
+        <div class="limitations-column right-side">
+          <h3>"What's next"</h3>
+          <div class="limitations-list">
+            <div class="lim-item">
+              <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span class="lim-text">"Validation on a fully independent, separately collected cohort."</span>
+            </div>
+            <div class="lim-item">
+              <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span class="lim-text">"Tracking real patients over time to test predictive value."</span>
+            </div>
+            <div class="lim-item">
+              <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span class="lim-text">"Expanding the ancestral equity analysis with dedicated enrichment."</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SCENE 12 — Footer -->
+    <section class="scene footer-scene" id="scene-12">
+      <div class="footer-logo animate-element">"LMSIS — Latent Metabolic State Inference System"</div>
+      <div class="footer-tagline animate-element">"LMSIS — built for the intersection of clinical insight and computational rigor."</div>
+      <div class="footer-links animate-element">
+        <a href="[GITHUB_URL]">"GitHub"</a>
+        <a href="[REPORT_URL]">"Full Report"</a>
+        <a href="[CONTACT_URL]">"Contact"</a>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
