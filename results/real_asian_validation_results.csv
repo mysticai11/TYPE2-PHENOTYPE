@@ -1,0 +1,3 @@
+Cohort,Sample_Size,Sample_Size_CAP,Implied_Threshold,CI_Lower,CI_Upper,Spearman_Rho,P_Value,Misclassified_Percent
+Real Asian (Combined J+P),355,341,1.77,1.58,1.94,0.582,3.00724471426557e-32,24.2
+Real Asian OOD (P-cycle Only),210,202,1.76,1.53,1.94,0.557,7.488657343203437e-18,25.2

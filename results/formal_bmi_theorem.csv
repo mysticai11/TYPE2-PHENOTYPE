@@ -1,4 +1,4 @@
 Score,c_bmi,bmi_var_contribution_full,bmi_var_contribution_normal,contribution_ratio,theoretical_signal_loss,empirical_rho_normal
-HSI,1.0,51.417,3.016,0.0587,0.9413,0.1109
-FLI,0.139,0.993,0.058,0.0587,0.9413,0.4469
-NAFLD-LFS,0.0,0.0,0.0,0.0587,0.0,-0.0694
+HSI,1.0,53.075,3.028,0.057,0.943,0.1174
+FLI,0.139,1.025,0.058,0.057,0.943,0.4437
+NAFLD-LFS,0.0,0.0,0.0,0.057,0.0,-0.067

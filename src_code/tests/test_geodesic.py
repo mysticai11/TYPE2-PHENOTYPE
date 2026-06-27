@@ -40,16 +40,29 @@ def test_christoffel_symbols():
     Gamma = manifold.christoffel_symbols(z0)
     np.testing.assert_array_almost_equal(Gamma, np.zeros((2, 2, 2)), decimal=4)
 
+class LinearMockDecoder(torch.nn.Module):
+    def forward(self, z):
+        out = torch.zeros(z.shape[0], 3)
+        out[:, 0] = z[:, 0]
+        out[:, 1] = z[:, 1]
+        return out
+
 def test_compute_geodesic():
-    decoder = MockDecoder()
+    decoder = LinearMockDecoder()
     
     # Path from (1, 1) to (0, 0)
     z_start = np.array([1.0, 1.0])
     z_end = np.array([0.0, 0.0])
     
-    geo_path, geo_dist, euc_dist = compute_geodesic(decoder, z_start, z_end, num_points=10)
+    geo_path = compute_geodesic(decoder, z_start, z_end, n_steps=10)
     
     assert geo_path.shape == (10, 2)
-    assert geo_dist >= euc_dist # Geodesic on curved manifold is always >= Euclidean in latent
+    
+    euc_dist = np.linalg.norm(z_start - z_end)
+    diffs = np.diff(geo_path, axis=0)
+    geo_dist = np.sum(np.linalg.norm(diffs, axis=1))
+    
+    # On flat manifold, geodesic distance should equal Euclidean distance
+    np.testing.assert_allclose(geo_dist, euc_dist, rtol=1e-4)
     np.testing.assert_array_almost_equal(geo_path[0], z_start)
     np.testing.assert_array_almost_equal(geo_path[-1], z_end)

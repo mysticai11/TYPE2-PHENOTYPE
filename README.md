@@ -25,7 +25,7 @@ Millions of adults worldwide receive a clean bill of health simply because their
 **LMSIS** deploys a **Dual-Anchored Semi-Supervised Identifiable Variational Autoencoder (DA-SS-iVAE)** to recover a continuous 2D latent metabolic geometry from 14 routine blood biomarkers. Validated against gold-standard FibroScan ultrasound elastography, the system successfully identifies high-risk metabolic phenotypes without requiring imaging or specialist referral.
 
 > [!IMPORTANT]
-> **Full Dissertation & Results**: For the complete findings, including mathematical proofs, exact threshold derivations (e.g., the 24.2% NHA misclassification rate), ablation studies (ρ: 0.18 → 0.54), and temporal OOD validation (ρ=0.5793), please read the comprehensive **[dissertation.md](dissertation.md)** summary, or the full LaTeX source [dissertation.tex](dissertation.tex).
+> **Full Dissertation & Results**: For the complete findings, including mathematical proofs, exact threshold derivations (e.g., the 24.2% NHA misclassification rate), ablation studies (ρ: 0.18 → 0.54 with anchors), temporal OOD validation (ρ = 0.583 ± 0.027 five-seed mean), and post-pandemic L-cycle stress test (Z₁ stable at 0.773; Z₂ fractured at 0.332; Mondrian CP preserved ≥90% coverage), please read the comprehensive **[dissertation.md](dissertation.md)** summary or the full LaTeX source [dissertation.tex](dissertation.tex).
 
 ---
 
@@ -34,14 +34,16 @@ Millions of adults worldwide receive a clean bill of health simply because their
 The core model mapping routine features to biological pathways is illustrated in the animated diagram below:
 
 <div align="center">
-  <img src="results/figures/model_pipeline_animated.svg" alt="LMSIS Model Pipeline" width="100%" />
+  <img src="results/figures/model_pipeline_animated.svg" alt="LMSIS Model Pipeline — DA-SS-iVAE architecture showing encoder, dual anchor networks, decoder, Mondrian CP, and geodesic solver" width="100%" />
+  <br/><sub><em>Figure 1: LMSIS pipeline. Input: 14 blood biomarkers + demographics. Latent: 2D identifiable space (Z₁ = insulin resistance, Z₂ = hepatic steatosis). Output: metabolic phenotype, calibrated uncertainty intervals, and Riemannian intervention path.</em></sub>
 </div>
 
 ### The 2D Latent Metabolic Space
 LMSIS projects every patient onto a two-axis plane, where each axis corresponds to a distinct, anchored biological process. The coordinate system divides the population into four clinically actionable quadrants:
 
 <div align="center">
-  <img src="results/figures/metabolic_atlas_animated.svg" alt="LMSIS Metabolic Atlas" width="100%" />
+  <img src="results/figures/metabolic_atlas_animated.svg" alt="LMSIS Metabolic Atlas — four-quadrant space: MHNW (healthy), IR-Dominant, Steatosis-Dominant, Dual-Burden (highest risk). Shows animated geodesic path from high-risk to safe zone." width="100%" />
+  <br/><sub><em>Figure 2: Metabolic Atlas. Each patient receives a (Z₁, Z₂) coordinate. The animated geodesic traces the Riemannian-shortest path from a Dual-Burden patient back toward the MHNW safe zone — the minimum biomarker change to restore health.</em></sub>
 </div>
 
 | Quadrant | Phenotype | Clinical Context |
@@ -55,10 +57,10 @@ LMSIS projects every patient onto a two-axis plane, where each axis corresponds 
 
 ## 📊 Key Findings at a Glance
 
-- **29.89% National Prevalence:** An estimated 23.9 million normal-BMI U.S. adults carry dual-burden metabolic dysfunction.
+- **29.89% National Prevalence:** An estimated 23.9 million normal-BMI U.S. adults (95% CI: [0.00M, 64.36M]) carry dual-burden metabolic dysfunction.
 - **Ancestry Inequality:** The universal HOMA-IR cutoff of 2.5 misclassifies 24.2% of Asian-American patients as healthy. LMSIS discovers statistically significant, lower ancestry-specific thresholds (p = 3.65×10⁻⁵).
 - **Fair Uncertainty:** Mondrian Conformal Prediction restores 90.4% coverage for the high-risk Dual-Burden subgroup, which standard CP fails to protect (81.6%).
-- **Temporal Robustness:** Evaluated on an unseen future cohort (NHANES P-cycle 2019-2020) with zero data leakage, achieving ρ=0.5793.
+- **Temporal Robustness (Pre/Post-Pandemic):** Surpassed standard baselines on the P-cycle holdout ($\rho=0.583$). On the severe post-pandemic L-cycle holdout, the latent steatosis representation ($Z_2$) fractured, but the Mondrian Conformal layer successfully trapped the uncertainty, preserving $\ge 90\%$ clinical coverage across all phenotypes.
 
 ---
 

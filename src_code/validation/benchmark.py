@@ -47,49 +47,93 @@ def calc_fli(df):
          - 15.745)
     return (np.exp(L) / (1 + np.exp(L))) * 100
 
+from sklearn.linear_model import ElasticNet
+from sklearn.ensemble import RandomForestRegressor
+from xgboost import XGBRegressor
+from sklearn.model_selection import train_test_split
+
 def calc_tyg(df):
     return np.log(df['triglycerides_mg_dL'] * df['fasting_glucose_mg_dL'] / 2)
 
 def main():
     print("Loading data and model for Benchmark Demolition...")
     df = load_data()
+    
+    # Train/Val/Test split (identical to train.py)
+    df_train, df_temp = train_test_split(df, test_size=0.30, random_state=42)
+    df_val, df_test = train_test_split(df_temp, test_size=0.50, random_state=42)
+    
     models_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "models")
     scaler = joblib.load(os.path.join(models_dir, "scaler.pkl"))
     u_encoder = joblib.load(os.path.join(models_dir, "u_encoder.pkl"))
     
-    X_all, u_all, _, m_all, _, df_derived_all, _, _ = preprocess_data(df, scaler=scaler, u_encoder=u_encoder, is_train=False)
+    # Preprocess train and test splits using the frozen scaler and encoder
+    X_train, u_train, _, m_train, _, df_derived_train, _, _ = preprocess_data(
+        df_train, scaler=scaler, u_encoder=u_encoder, is_train=False
+    )
+    X_test, u_test, _, m_test, _, df_derived_test, _, _ = preprocess_data(
+        df_test, scaler=scaler, u_encoder=u_encoder, is_train=False
+    )
     
+    # Train supervised baselines on the training split (where CAP is available)
+    train_cap_mask = df_derived_train['cap_score'].notna()
+    X_train_baselines = X_train[train_cap_mask]
+    y_train_baselines = df_derived_train['cap_score'].values[train_cap_mask]
+    
+    print(f"Training supervised baseline models on {len(X_train_baselines)} samples...")
+    
+    # 1. Elastic Net
+    en = ElasticNet(alpha=1.0, l1_ratio=0.5, random_state=42)
+    en.fit(X_train_baselines, y_train_baselines)
+    
+    # 2. Random Forest
+    rf = RandomForestRegressor(n_estimators=100, max_depth=6, random_state=42)
+    rf.fit(X_train_baselines, y_train_baselines)
+    
+    # 3. XGBoost
+    xgb_model = XGBRegressor(n_estimators=100, max_depth=3, learning_rate=0.05, random_state=42)
+    xgb_model.fit(X_train_baselines, y_train_baselines)
+    
+    # Load iVAE model to run evaluation
     model = iVAE_MetabolicStateModel()
     model.load_state_dict(torch.load(os.path.join(models_dir, "ivae_best.pt")))
     model.eval()
     
+    # Filter only test samples with valid CAP ground truth
+    test_cap_mask = df_derived_test['cap_score'].notna()
+    X_test_baselines = X_test[test_cap_mask]
+    cap_actual = df_derived_test['cap_score'].values[test_cap_mask]
+    
+    print(f"Evaluating on {len(X_test_baselines)} test samples with valid CAP.")
+    
+    # Run iVAE encoder on the test subset
     with torch.no_grad():
-        mu_q, _ = model.encoder(torch.tensor(X_all, dtype=torch.float32), torch.tensor(u_all, dtype=torch.float32))
-        z_all = mu_q.numpy()
-
-    # Filter only samples with valid CAP ground truth
-    cap_mask = m_all[:, 1] == 1
-    df_eval = df_derived_all.iloc[cap_mask].copy()
-    z2_labeled = z_all[cap_mask, 1]
-    cap_actual = df_eval['cap_score'].values
-
-    print(f"\nEvaluating on {len(df_eval)} samples with valid CAP.")
-
+        mu_q, _ = model.encoder(
+            torch.tensor(X_test_baselines, dtype=torch.float32),
+            torch.tensor(u_test[test_cap_mask], dtype=torch.float32)
+        )
+        z2_test = mu_q.numpy()[:, 1]
+        
+    df_eval = df_derived_test.loc[test_cap_mask].copy()
+    
     # Calculate scores
     scores = {
         'HSI': calc_hsi(df_eval),
         'NAFLD-LFS': calc_nafld_lfs(df_eval),
         'FLI': calc_fli(df_eval),
         'TyG Index': calc_tyg(df_eval),
-        'DA-SS-iVAE (Z2)': z2_labeled
+        'Elastic Net': en.predict(X_test_baselines),
+        'Random Forest': rf.predict(X_test_baselines),
+        'XGBoost': xgb_model.predict(X_test_baselines),
+        'DA-SS-iVAE (Z2)': z2_test
     }
-
+    
     results = []
-
+    
     # Binarize CAP
     y_248 = (cap_actual >= 248).astype(int)
     y_268 = (cap_actual >= 268).astype(int)
-
+    
     for name, score_vals in scores.items():
         rho, _ = spearmanr(score_vals, cap_actual)
         
@@ -98,7 +142,7 @@ def main():
         s_clean = score_vals[mask]
         y_248_clean = y_248[mask]
         y_268_clean = y_268[mask]
-
+        
         if len(np.unique(y_248_clean)) > 1:
             auc_248 = roc_auc_score(y_248_clean, s_clean)
             if auc_248 < 0.5: auc_248 = 1.0 - auc_248 # Handle inverse direction
@@ -117,9 +161,9 @@ def main():
             'AUROC_CAP>=248': round(auc_248, 3),
             'AUROC_CAP>=268': round(auc_268, 3)
         })
-
+        
     res_df = pd.DataFrame(results)
-    print("\nBenchmark Demolition Results:")
+    print("\nBenchmark Demolition Results (Test Set):")
     print(res_df.to_string(index=False))
     
     res_df.to_csv(os.path.join(RESULTS_DIR, "benchmark_demolition_results.csv"), index=False)
@@ -127,6 +171,6 @@ def main():
     with open(os.path.join(RESULTS_DIR, "benchmark_summary.md"), "w") as f:
         f.write("# Benchmark Demolition Results\n\n")
         f.write(res_df.to_markdown(index=False))
-
+        
 if __name__ == "__main__":
     main()

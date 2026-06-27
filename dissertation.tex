@@ -1014,6 +1014,24 @@ The strictly J-trained model achieves a mean Spearman $\rho = 0.583 \pm 0.027$ o
     \item \textbf{Verdict logic:} The original automated verdict contained a direction bug (absolute-value threshold fired for improvements as well as drops). The corrected one-sided criterion confirms: all five seeds exceed the mixed-split baseline.
 \end{enumerate}
 
+\subsection{Post-Pandemic Temporal Shift (L-Cycle)}
+
+To severely stress-test the model's robustness, the J-cycle (2017--2018) model was evaluated zero-shot on a post-pandemic cohort: the NHANES August 2021--August 2023 cycle (L-Cycle). Applying the same normal-BMI and complete-biomarker filters yielded a clean, strict test set of $N=726$.
+
+When exposed to this massive temporal shift, point-prediction degraded:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{DA-SS-iVAE (LMSIS):} Mean $\rho$ dropped to $0.332 \pm 0.046$.
+    \item \textbf{Baselines:} The model underperformed the FLI formula ($\rho=0.419$) and tied with the TyG Index ($\rho=0.332$).
+\end{itemize}
+
+\textbf{Per-Axis Localization Audit:} By decomposing the latent prediction into its orthogonal axes, the failure mechanism was isolated. The drop was not a uniform collapse, but specifically localized to the hepatic steatosis axis:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{$Z_1$ (Insulin Resistance vs HOMA-IR):} $\rho = 0.801 \rightarrow 0.773$ (Stable)
+    \item \textbf{$Z_2$ (Hepatic Steatosis vs FibroScan):} $\rho = 0.583 \rightarrow 0.332$ (Severe Degradation)
+\end{itemize}
+
+While the post-pandemic shift fractured the latent steatosis representation, the Mondrian Conformal Prediction layer successfully caught the uncertainty. Without artificially exploding interval widths (median set size remained 1.0), the calibrated conformal bounds successfully preserved $\geq 90\%$ clinical coverage across all quadrants on the unseen L-cycle. This localizes the failure but does not yet explain it; see the Threats to Validity section for discussion.
+
 \subsection{National Prevalence Extrapolation}
 
 Survey-weighted extrapolation using NHANES complex design variables yields:
@@ -1171,7 +1189,8 @@ The following table consolidates the principal threats to the validity of this s
 \begin{tabular}{p{4cm} p{4cm} p{5.5cm}}
 \toprule
 \textbf{Threat} & \textbf{Impact} & \textbf{Mitigation} \\ \midrule
-Single survey source (NHANES only) & External validity & Temporal OOD evaluation across J- and P-cycles; zero-shot Asian cohort test \\
+Single survey source (NHANES only) & External validity & Temporal OOD evaluation across J-, P-, and L-cycles; zero-shot Asian cohort test \\
+Post-pandemic distribution shift & $Z_2$ degradation & The mechanism behind $Z_2$ fracturing while $Z_1$ remained stable is an open question; however, Mondrian CP successfully preserved 90\% safety coverage without exploding intervals. \\
 Cross-sectional data & No causal ordering established & All findings framed as associative; longitudinal extension deferred to future work \\
 Missing CAP labels (3.7\% unlabelled; $n = 55$) & Modest loss of supervision & Semi-supervised loss masking; model successfully trains on complete cohort and handles unlabelled subset safely \\
 Small Asian ancestry subgroup ($n = 12$ in reference band) & Threshold instability & Threshold marked pilot-grade; full Asian cohort ($n = 355$) confirms general shift direction \\

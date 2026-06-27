@@ -1,0 +1,104 @@
+{
+  "check2_seqn_overlap": {
+    "j_unique_seqns": 9254,
+    "p_unique_seqns": 15560,
+    "overlap_count": 0,
+    "verdict": "PASS \u2014 zero participant overlap"
+  },
+  "check3_distributions": {
+    "cap_J": {
+      "label": "J-cycle CAP (dB/m)",
+      "n": 552,
+      "mean": 224.7862,
+      "sd": 48.2572,
+      "iqr": 58.25,
+      "min": 100.0,
+      "max": 400.0
+    },
+    "cap_P": {
+      "label": "P-cycle CAP (dB/m)",
+      "n": 870,
+      "mean": 222.2632,
+      "sd": 46.8986,
+      "iqr": 58.0,
+      "min": 100.0,
+      "max": 400.0
+    },
+    "homa_J": {
+      "label": "J-cycle HOMA-IR",
+      "n": 574,
+      "mean": 2.2359,
+      "sd": 5.6067,
+      "iqr": 1.2985,
+      "min": 0.1455,
+      "max": 123.5867
+    },
+    "homa_P": {
+      "label": "P-cycle HOMA-IR",
+      "n": 903,
+      "mean": 2.0291,
+      "sd": 4.5304,
+      "iqr": 1.263,
+      "min": 0.1455,
+      "max": 123.5867
+    },
+    "cap_iqr_ratio_P_over_J": 0.9957,
+    "range_expansion_warning": "OK \u2014 CAP IQR similar between cycles (<20% difference)."
+  },
+  "check1_multi_seed": {
+    "seeds": [
+      {
+        "seed": 42,
+        "train_n": 401,
+        "rho_p_cycle": 0.5926,
+        "p_value": 1.3137274047300681e-83,
+        "n_cap": 870,
+        "stopped_at_epoch": 84
+      },
+      {
+        "seed": 7,
+        "train_n": 401,
+        "rho_p_cycle": 0.627,
+        "p_value": 3.0718639407856896e-96,
+        "n_cap": 870,
+        "stopped_at_epoch": 122
+      },
+      {
+        "seed": 123,
+        "train_n": 401,
+        "rho_p_cycle": 0.5811,
+        "p_value": 1.0236185209366569e-79,
+        "n_cap": 870,
+        "stopped_at_epoch": 74
+      },
+      {
+        "seed": 999,
+        "train_n": 401,
+        "rho_p_cycle": 0.5668,
+        "p_value": 4.4078648335836993e-75,
+        "n_cap": 870,
+        "stopped_at_epoch": 75
+      },
+      {
+        "seed": 2024,
+        "train_n": 401,
+        "rho_p_cycle": 0.5463,
+        "p_value": 7.497860422527693e-69,
+        "n_cap": 870,
+        "stopped_at_epoch": 63
+      }
+    ],
+    "mean_rho": 0.5828,
+    "std_rho": 0.027,
+    "seed42_rho": 0.5926,
+    "original_random_split_rho": 0.5009,
+    "verdict": "STABLE \u2014 SD < 0.03; single-seed result is representative."
+  },
+  "check4_verdict_logic": {
+    "original_script_bug": "Script used abs(rho - baseline) > 0.05 as threshold; fired for direction=UP as well as DOWN.",
+    "corrected_logic": "Temporal OOD is confirmed if temporal_rho >= baseline_rho - 0.05 (one-sided tolerance).",
+    "seed42_vs_baseline": "seed42 rho=0.5926 vs baseline=0.5009; delta=0.0917",
+    "mean_vs_baseline": "mean rho=0.5828 vs baseline=0.5009; delta=0.0819",
+    "verdict": "CONFIRMED \u2014 mean rho exceeds baseline by >0"
+  }
+}

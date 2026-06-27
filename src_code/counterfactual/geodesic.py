@@ -2,20 +2,26 @@ import torch
 import numpy as np
 from scipy.integrate import solve_ivp
 
+def _ensure_decoder_model(model):
+    if hasattr(model, 'decoder'):
+        return model
+    class Wrapper(torch.nn.Module):
+        def __init__(self, dec):
+            super().__init__()
+            self.decoder = dec
+    return Wrapper(model)
+
 def decoder_jacobian(model, z: torch.Tensor) -> torch.Tensor:
     """
     Compute ∂f/∂z at point z.
     Returns J ∈ ℝ^(p × k)
     """
-    z = z.requires_grad_(True)
-    x_hat = model.decoder(z)   # (1, p)
-    J = torch.zeros(x_hat.shape[-1], z.shape[-1])
-    for i in range(x_hat.shape[-1]):
-        grad = torch.autograd.grad(
-            x_hat[0, i], z, retain_graph=True, create_graph=False
-        )[0]
-        J[i] = grad.squeeze()
-    return J  # (p, k)
+    model = _ensure_decoder_model(model)
+    def func(inputs):
+        return model.decoder(inputs)
+    J = torch.autograd.functional.jacobian(func, z, create_graph=False)
+    # J is of shape (batch, p, batch, k). We squeeze to get (p, k)
+    return J.squeeze()
 
 def pullback_metric(model, z: torch.Tensor) -> np.ndarray:
     """
@@ -72,21 +78,23 @@ def compute_geodesic(model, z_start: np.ndarray,
     that lands closest to z_end.
     Returns: path ∈ ℝ^(n_steps × 2)
     """
+    model = _ensure_decoder_model(model)
     direction = z_end - z_start
+
     t_span    = (0.0, 1.0)
     t_eval    = np.linspace(0, 1, n_steps)
 
     # Shooting: try initial velocities scaled by distance
     best_path, best_error = None, np.inf
 
-    for scale in [0.8, 1.0, 1.2, 1.5, 2.0]:
+    for scale in [1.0, 1.5]:
         v0     = direction * scale
         state0 = np.concatenate([z_start, v0])
 
         sol = solve_ivp(
             geodesic_ode, t_span, state0,
             args=(model,), t_eval=t_eval,
-            method='RK45', rtol=1e-5, atol=1e-7,
+            method='RK45', rtol=1e-3, atol=1e-4,
         )
 
         if sol.success:
@@ -109,6 +117,8 @@ def geodesic_to_clinical_interventions(model, path: np.ndarray,
         {"step": 1, "z": [...], "progress": 0.1, "biomarker_deltas": {"triglycerides": -12.4, ...}}
     ]
     """
+    model = _ensure_decoder_model(model)
+
     if path is None or len(path) == 0:
         return []
 
@@ -135,3 +145,41 @@ def geodesic_to_clinical_interventions(model, path: np.ndarray,
         })
 
     return interventions
+
+
+class RiemannianManifold:
+    def __init__(self, decoder_model, input_dim=2, output_dim=3):
+        if hasattr(decoder_model, 'decoder'):
+            self.model = decoder_model
+        else:
+            class Wrapper(torch.nn.Module):
+                def __init__(self, dec):
+                    super().__init__()
+                    self.decoder = dec
+            self.model = Wrapper(decoder_model)
+        self.input_dim = input_dim
+        self.output_dim = output_dim
+
+    def metric(self, z):
+        return pullback_metric(self.model, z)
+
+    def christoffel_symbols(self, z):
+        eps = 1e-4
+        G = self.metric(z)
+        G_inv = np.linalg.inv(G + 1e-6 * np.eye(self.input_dim))
+        dG = np.zeros((self.input_dim, self.input_dim, self.input_dim))
+        for m in range(self.input_dim):
+            z_plus = z.copy(); z_plus[m] += eps
+            z_minus = z.copy(); z_minus[m] -= eps
+            dG[m] = (self.metric(z_plus) - self.metric(z_minus)) / (2 * eps)
+        
+        Gamma = np.zeros((self.input_dim, self.input_dim, self.input_dim))
+        for i in range(self.input_dim):
+            for j in range(self.input_dim):
+                for k in range(self.input_dim):
+                    for l in range(self.input_dim):
+                        Gamma[i,j,k] += 0.5 * G_inv[i,l] * (
+                            dG[j,l,k] + dG[k,l,j] - dG[l,j,k]
+                        )
+        return Gamma
+

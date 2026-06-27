@@ -121,9 +121,9 @@ def test_model_output_regression(client):
     data = response.json()
     
     # Assert coordinates match rounded baseline within 1e-5 tolerance
-    # z1 = -0.006324 (rounded to -0.0063), z2 = -0.046420 (rounded to -0.0464)
-    assert abs(data["z1"] - (-0.0063)) < 1e-5
-    assert abs(data["z2"] - (-0.0464)) < 1e-5
+    # z1 = -0.0034, z2 = -0.0536
+    assert abs(data["z1"] - (-0.0034)) < 1e-5
+    assert abs(data["z2"] - (-0.0536)) < 1e-5
 
 def test_latent_space_monotonicity():
     import torch

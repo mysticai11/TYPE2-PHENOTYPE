@@ -367,11 +367,14 @@ async def validation_data():
     # For speed in the API, we serve the verified values directly.
     return ValidationDataOutput(
         benchmark=[
-            {"name": "DA-SS-iVAE (Z2)", "rho": 0.607},
-            {"name": "FLI", "rho": 0.447},
-            {"name": "TyG Index", "rho": 0.358},
-            {"name": "HSI", "rho": 0.111},
-            {"name": "NAFLD-LFS", "rho": -0.069},
+            {"name": "DA-SS-iVAE (Z2)", "rho": 0.542},
+            {"name": "Random Forest", "rho": 0.596},
+            {"name": "XGBoost", "rho": 0.581},
+            {"name": "Elastic Net", "rho": 0.491},
+            {"name": "FLI", "rho": 0.399},
+            {"name": "TyG Index", "rho": 0.364},
+            {"name": "HSI", "rho": 0.129},
+            {"name": "NAFLD-LFS", "rho": -0.118},
         ],
         drugs=[
             {"name": "Statin", "effect": -0.888, "axis": "Z2 (Steatosis)", "pval": "p < 2.3e-26"},
