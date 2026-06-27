@@ -59,14 +59,7 @@ body {
   font-size: 16px;
   line-height: 1.65;
   overflow-x: hidden;
-  /* Hide the main scrollbar (slider) completely */
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
 }
-body::-webkit-scrollbar {
-  display: none;
-}
-
 a { color: var(--blue); text-decoration: none; }
 img { max-width: 100%; display: block; }
 table { border-collapse: collapse; width: 100%; }
@@ -138,7 +131,7 @@ table { border-collapse: collapse; width: 100%; }
 .scene {
   position: relative;
   height: 100vh;
-  overflow: hidden;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
