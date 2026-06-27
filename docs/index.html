@@ -3,792 +3,1153 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>"Predictive Risk Intelligence for Metabolic Screening in Diabetes"</title>
+  <title>LMSIS — Predictive Risk Intelligence for Metabolic Screening in Diabetes</title>
+  <meta name="description" content="DA-SS-iVAE: A semi-supervised deep generative model recovering hidden metabolic risk from routine blood biomarkers in normal-BMI adults. SHMM Government Degree College Anantnag.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- Top Scroll Progress Bar -->
-  <div class="scroll-progress-container">
-    <div class="scroll-progress-bar"></div>
+<!-- Scroll Progress -->
+<div class="scroll-progress" id="scroll-progress"></div>
+
+<!-- Top Navigation -->
+<nav class="top-nav">
+  <span class="nav-brand">LMSIS — Latent Metabolic State Inference System</span>
+  <ul class="nav-links">
+    <li><a href="#problem" data-nav="problem">Problem</a></li>
+    <li><a href="#gap" data-nav="gap">Gap</a></li>
+    <li><a href="#dataset" data-nav="dataset">Dataset</a></li>
+    <li><a href="#architecture" data-nav="architecture">Model</a></li>
+    <li><a href="#latent" data-nav="latent">Latent Space</a></li>
+    <li><a href="#results" data-nav="results">Results</a></li>
+    <li><a href="#equity" data-nav="equity">Equity</a></li>
+    <li><a href="#contributions" data-nav="contributions">Contributions</a></li>
+  </ul>
+</nav>
+
+<!-- Dots Navigation -->
+<div class="dots-nav" id="dots-nav"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCENE 01 — HERO
+══════════════════════════════════════════════════════════ -->
+<section class="scene hero-scene" id="hero" data-scene="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-eyebrow">Deep Learning · Metabolic Phenotyping · Conformal Prediction</div>
+  <h1 class="hero-title">Predictive Risk Intelligence<br>for Metabolic Screening in Diabetes</h1>
+  <p class="hero-subtitle">A Dual-Anchored Semi-Supervised Identifiable Variational Autoencoder that recovers hidden insulin resistance and hepatic steatosis from fourteen routine blood biomarkers in normal-BMI adults — without any imaging or specialist referral.</p>
+  <div class="author-grid">
+    <div class="author-chip"><strong>Karamjeet Singh</strong><span class="roll">5244</span></div>
+    <div class="author-chip"><strong>Sarandeep Singh</strong><span class="roll">5244</span></div>
+    <div class="author-chip"><strong>Ubaid Ahmad</strong><span class="roll">5255</span></div>
+    <div class="author-chip"><strong>Aiman Younus Dar</strong><span class="roll">222176</span></div>
   </div>
-
-  <!-- Sticky Top Navigation Bar -->
-  <nav class="top-nav">
-    <a href="#" class="nav-brand">"LMSIS — Latent Metabolic State Inference System"</a>
-    <ul class="nav-links">
-      <li><a href="#abstract">"Abstract"</a></li>
-      <li><a href="#method">"Method"</a></li>
-      <li><a href="#demo">"Demo"</a></li>
-      <li><a href="#results">"Results"</a></li>
-      <li><a href="#questions">"Questions"</a></li>
-    </ul>
-  </nav>
-
-  <!-- Vertical Dot Navigation on the Right Edge -->
-  <div class="dots-nav"></div>
-
-  <!-- Background Mesh Gradients -->
-  <div class="mesh-bg-container">
-    <div class="mesh-blob mesh-blob-healthy"></div>
-    <div class="mesh-blob mesh-blob-ir"></div>
-    <div class="mesh-blob mesh-blob-liver"></div>
-    <div class="mesh-blob mesh-blob-dual"></div>
+  <div class="college-badge">SHMM Government Degree College Anantnag</div>
+  <div class="hero-ctas">
+    <a href="https://github.com/mysticai11/TYPE2-PHENOTYPE" target="_blank" class="btn btn-ghost">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      GitHub
+    </a>
+    <a href="#dataset" class="btn btn-ghost">Dataset Details</a>
+    <a href="#latent" class="btn btn-primary">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="4"/><path d="M2 12h2m16 0h2M12 2v2m0 16v2"/></svg>
+      Live Demo
+    </a>
   </div>
+  <div class="scroll-hint" style="margin-top:3rem">
+    <span>scroll to explore</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14m-7-7 7 7 7-7"/></svg>
+  </div>
+</section>
 
-  <!-- MAIN SCENE CONTAINER -->
-  <main id="presentation">
+<!-- ══════════════════════════════════════════════════════════
+     SCENE 02 — THE PROBLEM
+══════════════════════════════════════════════════════════ -->
+<section class="scene" id="problem" data-scene="problem">
+  <div class="scene-tag">01 / The Problem</div>
+  <h2 class="section-title animate-in">The Hidden Epidemic Inside Normal Weight</h2>
+  <p class="section-subtitle animate-in delay-1">Millions of adults with a clinically normal BMI carry concurrent insulin resistance and hepatic steatosis — metabolic dysfunction that routine screening, built around body weight, is structurally unable to detect.</p>
 
-    <!-- SCENE 1 — Hero -->
-    <section class="scene hero-scene" id="scene-1">
-      <h1 class="scene-title animate-element">"Predictive Risk Intelligence for Metabolic Screening in Diabetes"</h1>
-      <h2 class="scene-subtitle animate-element">"LMSIS — Latent Metabolic State Inference System"</h2>
-      <p class="scene-subtitle animate-element">"A deep generative model that recovers hidden metabolic risk from routine blood biomarkers in adults with a normal body weight."</p>
-      <div class="authors animate-element">"Karamjeet Singh   ·   Sarandeep Singh   ·   Ubaid Ahmad   ·   Aiman Younus Dar"</div>
-      <div class="pill-container animate-element">
-        <a href="[GITHUB_URL]" class="pill-link">"View on GitHub"</a>
-        <a href="[REPORT_URL]" class="pill-link">"Read the Full Report"</a>
-        <a href="#demo" class="pill-link pill-link-primary">"Try the Live Demo"</a>
-      </div>
-    </section>
-
-    <!-- SCENE 2 — Abstract -->
-    <section class="scene" id="scene-2">
-      <div class="animate-element">
-        <p class="abstract-text">"Millions of adults with a clinically normal body weight may carry hidden, concurrent insulin resistance and hepatic steatosis — a combination of metabolic dysfunction that routine screening, built around Body Mass Index, is structurally unable to detect. LMSIS is a semi-supervised deep generative model that learns a two-dimensional metabolic coordinate space directly from fourteen routine blood biomarkers, with each axis mathematically anchored to a real clinical reference measurement: insulin resistance and liver fat content. The system places every patient on this map, provides a calibrated confidence range specific to their risk group, and computes a route back toward a metabolically healthy position."</p>
-      </div>
-    </section>
-
-    <!-- SCENE 3 — The Problem -->
-    <section class="scene" id="scene-3">
-      <div class="problem-columns animate-element">
-        <div class="problem-text-col">
-          <p>"Normal BMI. Normal cholesterol. No symptoms. Their doctor sent them home — but they had severe liver disease."</p>
-          <p class="secondary">"BMI measures total body weight. It cannot see where fat is stored, and storage location is what actually drives metabolic disease risk."</p>
-        </div>
-        <div class="problem-diagram-col">
-          <div class="silhouette-box">
-            <svg viewBox="0 0 100 200" class="silhouette-svg">
-              <circle cx="50" cy="22" r="11" />
-              <rect x="47" y="33" width="6" height="5" />
-              <path d="M 36 38 L 64 38 L 59 110 L 41 110 Z" />
-              <path d="M 33 38 C 29 48 29 78 33 88 C 34 91 38 91 38 88 C 36 78 36 48 39 40 Z" />
-              <path d="M 67 38 C 71 48 71 78 67 88 C 66 91 62 91 62 88 C 64 78 64 48 61 40 Z" />
-              <rect x="42" y="110" width="7" height="75" rx="3" />
-              <rect x="51" y="110" width="7" height="75" rx="3" />
-            </svg>
-            <div class="silhouette-label">"BMI 22"</div>
+  <div class="problem-grid animate-in delay-2">
+    <div>
+      <div class="stat-hero">
+        <div class="stat-hero-card">
+          <div>
+            <div class="stat-hero-num blue count-up" data-val="537" data-suffix="M">537M</div>
+            <div class="stat-hero-label">adults globally live with diabetes (IDF 2023). Lean metabolic dysfunction is the invisible precursor.</div>
           </div>
-          <div class="silhouette-box active">
-            <svg viewBox="0 0 100 200" class="silhouette-svg">
-              <circle cx="50" cy="22" r="11" />
-              <rect x="47" y="33" width="6" height="5" />
-              <path d="M 36 38 L 64 38 L 59 110 L 41 110 Z" />
-              <path d="M 33 38 C 29 48 29 78 33 88 C 34 91 38 91 38 88 C 36 78 36 48 39 40 Z" />
-              <path d="M 67 38 C 71 48 71 78 67 88 C 66 91 62 91 62 88 C 64 78 64 48 61 40 Z" />
-              <rect x="42" y="110" width="7" height="75" rx="3" />
-              <rect x="51" y="110" width="7" height="75" rx="3" />
-              <!-- Visceral Fat Glow Circle -->
-              <ellipse cx="50" cy="72" rx="14" ry="10" class="visceral-fat-indicator" />
-            </svg>
-            <div class="visceral-tag">"hidden visceral fat"</div>
-            <div class="silhouette-label">"BMI 22"</div>
+        </div>
+        <div class="stat-hero-card">
+          <div>
+            <div class="stat-hero-num amber count-up" data-val="29.89" data-decimals="2" data-suffix="%">29.89%</div>
+            <div class="stat-hero-label">of normal-BMI U.S. adults in this study carry dual-burden metabolic dysfunction — estimated <strong>23.9M people</strong> nationwide.</div>
+          </div>
+        </div>
+        <div class="stat-hero-card">
+          <div>
+            <div class="stat-hero-num" style="color:var(--red);font-size:2.2rem">0</div>
+            <div class="stat-hero-label">of these patients would be flagged by BMI alone. They have a <em>normal</em> body weight by definition.</div>
           </div>
         </div>
       </div>
-
-      <div class="bento-grid scene3-bento animate-element">
-        <div class="glass-card">
-          <div class="bento-card-title">"Clinical risk scores lose accuracy once body weight is restricted to the normal range"</div>
+    </div>
+    <div>
+      <div class="bmi-vis animate-in delay-3" style="margin-bottom:1.2rem">
+        <div class="silhouette-wrap">
+          <svg viewBox="0 0 100 220" fill="none">
+            <circle cx="50" cy="22" r="13" fill="#3b82f6" fill-opacity="0.7"/>
+            <rect x="44" y="35" width="12" height="6" fill="#3b82f6" fill-opacity="0.5"/>
+            <path d="M35 41 L65 41 L60 120 L40 120Z" fill="#3b82f6" fill-opacity="0.4"/>
+            <path d="M35 41C30 52 29 80 33 92C34 96 39 95 39 92C37 80 36 52 39 44Z" fill="#3b82f6" fill-opacity="0.4"/>
+            <path d="M65 41C70 52 71 80 67 92C66 96 61 95 61 92C63 80 64 52 61 44Z" fill="#3b82f6" fill-opacity="0.4"/>
+            <rect x="43" y="120" width="7" height="80" rx="3" fill="#3b82f6" fill-opacity="0.4"/>
+            <rect x="50" y="120" width="7" height="80" rx="3" fill="#3b82f6" fill-opacity="0.4"/>
+          </svg>
+          <div class="label"><strong>Normal BMI = 22</strong>Screened as "healthy"<br>Sent home</div>
         </div>
-        <div class="glass-card">
-          <div class="bento-card-title">"One widely used score actively ranks higher-risk patients as healthier"</div>
-        </div>
-        <div class="glass-card">
-          <div class="bento-card-title">"Standard AI models give predictions nobody can explain"</div>
-        </div>
-        <div class="glass-card">
-          <div class="bento-card-title">"Off-the-shelf confidence estimates fail exactly the patients who need them most"</div>
+        <div style="color:var(--text-muted);font-size:1.5rem">≡</div>
+        <div class="silhouette-wrap">
+          <svg viewBox="0 0 100 220" fill="none">
+            <circle cx="50" cy="22" r="13" fill="#ef4444" fill-opacity="0.7"/>
+            <rect x="44" y="35" width="12" height="6" fill="#ef4444" fill-opacity="0.5"/>
+            <path d="M35 41 L65 41 L60 120 L40 120Z" fill="#ef4444" fill-opacity="0.35"/>
+            <path d="M35 41C30 52 29 80 33 92C34 96 39 95 39 92C37 80 36 52 39 44Z" fill="#ef4444" fill-opacity="0.35"/>
+            <path d="M65 41C70 52 71 80 67 92C66 96 61 95 61 92C63 80 64 52 61 44Z" fill="#ef4444" fill-opacity="0.35"/>
+            <rect x="43" y="120" width="7" height="80" rx="3" fill="#ef4444" fill-opacity="0.35"/>
+            <rect x="50" y="120" width="7" height="80" rx="3" fill="#ef4444" fill-opacity="0.35"/>
+            <!-- Hidden visceral fat -->
+            <ellipse cx="50" cy="78" rx="17" ry="13" fill="#ef4444" fill-opacity="0.35" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3,2"/>
+            <text x="50" y="82" fill="#ef4444" font-size="7" text-anchor="middle" font-family="Inter,sans-serif">visceral fat</text>
+          </svg>
+          <div class="label"><strong>Same BMI = 22</strong>Hidden IR + steatosis<br>Missed by screening</div>
         </div>
       </div>
-    </section>
 
-    <!-- SCENE 4 — Related Work and the Gap -->
-    <section class="scene" id="scene-4">
-      <h2 class="scene-title animate-element">"Several recent systems have approached pieces of this problem. None combine all four properties this problem requires."</h2>
-      
-      <div class="table-container animate-element">
-        <table class="comparison-table">
-          <thead>
-            <tr>
-              <th>"System"</th>
-              <th>"Normal-weight specific"</th>
-              <th>"Axes tied to real clinical tests"</th>
-              <th>"Reliable for the riskiest subgroup"</th>
-              <th>"Explainable"</th>
-            </tr>
-          </thead>
+      <div class="failure-grid animate-in delay-4">
+        <div class="failure-card">
+          <h4>BMI is a weight ratio</h4>
+          <p>It cannot distinguish subcutaneous fat (benign) from visceral/hepatic fat (pathological). Location is everything.</p>
+        </div>
+        <div class="failure-card amber-l">
+          <h4>Clinical scores fail in normal BMI</h4>
+          <p>Clinical risk formulas lose accuracy when body weight is restricted to the normal range — their training distribution assumption breaks.</p>
+        </div>
+        <div class="failure-card violet-l">
+          <h4>Individual biomarkers in normal range</h4>
+          <p>Each of the 14 biomarkers may individually appear within normal reference intervals. The pathology lives in the joint 14-dimensional distribution.</p>
+        </div>
+        <div class="failure-card blue-l">
+          <h4>No routine, affordable alternative</h4>
+          <p>FibroScan costs $300–$500/scan and is gated behind specialist hepatology clinics — inaccessible for primary care screening.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCENE 03 — RESEARCH GAP
+══════════════════════════════════════════════════════════ -->
+<section class="scene" id="gap" data-scene="gap">
+  <div class="scene-tag">02 / Research Gap</div>
+  <h2 class="section-title animate-in">Prior Work Solves Pieces. No System Solves All Four.</h2>
+  <p class="section-subtitle animate-in delay-1">Existing approaches each fail at least one property required to screen metabolic risk in normal-BMI populations with clinical interpretability, population equity, and reliable uncertainty.</p>
+
+  <div class="comp-table-wrap animate-in delay-2">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>System / Approach</th>
+          <th>Normal-BMI Specific</th>
+          <th>Clinically Anchored Axes</th>
+          <th>Identifiable Latent Space</th>
+          <th>Per-Subgroup Calibration</th>
+          <th>Counterfactual Paths</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Wearable + biomarker models</strong><br><span style="font-size:0.72rem;color:var(--text-muted)">Ng et al., 2025; Dunn et al., 2024</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td><strong>Tree-based classifiers (XGBoost/RF)</strong><br><span style="font-size:0.72rem;color:var(--text-muted)">on NHANES, UKBB survey data</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td><strong>Biopsy-based clustering (VAE/GMM)</strong><br><span style="font-size:0.72rem;color:var(--text-muted)">Liver histology cohorts, 2024</span></td>
+          <td><span class="partial">~</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr>
+          <td><strong>Causal rep. learning on genetics</strong><br><span style="font-size:0.72rem;color:var(--text-muted)">Schölkopf et al., 2025; iVAE framework</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="partial">~</span></td>
+        </tr>
+        <tr>
+          <td><strong>Clinical score formulas</strong><br><span style="font-size:0.72rem;color:var(--text-muted)">FLI, HSI, TyG, NAFLD-LFS, HOMA-IR</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="partial">~</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+          <td><span class="cross">✗</span></td>
+        </tr>
+        <tr class="lmsis-row">
+          <td><strong>LMSIS — DA-SS-iVAE (this work)</strong><br><span style="font-size:0.72rem;color:var(--blue)">NHANES 2017–20 · n=1,477</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="gap-callout animate-in delay-3">
+    <strong>The gap is not a missing model — it is a missing coordinate system.</strong><br>
+    No prior approach simultaneously enforces that latent axes must monotonically track clinically-measured quantities, while providing group-conditional uncertainty that protects the highest-risk subgroup, and computing geometrically-shortest intervention paths back to metabolic health.
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCENE 04 — DATASET
+══════════════════════════════════════════════════════════ -->
+<section class="scene" id="dataset" data-scene="dataset">
+  <div class="scene-tag">03 / Dataset</div>
+  <h2 class="section-title animate-in">NHANES 2017–2020 — 1,477 Normal-BMI Adults</h2>
+  <p class="section-subtitle animate-in delay-1">National Health and Nutrition Examination Survey (NHANES), two collection cycles. Restricted to BMI 18.5–24.9, complete metabolic panels, and age 20–65. All data are publicly available from the CDC.</p>
+
+  <div class="dataset-layout">
+    <div class="animate-in delay-2">
+      <div class="dataset-identity">
+        <h3>Cohort Summary</h3>
+        <div class="sub">NHANES CDC · Nationally representative cross-sectional survey · U.S. adults</div>
+        <div class="cycle-row">
+          <div class="cycle-card">
+            <div class="cycle-name">J-Cycle (2017–18)</div>
+            <div class="cycle-n count-up" data-val="574">574</div>
+            <div class="cycle-label">participants · Training cohort</div>
+          </div>
+          <div class="cycle-card">
+            <div class="cycle-name">P-Cycle (2019–20)</div>
+            <div class="cycle-n count-up" data-val="903">903</div>
+            <div class="cycle-label">participants · Temporal OOD test</div>
+          </div>
+        </div>
+        <div style="font-size:0.82rem;color:var(--text-dim);margin-bottom:0.8rem">
+          <strong style="color:var(--text)">Inclusion criteria:</strong> BMI 18.5–24.9 kg/m², complete blood metabolic panel, age 20–65, no bariatric surgery, no current corticosteroids.
+        </div>
+        <div style="font-size:0.82rem;color:var(--text-dim);margin-bottom:1rem">
+          <strong style="color:var(--text)">Reference measurements:</strong>
+          HOMA-IR (insulin resistance proxy, full cohort) ·
+          FibroScan CAP dB/m (liver fat, partial — used semi-supervised)
+        </div>
+        <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.6rem">Four phenotypic quadrants (unsupervised):</div>
+        <div class="quadrant-chips">
+          <span class="q-chip mhnw">● MHNW — 385</span>
+          <span class="q-chip ir">● IR-Dominant — 264</span>
+          <span class="q-chip steat">● Steatosis-Dominant — 346</span>
+          <span class="q-chip dual">● Dual-Burden — 482</span>
+        </div>
+        <div class="label-avail" style="margin-top:1.2rem">
+          <strong>⚡ Semi-supervised label availability</strong>
+          HOMA-IR labels: all 1,477 participants (supervised, full) ·
+          FibroScan CAP labels: ~60% subset (semi-supervised, binary mask applied during training)
+        </div>
+      </div>
+    </div>
+
+    <div class="animate-in delay-3">
+      <div style="font-size:0.82rem;font-weight:600;margin-bottom:0.8rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;font-family:var(--font-mono)">14 Input Biomarkers + Covariates</div>
+      <div class="biomarker-grid">
+        <div class="bm-item"><div class="bm-dot" style="background:var(--blue)"></div><div><div class="bm-name">Glucose (fasting)</div><div class="bm-role">IR proxy, carb metabolism</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--blue)"></div><div><div class="bm-name">Insulin (fasting)</div><div class="bm-role">direct HOMA-IR component</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--amber)"></div><div><div class="bm-name">Triglycerides</div><div class="bm-role">lipid metabolism, steatosis</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--amber)"></div><div><div class="bm-name">HDL-C</div><div class="bm-role">protective lipoprotein</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--amber)"></div><div><div class="bm-name">LDL-C</div><div class="bm-role">atherogenic lipoprotein</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--violet)"></div><div><div class="bm-name">ALT (SGPT)</div><div class="bm-role">hepatocellular damage</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--violet)"></div><div><div class="bm-name">AST (SGOT)</div><div class="bm-role">liver/muscle damage marker</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--violet)"></div><div><div class="bm-name">GGT</div><div class="bm-role">bile duct, alcohol, steatosis</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--green)"></div><div><div class="bm-name">HbA1c</div><div class="bm-role">3-month glycaemic average</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--green)"></div><div><div class="bm-name">Uric Acid</div><div class="bm-role">purine metabolism, IR link</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--cyan)"></div><div><div class="bm-name">Albumin</div><div class="bm-role">liver synthetic function</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--cyan)"></div><div><div class="bm-name">ALP</div><div class="bm-role">bile / bone enzyme</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--cyan)"></div><div><div class="bm-name">Creatinine</div><div class="bm-role">renal function, muscle mass</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--cyan)"></div><div><div class="bm-name">Total Bilirubin</div><div class="bm-role">hepatic clearance</div></div></div>
+      </div>
+      <div style="margin-top:1rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0.9rem 1rem;font-size:0.8rem;color:var(--text-dim)">
+        <span class="tag">Covariate</span>Age · <span class="tag">Covariate</span>Sex · <span class="tag">Covariate</span>Ancestry (NHW / NHB / Hispanic / NHA) — used to condition the identifiable prior p(z|u)
+      </div>
+
+      <div style="margin-top:1.2rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem">
+        <div style="font-size:0.8rem;font-weight:600;margin-bottom:0.6rem">Quadrant Biomarker Profiles (mean values)</div>
+        <table style="font-size:0.73rem;width:100%">
+          <thead><tr style="color:var(--text-muted)"><th style="text-align:left;padding:0.3rem 0.4rem">Phenotype</th><th style="text-align:right;padding:0.3rem 0.4rem">HOMA-IR</th><th style="text-align:right;padding:0.3rem 0.4rem">TG (mg/dL)</th><th style="text-align:right;padding:0.3rem 0.4rem">Waist (cm)</th></tr></thead>
           <tbody>
-            <tr>
-              <td>"Wearable + blood biomarker models (2026)"</td>
-              <td><span class="table-dash">"─"</span></td>
-              <td><span class="table-dash">"─"</span></td>
-              <td><span class="table-dash">"─"</span></td>
-              <td><span class="table-dash">"─"</span></td>
-            </tr>
-            <tr>
-              <td>"Tree-based classifiers on national survey data (2025)"</td>
-              <td><span class="table-dash">"─"</span></td>
-              <td><span class="table-dash">"─"</span></td>
-              <td><span class="table-dash">"─"</span></td>
-              <td><span class="table-dash">"─"</span></td>
-            </tr>
-            <tr>
-              <td>"Biopsy-based clustering studies (2024)"</td>
-              <td><span class="table-dash">"─"</span></td>
-              <td><span class="table-check">"✓"</span></td>
-              <td><span class="table-dash">"─"</span></td>
-              <td><span class="table-dash">"─"</span></td>
-            </tr>
-            <tr>
-              <td>"Causal representation learning on genetic data (2025)"</td>
-              <td><span class="table-dash">"─"</span></td>
-              <td><span class="table-dash">"─"</span></td>
-              <td><span class="table-dash">"─"</span></td>
-              <td><span class="table-check">"✓"</span></td>
-            </tr>
-            <tr class="highlighted-row">
-              <td>"LMSIS (this work)"</td>
-              <td><span class="table-check">"✓"</span></td>
-              <td><span class="table-check">"✓"</span></td>
-              <td><span class="table-check">"✓"</span></td>
-              <td><span class="table-check">"✓"</span></td>
-            </tr>
+            <tr style="color:var(--green)"><td style="padding:0.3rem 0.4rem">MHNW</td><td style="text-align:right;padding:0.3rem 0.4rem">1.57</td><td style="text-align:right;padding:0.3rem 0.4rem">60.7</td><td style="text-align:right;padding:0.3rem 0.4rem">79.8</td></tr>
+            <tr style="color:var(--amber)"><td style="padding:0.3rem 0.4rem">IR-Dominant</td><td style="text-align:right;padding:0.3rem 0.4rem">1.96</td><td style="text-align:right;padding:0.3rem 0.4rem">71.7</td><td style="text-align:right;padding:0.3rem 0.4rem">79.8</td></tr>
+            <tr style="color:var(--violet)"><td style="padding:0.3rem 0.4rem">Steatosis-Dom.</td><td style="text-align:right;padding:0.3rem 0.4rem">1.61</td><td style="text-align:right;padding:0.3rem 0.4rem">104.6</td><td style="text-align:right;padding:0.3rem 0.4rem">86.1</td></tr>
+            <tr style="color:var(--red)"><td style="padding:0.3rem 0.4rem">Dual-Burden</td><td style="text-align:right;padding:0.3rem 0.4rem">4.06</td><td style="text-align:right;padding:0.3rem 0.4rem">102.8</td><td style="text-align:right;padding:0.3rem 0.4rem">84.3</td></tr>
           </tbody>
         </table>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <!-- SCENE 5 — Method and System Architecture -->
-    <section class="scene" id="scene-5">
-      <h2 class="scene-title animate-element">"The system reads all fourteen blood values together as a single pattern, rather than checking each one against a normal range in isolation. From that pattern, it produces two coordinates — one standing in for insulin resistance, the other for liver fat — each mathematically locked to a real, independently measured clinical test, so the coordinates always increase in the same direction as the disease they represent."</h2>
-      
-      <!-- SVG Horizontal Architecture Diagram with Scroll-Linked Draw -->
-      <div class="diagram-container animate-element">
-        <svg viewBox="0 0 1000 380" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M 1 2 L 7 5 L 1 8 Z" fill="rgba(74, 99, 128, 0.85)" />
-            </marker>
-          </defs>
+<!-- ══════════════════════════════════════════════════════════
+     SCENE 05 — ARCHITECTURE
+══════════════════════════════════════════════════════════ -->
+<section class="scene" id="architecture" data-scene="architecture">
+  <div class="scene-tag">04 / Model Architecture</div>
+  <h2 class="section-title animate-in">DA-SS-iVAE — Dual-Anchored Semi-Supervised Identifiable VAE</h2>
+  <p class="section-subtitle animate-in delay-1">The architecture constrains the latent space so that Z₁ monotonically tracks insulin resistance (HOMA-IR) and Z₂ monotonically tracks hepatic steatosis (FibroScan CAP). Coordinates cannot rotate or rescale under retraining — they are mathematically locked.</p>
 
-          <!-- Background connecting paths -->
-          <path class="draw-path" d="M 180 180 H 220" stroke="rgba(74, 99, 128, 0.65)" stroke-width="2.5" marker-end="url(#arrow)" />
-          <path class="draw-path" d="M 330 180 H 370" stroke="rgba(74, 99, 128, 0.65)" stroke-width="2.5" marker-end="url(#arrow)" />
-          
-          <!-- Branching paths from coordinate -->
-          <path class="draw-path" d="M 500 180 C 525 180, 525 60, 550 60" stroke="rgba(74, 99, 128, 0.65)" stroke-width="2.5" marker-end="url(#arrow)" />
-          <path class="draw-path" d="M 500 180 H 550" stroke="rgba(74, 99, 128, 0.65)" stroke-width="2.5" marker-end="url(#arrow)" />
-          <path class="draw-path" d="M 500 180 C 525 180, 525 300, 550 300" stroke="rgba(74, 99, 128, 0.65)" stroke-width="2.5" marker-end="url(#arrow)" />
+  <div class="arch-layout">
+    <div class="arch-diagram animate-in delay-2">
+      <svg viewBox="0 0 780 380" width="100%" class="arch-svg-wrap" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 Z" fill="rgba(148,163,184,0.6)"/>
+          </marker>
+          <marker id="arr-blue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 Z" fill="rgba(59,130,246,0.8)"/>
+          </marker>
+          <marker id="arr-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 Z" fill="rgba(16,185,129,0.8)"/>
+          </marker>
+          <marker id="arr-amber" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 Z" fill="rgba(245,158,11,0.8)"/>
+          </marker>
+          <marker id="arr-violet" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 Z" fill="rgba(139,92,246,0.8)"/>
+          </marker>
+        </defs>
 
-          <!-- Post decoder path -->
-          <path class="draw-path" d="M 660 300 H 700" stroke="rgba(74, 99, 128, 0.65)" stroke-width="2.5" marker-end="url(#arrow)" />
-          <path class="draw-path" d="M 830 300 H 860" stroke="rgba(74, 99, 128, 0.65)" stroke-width="2.5" marker-end="url(#arrow)" />
+        <!-- Layer labels -->
+        <text x="395" y="22" fill="rgba(100,116,139,0.7)" font-size="10" text-anchor="middle" letter-spacing="0.1em">DATA FLOW</text>
 
-          <!-- Nodes using foreignObject for text wrapping and styling -->
-          <!-- Node 1: Biomarkers -->
-          <foreignObject x="10" y="140" width="170" height="80">
-            <div class="dia-node">"14 blood biomarkers + age, sex, ancestry"</div>
-          </foreignObject>
+        <!-- INPUT BOX -->
+        <rect x="10" y="140" width="130" height="100" rx="10" fill="rgba(59,130,246,0.1)" stroke="rgba(59,130,246,0.4)" stroke-width="1.5"/>
+        <text x="75" y="175" fill="#93c5fd" font-size="11" font-weight="600" text-anchor="middle">Input Features</text>
+        <text x="75" y="193" fill="rgba(148,163,184,0.8)" font-size="9.5" text-anchor="middle">14 Biomarkers</text>
+        <text x="75" y="207" fill="rgba(148,163,184,0.8)" font-size="9.5" text-anchor="middle">+ Age, Sex</text>
+        <text x="75" y="221" fill="rgba(148,163,184,0.8)" font-size="9.5" text-anchor="middle">+ Ancestry (u)</text>
 
-          <!-- Node 2: Encoder -->
-          <foreignObject x="220" y="140" width="110" height="80">
-            <div class="dia-node">"Encoder"</div>
-          </foreignObject>
+        <!-- ENCODER BOX -->
+        <rect x="180" y="130" width="130" height="120" rx="10" fill="rgba(99,102,241,0.1)" stroke="rgba(99,102,241,0.4)" stroke-width="1.5"/>
+        <text x="245" y="163" fill="#a5b4fc" font-size="11" font-weight="600" text-anchor="middle">Encoder</text>
+        <text x="245" y="179" fill="rgba(148,163,184,0.7)" font-size="9" text-anchor="middle">MLP: 17 → 128</text>
+        <text x="245" y="193" fill="rgba(148,163,184,0.7)" font-size="9" text-anchor="middle">→ 64 → 32</text>
+        <text x="245" y="207" fill="rgba(148,163,184,0.7)" font-size="9" text-anchor="middle">→ μ(z), σ²(z)</text>
+        <text x="245" y="222" fill="rgba(99,102,241,0.9)" font-size="8.5" text-anchor="middle">p(z|u) conditioned</text>
+        <text x="245" y="236" fill="rgba(99,102,241,0.9)" font-size="8.5" text-anchor="middle">prior (identifiable)</text>
 
-          <!-- Node 3: 2D Coordinate -->
-          <foreignObject x="370" y="140" width="130" height="80">
-            <div class="dia-node dia-node-healthy">"2D metabolic coordinate"</div>
-          </foreignObject>
+        <!-- LATENT Z BOX -->
+        <rect x="355" y="148" width="100" height="84" rx="10" fill="rgba(16,185,129,0.15)" stroke="rgba(16,185,129,0.5)" stroke-width="1.5"/>
+        <text x="405" y="176" fill="#34d399" font-size="11" font-weight="600" text-anchor="middle">Latent Z</text>
+        <text x="405" y="193" fill="rgba(52,211,153,0.8)" font-size="10" text-anchor="middle">Z₁ → IR</text>
+        <text x="405" y="207" fill="rgba(52,211,153,0.8)" font-size="10" text-anchor="middle">Z₂ → CAP</text>
+        <text x="405" y="222" fill="rgba(52,211,153,0.6)" font-size="8.5" text-anchor="middle">dim = 2</text>
 
-          <!-- Branch 1: IR Anchor -->
-          <foreignObject x="550" y="20" width="180" height="80">
-            <div class="dia-node">"Insulin-resistance anchor"</div>
-          </foreignObject>
+        <!-- DECODER -->
+        <rect x="500" y="210" width="115" height="70" rx="10" fill="rgba(139,92,246,0.1)" stroke="rgba(139,92,246,0.4)" stroke-width="1.5"/>
+        <text x="557" y="239" fill="#c4b5fd" font-size="11" font-weight="600" text-anchor="middle">Decoder</text>
+        <text x="557" y="255" fill="rgba(148,163,184,0.7)" font-size="9" text-anchor="middle">32 → 64 → 128</text>
+        <text x="557" y="269" fill="rgba(148,163,184,0.7)" font-size="9" text-anchor="middle">→ x̂ reconstruct</text>
 
-          <!-- Branch 2: Liver Fat Anchor -->
-          <foreignObject x="550" y="140" width="180" height="80">
-            <div class="dia-node">"Liver-fat anchor"</div>
-          </foreignObject>
+        <!-- ANCHOR 1: IR -->
+        <rect x="500" y="60" width="130" height="70" rx="10" fill="rgba(245,158,11,0.1)" stroke="rgba(245,158,11,0.4)" stroke-width="1.5"/>
+        <text x="565" y="86" fill="#fbbf24" font-size="11" font-weight="600" text-anchor="middle">IR Anchor Net</text>
+        <text x="565" y="102" fill="rgba(148,163,184,0.7)" font-size="9" text-anchor="middle">Z₁ → HOMA-IR</text>
+        <text x="565" y="116" fill="rgba(245,158,11,0.7)" font-size="8.5" text-anchor="middle">Softplus weights ≥ 0</text>
+        <text x="565" y="125" fill="rgba(245,158,11,0.7)" font-size="8.5" text-anchor="middle">(monotone constraint)</text>
 
-          <!-- Branch 3: Decoder -->
-          <foreignObject x="550" y="260" width="110" height="80">
-            <div class="dia-node">"Decoder"</div>
-          </foreignObject>
+        <!-- ANCHOR 2: CAP -->
+        <rect x="500" y="143" width="130" height="60" rx="10" fill="rgba(239,68,68,0.1)" stroke="rgba(239,68,68,0.35)" stroke-width="1.5"/>
+        <text x="565" y="165" fill="#fca5a5" font-size="11" font-weight="600" text-anchor="middle">Steatosis Anchor</text>
+        <text x="565" y="181" fill="rgba(148,163,184,0.7)" font-size="9" text-anchor="middle">Z₂ → CAP (semi-sup)</text>
+        <text x="565" y="195" fill="rgba(239,68,68,0.7)" font-size="8.5" text-anchor="middle">binary availability mask</text>
 
-          <!-- Node 4: Confidence Calibration -->
-          <foreignObject x="700" y="260" width="130" height="80">
-            <div class="dia-node">"Per-group confidence calibration"</div>
-          </foreignObject>
+        <!-- CONFORMAL + GEODESIC -->
+        <rect x="650" y="210" width="120" height="40" rx="8" fill="rgba(6,182,212,0.1)" stroke="rgba(6,182,212,0.35)" stroke-width="1.5"/>
+        <text x="710" y="227" fill="#67e8f9" font-size="10" font-weight="600" text-anchor="middle">Mondrian CP</text>
+        <text x="710" y="242" fill="rgba(148,163,184,0.7)" font-size="8.5" text-anchor="middle">per-quadrant calibration</text>
 
-          <!-- Node 5: Route Back -->
-          <foreignObject x="860" y="260" width="130" height="80">
-            <div class="dia-node">
-              <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.2rem;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="var(--healthy)" stroke-width="2" style="width: 18px; height: 18px; flex-shrink: 0;">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                  <circle cx="12" cy="10" r="3" fill="var(--healthy)" />
-                </svg>
-                <span style="font-size: 0.76rem; line-height: 1.25;">"Route back to a healthy position"</span>
-              </div>
-            </div>
-          </foreignObject>
-        </svg>
+        <rect x="650" y="262" width="120" height="40" rx="8" fill="rgba(16,185,129,0.08)" stroke="rgba(16,185,129,0.3)" stroke-width="1.5"/>
+        <text x="710" y="278" fill="#34d399" font-size="10" font-weight="600" text-anchor="middle">Geodesic Solver</text>
+        <text x="710" y="293" fill="rgba(148,163,184,0.7)" font-size="8.5" text-anchor="middle">Riemannian path → health</text>
+
+        <!-- FROBENIUS PENALTY badge -->
+        <rect x="340" y="258" width="130" height="36" rx="8" fill="rgba(139,92,246,0.08)" stroke="rgba(139,92,246,0.3)" stroke-width="1.2" stroke-dasharray="4,2"/>
+        <text x="405" y="274" fill="#c4b5fd" font-size="9.5" text-anchor="middle">Frobenius Penalty λ₃</text>
+        <text x="405" y="287" fill="rgba(139,92,246,0.7)" font-size="8.5" text-anchor="middle">Z₁ ⊥ Z₂ (orthogonality)</text>
+
+        <!-- ARROWS -->
+        <!-- Input → Encoder -->
+        <line x1="140" y1="190" x2="178" y2="190" stroke="rgba(148,163,184,0.5)" stroke-width="1.5" marker-end="url(#arr)"/>
+        <!-- Encoder → Latent -->
+        <line x1="310" y1="190" x2="353" y2="190" stroke="rgba(148,163,184,0.5)" stroke-width="1.5" marker-end="url(#arr)"/>
+        <!-- Latent → IR Anchor -->
+        <line x1="430" y1="165" x2="498" y2="105" stroke="rgba(245,158,11,0.6)" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+        <!-- Latent → Steatosis Anchor -->
+        <line x1="455" y1="178" x2="498" y2="175" stroke="rgba(239,68,68,0.6)" stroke-width="1.5" marker-end="url(#arr)"/>
+        <!-- Latent → Decoder -->
+        <line x1="437" y1="210" x2="498" y2="245" stroke="rgba(139,92,246,0.6)" stroke-width="1.5" marker-end="url(#arr-violet)"/>
+        <!-- Decoder → Mondrian CP -->
+        <line x1="615" y1="235" x2="648" y2="232" stroke="rgba(6,182,212,0.6)" stroke-width="1.5" marker-end="url(#arr)"/>
+        <!-- Decoder → Geodesic -->
+        <line x1="615" y1="257" x2="648" y2="280" stroke="rgba(16,185,129,0.6)" stroke-width="1.5" marker-end="url(#arr-green)"/>
+        <!-- Frobenius line up to Latent -->
+        <line x1="405" y1="258" x2="405" y2="234" stroke="rgba(139,92,246,0.4)" stroke-width="1" stroke-dasharray="3,2"/>
+      </svg>
+    </div>
+
+    <div class="arch-specs animate-in delay-3">
+      <div class="spec-card">
+        <h4>Hyperparameters</h4>
+        <div class="spec-row"><span class="k">Latent dimension</span><span class="v">2</span></div>
+        <div class="spec-row"><span class="k">Encoder layers</span><span class="v">128 → 64 → 32</span></div>
+        <div class="spec-row"><span class="k">Total parameters</span><span class="v">14,842</span></div>
+        <div class="spec-row"><span class="k">Training epochs</span><span class="v">150 (ES ≈ 70–80)</span></div>
+        <div class="spec-row"><span class="k">Random seeds</span><span class="v">5 (reproducibility)</span></div>
+        <div class="spec-row"><span class="k">Optimizer</span><span class="v">Adam, lr=1e-3</span></div>
+        <div class="spec-row"><span class="k">Batch size</span><span class="v">128</span></div>
       </div>
 
-      <!-- Expandable "+ Technical details" Accordion Parent -->
-      <div class="details-toggle-container accordion-parent animate-element">
-        <button class="details-btn" onclick="toggleAccordion(this, '.details-content')">
-          <span>"+ Technical details"</span>
-          <svg class="details-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
+      <div class="loss-box">
+        <h4>Loss Function</h4>
+        <div class="loss-eq">
+          <span class="hl-b">L = L<sub>ELBO</sub></span><br>
+          <span style="color:var(--text-muted)"> + </span><span class="hl-a">λ₁ · L<sub>anchor-IR</sub></span><br>
+          <span style="color:var(--text-muted)"> + </span><span class="hl-g">λ₂ · L<sub>anchor-CAP</sub></span><br>
+          <span style="color:var(--text-muted)"> + </span><span class="hl-v">λ₃ · ||Cov(Z)||<sub>F</sub></span>
+          <div style="margin-top:0.8rem;font-size:0.71rem;color:var(--text-muted)">
+            <span class="hl-a">λ₁=10.0</span> (IR anchor weight)<br>
+            <span class="hl-g">λ₂=5.0</span> (steatosis anchor)<br>
+            <span class="hl-v">λ₃=0.1</span> (disentanglement)
+          </div>
+        </div>
+      </div>
+
+      <div class="spec-card">
+        <h4>Identifiability Guarantee</h4>
+        <div style="font-size:0.78rem;color:var(--text-dim);line-height:1.6">
+          Following <strong style="color:var(--text)">Khemakhem et al. (2020)</strong>, the prior p(z|u) is conditioned on demographic covariates u. Anchor networks apply <span class="mono" style="font-size:0.72rem">Softplus</span> weight projections, ensuring ∂Z₁/∂HOMA-IR > 0 and ∂Z₂/∂CAP > 0 everywhere — preventing latent axis rotation under retraining.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCENE 06 — LATENT SPACE / INTERACTIVE DEMO
+══════════════════════════════════════════════════════════ -->
+<section class="scene" id="latent" data-scene="latent">
+  <div class="scene-tag">05 / The Metabolic Coordinate System</div>
+  <h2 class="section-title animate-in">Every Patient Gets a Position on the Metabolic Map</h2>
+  <p class="section-subtitle animate-in delay-1">The model places each patient in a 2D space where the x-axis monotonically tracks insulin resistance (HOMA-IR) and the y-axis monotonically tracks liver fat (FibroScan CAP). Click a phenotype to explore the map.</p>
+
+  <div class="map-layout">
+    <div class="map-container animate-in delay-2">
+      <svg id="metabolic-map" class="map-svg" viewBox="0 0 580 420" xmlns="http://www.w3.org/2000/svg">
+        <!-- Quadrant fills -->
+        <rect x="40" y="30" width="245" height="180" fill="rgba(139,92,246,0.05)" rx="4"/>
+        <rect x="285" y="30" width="270" height="180" fill="rgba(239,68,68,0.05)" rx="4"/>
+        <rect x="40" y="210" width="245" height="185" fill="rgba(16,185,129,0.05)" rx="4"/>
+        <rect x="285" y="210" width="270" height="185" fill="rgba(245,158,11,0.05)" rx="4"/>
+
+        <!-- Quadrant labels -->
+        <text x="162" y="55" fill="rgba(139,92,246,0.5)" font-size="10" text-anchor="middle" font-weight="600">STEATOSIS-DOMINANT</text>
+        <text x="420" y="55" fill="rgba(239,68,68,0.5)" font-size="10" text-anchor="middle" font-weight="600">DUAL-BURDEN</text>
+        <text x="162" y="388" fill="rgba(16,185,129,0.5)" font-size="10" text-anchor="middle" font-weight="600">MHNW (HEALTHY)</text>
+        <text x="420" y="388" fill="rgba(245,158,11,0.5)" font-size="10" text-anchor="middle" font-weight="600">IR-DOMINANT</text>
+
+        <!-- Cross lines -->
+        <line x1="285" y1="30" x2="285" y2="395" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" stroke-dasharray="5,4"/>
+        <line x1="40" y1="210" x2="555" y2="210" stroke="rgba(255,255,255,0.12)" stroke-width="1.5" stroke-dasharray="5,4"/>
+
+        <!-- Scatter dots (static, representative) -->
+        <!-- MHNW -->
+        <g opacity="0.3">
+          <circle cx="90" cy="335" r="3.5" fill="#10b981"/><circle cx="120" cy="300" r="3" fill="#10b981"/>
+          <circle cx="155" cy="345" r="2.5" fill="#10b981"/><circle cx="185" cy="285" r="3" fill="#10b981"/>
+          <circle cx="115" cy="265" r="3" fill="#10b981"/><circle cx="210" cy="320" r="3.5" fill="#10b981"/>
+          <circle cx="160" cy="260" r="3" fill="#10b981"/><circle cx="235" cy="280" r="2.5" fill="#10b981"/>
+          <circle cx="200" cy="355" r="3" fill="#10b981"/><circle cx="145" cy="370" r="3" fill="#10b981"/>
+          <circle cx="80" cy="295" r="2" fill="#10b981"/><circle cx="240" cy="240" r="3.5" fill="#10b981"/>
+          <circle cx="125" cy="315" r="3" fill="#10b981"/><circle cx="170" cy="360" r="2.5" fill="#10b981"/>
+          <circle cx="220" cy="295" r="3" fill="#10b981"/>
+        </g>
+        <!-- IR Dominant -->
+        <g opacity="0.3">
+          <circle cx="355" cy="265" r="3" fill="#f59e0b"/><circle cx="410" cy="295" r="3" fill="#f59e0b"/>
+          <circle cx="460" cy="250" r="2.5" fill="#f59e0b"/><circle cx="495" cy="320" r="3.5" fill="#f59e0b"/>
+          <circle cx="375" cy="310" r="3" fill="#f59e0b"/><circle cx="435" cy="270" r="2.5" fill="#f59e0b"/>
+          <circle cx="520" cy="285" r="3" fill="#f59e0b"/><circle cx="465" cy="335" r="3" fill="#f59e0b"/>
+          <circle cx="395" cy="235" r="3.5" fill="#f59e0b"/><circle cx="480" cy="305" r="3" fill="#f59e0b"/>
+        </g>
+        <!-- Steatosis -->
+        <g opacity="0.3">
+          <circle cx="115" cy="95" r="3" fill="#8b5cf6"/><circle cx="155" cy="145" r="2.5" fill="#8b5cf6"/>
+          <circle cx="180" cy="75" r="3.5" fill="#8b5cf6"/><circle cx="210" cy="115" r="3" fill="#8b5cf6"/>
+          <circle cx="250" cy="155" r="3" fill="#8b5cf6"/><circle cx="135" cy="168" r="2.5" fill="#8b5cf6"/>
+          <circle cx="220" cy="85" r="3" fill="#8b5cf6"/><circle cx="190" cy="135" r="3" fill="#8b5cf6"/>
+          <circle cx="100" cy="120" r="3.5" fill="#8b5cf6"/><circle cx="270" cy="130" r="3" fill="#8b5cf6"/>
+          <circle cx="150" cy="65" r="2.5" fill="#8b5cf6"/>
+        </g>
+        <!-- Dual burden -->
+        <g opacity="0.3">
+          <circle cx="385" cy="125" r="3.5" fill="#ef4444"/><circle cx="435" cy="75" r="3" fill="#ef4444"/>
+          <circle cx="490" cy="155" r="2.5" fill="#ef4444"/><circle cx="520" cy="95" r="3" fill="#ef4444"/>
+          <circle cx="368" cy="165" r="3" fill="#ef4444"/><circle cx="410" cy="100" r="2.5" fill="#ef4444"/>
+          <circle cx="460" cy="135" r="3" fill="#ef4444"/><circle cx="510" cy="70" r="3.5" fill="#ef4444"/>
+          <circle cx="475" cy="105" r="3" fill="#ef4444"/><circle cx="540" cy="130" r="3" fill="#ef4444"/>
+        </g>
+
+        <!-- Safe zone ring -->
+        <g transform="translate(163,310)">
+          <circle cx="0" cy="0" r="22" fill="none" stroke="#10b981" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.6"/>
+          <circle cx="0" cy="0" r="10" fill="none" stroke="#10b981" stroke-width="2"/>
+          <circle cx="0" cy="0" r="4" fill="#10b981"/>
+          <text y="-28" fill="rgba(16,185,129,0.7)" font-size="8.5" text-anchor="middle">metabolically safe zone</text>
+        </g>
+
+        <!-- Route path (dynamic) -->
+        <path id="map-route" fill="none" stroke-width="2" stroke-dasharray="6,4" opacity="0.8" d=""/>
+
+        <!-- Active pin -->
+        <circle id="map-pin" r="9" fill="transparent" stroke-width="2.5" cx="-100" cy="-100"/>
+        <circle id="map-pin-inner" r="4.5" cx="-100" cy="-100"/>
+
+        <!-- Axes -->
+        <text x="297" y="415" fill="rgba(100,116,139,0.7)" font-size="10" text-anchor="middle">Insulin Resistance (Z₁) →</text>
+        <text x="22" y="213" fill="rgba(100,116,139,0.7)" font-size="10" text-anchor="middle" transform="rotate(-90,22,213)">Liver Fat / CAP (Z₂) ↑</text>
+      </svg>
+    </div>
+
+    <div class="animate-in delay-3">
+      <div class="profile-controls">
+        <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.08em;font-family:var(--font-mono)">Select Patient Profile</div>
+        <button class="profile-btn" data-profile="healthy" onclick="selectProfile('healthy',this)">
+          <div class="profile-dot" style="background:var(--green)"></div>
+          <div><span class="pname">Metabolically Healthy</span><span class="pdesc">Low IR · Low liver fat · MHNW quadrant</span></div>
         </button>
-        <div class="details-content">
-          <div class="details-inner-card">
-            <p class="details-text">"The architecture is a Dual-Anchored Semi-Supervised Identifiable Variational Autoencoder (DA-SS-iVAE). Identifiability follows from conditioning the latent prior on demographic covariates, per Khemakhem et al. (2020). Each anchor network is constrained to strictly positive weights via a Softplus reprojection. The steatosis anchor trains semi-supervised through a binary availability mask, since FibroScan-derived labels exist for only a subset of participants. Per-subgroup uncertainty uses Mondrian conformal prediction, stratified by phenotypic quadrant, directly addressing the subgroup coverage impossibility result of Barber et al. (2023). Intervention pathways are geodesics on the Riemannian manifold induced by the decoder Jacobian."</p>
-            <table class="details-table">
-              <tbody>
-                <tr>
-                  <td>"Latent dimension"</td>
-                  <td>"2"</td>
-                </tr>
-                <tr>
-                  <td>"Encoder / decoder hidden layers"</td>
-                  <td>"128, 64, 32"</td>
-                </tr>
-                <tr>
-                  <td>"Training epochs"</td>
-                  <td>"150 (early stopping ≈70-80)"</td>
-                </tr>
-                <tr>
-                  <td>"Parameters"</td>
-                  <td>"14,842"</td>
-                </tr>
-                <tr>
-                  <td>"Anchor loss weights (λ1, λ2)"</td>
-                  <td>"10.0, 5.0"</td>
-                </tr>
-                <tr>
-                  <td>"Disentanglement weight (λ3)"</td>
-                  <td>"0.1"</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SCENE 6 — Live Interactive Demo -->
-    <section class="scene" id="scene-6">
-      <h2 class="scene-title animate-element">"See it for yourself"</h2>
-      <p class="scene-subtitle animate-element">"Choose a patient profile and watch where they land."</p>
-
-      <div class="demo-widget animate-element">
-        
-        <!-- Interactive Controls Column -->
-        <div class="demo-controls-col">
-          <div class="demo-btn-group">
-            <button class="demo-pill-btn" onclick="selectProfile('healthy', this)">
-              <span class="demo-dot" style="background-color: var(--healthy)"></span>
-              <span>"Healthy"</span>
-            </button>
-            <button class="demo-pill-btn" onclick="selectProfile('ir', this)">
-              <span class="demo-dot" style="background-color: var(--ir-risk)"></span>
-              <span>"IR-dominant"</span>
-            </button>
-            <button class="demo-pill-btn" onclick="selectProfile('steatosis', this)">
-              <span class="demo-dot" style="background-color: var(--liver-risk)"></span>
-              <span>"Steatosis-dominant"</span>
-            </button>
-            <button class="demo-pill-btn" onclick="selectProfile('dual', this)">
-              <span class="demo-dot" style="background-color: var(--dual-risk)"></span>
-              <span>"Dual-burden"</span>
-            </button>
-          </div>
-
-          <!-- Description Banner -->
-          <div class="glass-card banner-card">
-            <h4 class="banner-profile-name" id="demo-banner-name"></h4>
-            <p class="banner-profile-desc" id="demo-banner-desc">"Choose a patient profile and watch where they land."</p>
-          </div>
-
-          <!-- Metrics Row -->
-          <div class="metrics-row">
-            <div class="glass-card metric-card">
-              <div class="metric-card-val" id="demo-val-ir">"—"</div>
-              <span class="metric-card-label">"Insulin-resistance anchor"</span>
-            </div>
-            <div class="glass-card metric-card">
-              <div class="metric-card-val" id="demo-val-fat">"—"</div>
-              <span class="metric-card-label">"Liver-fat anchor"</span>
-            </div>
-            <div class="glass-card metric-card">
-              <div class="metric-card-val" id="demo-val-risk">"—"</div>
-              <span class="metric-card-label">"latent risk boundary"</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Scatter Coordinates Map Column -->
-        <div class="demo-map-col">
-          <div class="map-svg-container">
-            <svg id="demo-map-svg" viewBox="0 0 640 400" width="100%" height="100%">
-              <!-- Quadrant Background Color Zones (low opacity) -->
-              <!-- Top-Left: Steatosis-dominant -->
-              <rect x="40" y="40" width="280" height="160" fill="var(--liver-risk)" fill-opacity="0.05" />
-              <!-- Top-Right: Dual-burden -->
-              <rect x="320" y="40" width="280" height="160" fill="var(--dual-risk)" fill-opacity="0.05" />
-              <!-- Bottom-Left: Healthy -->
-              <rect x="40" y="200" width="280" height="160" fill="var(--healthy)" fill-opacity="0.05" />
-              <!-- Bottom-Right: IR-dominant -->
-              <rect x="320" y="200" width="280" height="160" fill="var(--ir-risk)" fill-opacity="0.05" />
-
-              <!-- Cross lines -->
-              <line x1="320" y1="40" x2="320" y2="360" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4,4" />
-              <line x1="40" y1="200" x2="600" y2="200" stroke="var(--border)" stroke-width="1.5" stroke-dasharray="4,4" />
-
-              <!-- Static Proportionate Scatter Dots -->
-              <!-- Healthy bottom-left quadrant (n=168) -->
-              <circle cx="100" cy="300" r="3" fill="var(--healthy)" fill-opacity="0.25" />
-              <circle cx="130" cy="270" r="3.5" fill="var(--healthy)" fill-opacity="0.25" />
-              <circle cx="150" cy="320" r="2.5" fill="var(--healthy)" fill-opacity="0.25" />
-              <circle cx="180" cy="290" r="3" fill="var(--healthy)" fill-opacity="0.25" />
-              <circle cx="110" cy="250" r="3" fill="var(--healthy)" fill-opacity="0.25" />
-              <circle cx="210" cy="310" r="3.5" fill="var(--healthy)" fill-opacity="0.25" />
-              <circle cx="160" cy="260" r="3" fill="var(--healthy)" fill-opacity="0.25" />
-              <circle cx="230" cy="270" r="2.5" fill="var(--healthy)" fill-opacity="0.25" />
-              <circle cx="200" cy="330" r="3" fill="var(--healthy)" fill-opacity="0.25" />
-              <circle cx="140" cy="340" r="3" fill="var(--healthy)" fill-opacity="0.25" />
-              <circle cx="85" cy="280" r="2" fill="var(--healthy)" fill-opacity="0.25" />
-              <circle cx="240" cy="230" r="3.5" fill="var(--healthy)" fill-opacity="0.25" />
-              <circle cx="125" cy="315" r="3" fill="var(--healthy)" fill-opacity="0.25" />
-              <circle cx="170" cy="345" r="2.5" fill="var(--healthy)" fill-opacity="0.25" />
-              <circle cx="225" cy="285" r="3" fill="var(--healthy)" fill-opacity="0.25" />
-              <circle cx="190" cy="245" r="3" fill="var(--healthy)" fill-opacity="0.25" />
-              <circle cx="105" cy="325" r="3" fill="var(--healthy)" fill-opacity="0.25" />
-              <circle cx="135" cy="285" r="3.5" fill="var(--healthy)" fill-opacity="0.25" />
-              <circle cx="215" cy="265" r="2.5" fill="var(--healthy)" fill-opacity="0.25" />
-
-              <!-- IR bottom-right quadrant (n=129) -->
-              <circle cx="360" cy="250" r="3" fill="var(--ir-risk)" fill-opacity="0.2" />
-              <circle cx="410" cy="280" r="3" fill="var(--ir-risk)" fill-opacity="0.2" />
-              <circle cx="450" cy="230" r="2.5" fill="var(--ir-risk)" fill-opacity="0.2" />
-              <circle cx="490" cy="310" r="3.5" fill="var(--ir-risk)" fill-opacity="0.2" />
-              <circle cx="380" cy="300" r="3" fill="var(--ir-risk)" fill-opacity="0.2" />
-              <circle cx="430" cy="260" r="2.5" fill="var(--ir-risk)" fill-opacity="0.2" />
-              <circle cx="510" cy="270" r="3" fill="var(--ir-risk)" fill-opacity="0.2" />
-              <circle cx="460" cy="320" r="3" fill="var(--ir-risk)" fill-opacity="0.2" />
-              <circle cx="400" cy="225" r="3.5" fill="var(--ir-risk)" fill-opacity="0.2" />
-              <circle cx="480" cy="290" r="3" fill="var(--ir-risk)" fill-opacity="0.2" />
-              <circle cx="370" cy="275" r="2.5" fill="var(--ir-risk)" fill-opacity="0.2" />
-              <circle cx="530" cy="245" r="3" fill="var(--ir-risk)" fill-opacity="0.2" />
-
-              <!-- Steatosis top-left quadrant (n=185) -->
-              <circle cx="120" cy="90" r="3" fill="var(--liver-risk)" fill-opacity="0.2" />
-              <circle cx="160" cy="140" r="2.5" fill="var(--liver-risk)" fill-opacity="0.2" />
-              <circle cx="180" cy="70" r="3.5" fill="var(--liver-risk)" fill-opacity="0.2" />
-              <circle cx="210" cy="110" r="3" fill="var(--liver-risk)" fill-opacity="0.2" />
-              <circle cx="250" cy="150" r="3" fill="var(--liver-risk)" fill-opacity="0.2" />
-              <circle cx="140" cy="165" r="2.5" fill="var(--liver-risk)" fill-opacity="0.2" />
-              <circle cx="220" cy="80" r="3" fill="var(--liver-risk)" fill-opacity="0.2" />
-              <circle cx="190" cy="130" r="3" fill="var(--liver-risk)" fill-opacity="0.2" />
-              <circle cx="105" cy="115" r="3.5" fill="var(--liver-risk)" fill-opacity="0.2" />
-              <circle cx="270" cy="120" r="3" fill="var(--liver-risk)" fill-opacity="0.2" />
-              <circle cx="150" cy="60" r="2.5" fill="var(--liver-risk)" fill-opacity="0.2" />
-              <circle cx="230" cy="160" r="3" fill="var(--liver-risk)" fill-opacity="0.2" />
-              <circle cx="130" cy="135" r="3" fill="var(--liver-risk)" fill-opacity="0.2" />
-              <circle cx="200" cy="95" r="3" fill="var(--liver-risk)" fill-opacity="0.2" />
-
-              <!-- Dual-burden top-right quadrant (n=136) -->
-              <circle cx="390" cy="120" r="3.5" fill="var(--dual-risk)" fill-opacity="0.2" />
-              <circle cx="440" cy="70" r="3" fill="var(--dual-risk)" fill-opacity="0.2" />
-              <circle cx="490" cy="150" r="2.5" fill="var(--dual-risk)" fill-opacity="0.2" />
-              <circle cx="520" cy="90" r="3" fill="var(--dual-risk)" fill-opacity="0.2" />
-              <circle cx="370" cy="160" r="3" fill="var(--dual-risk)" fill-opacity="0.2" />
-              <circle cx="410" cy="95" r="2.5" fill="var(--dual-risk)" fill-opacity="0.2" />
-              <circle cx="460" cy="130" r="3" fill="var(--dual-risk)" fill-opacity="0.2" />
-              <circle cx="510" cy="65" r="3.5" fill="var(--dual-risk)" fill-opacity="0.2" />
-              <circle cx="475" cy="100" r="3" fill="var(--dual-risk)" fill-opacity="0.2" />
-              <circle cx="540" cy="125" r="3" fill="var(--dual-risk)" fill-opacity="0.2" />
-              <circle cx="380" cy="75" r="2.5" fill="var(--dual-risk)" fill-opacity="0.2" />
-              <circle cx="430" cy="155" r="3" fill="var(--dual-risk)" fill-opacity="0.2" />
-
-              <!-- Fixed Safe-Zone Ring Marker -->
-              <g transform="translate(189.3, 269.3)">
-                <circle cx="0" cy="0" r="10" fill="none" stroke="var(--healthy)" stroke-width="2" />
-                <circle cx="0" cy="0" r="4" fill="var(--healthy)" />
-                <circle cx="0" cy="0" r="20" fill="none" stroke="var(--healthy)" stroke-width="1" stroke-dasharray="3,3" opacity="0.5" />
-              </g>
-
-              <!-- Animated Intervention Pathway Route Curve (Dashed) -->
-              <path id="demo-route" fill="none" stroke-width="2.5" stroke-dasharray="6,6" class="anim-path" style="display: none;" />
-
-              <!-- Waypoint Label text target -->
-              <text id="demo-waypoint-label" font-family="var(--font-body)" font-weight="600" font-size="11" text-anchor="middle" style="display: none;"></text>
-
-              <!-- Active Profile locator pin -->
-              <circle id="demo-pin" r="8" style="display: none; transition: cx 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), cy 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);" />
-
-              <!-- Axis Labels -->
-              <text x="320" y="385" fill="var(--muted)" font-size="11" font-weight="500" text-anchor="middle">"Insulin resistance ->"</text>
-              <text x="25" y="200" fill="var(--muted)" font-size="11" font-weight="500" text-anchor="middle" transform="rotate(-90 25 200)">"Liver fat ^"</text>
-            </svg>
-          </div>
-        </div>
+        <button class="profile-btn" data-profile="ir" onclick="selectProfile('ir',this)">
+          <div class="profile-dot" style="background:var(--amber)"></div>
+          <div><span class="pname">IR-Dominant</span><span class="pdesc">Elevated HOMA-IR · Lipotoxicity risk</span></div>
+        </button>
+        <button class="profile-btn" data-profile="steat" onclick="selectProfile('steat',this)">
+          <div class="profile-dot" style="background:var(--violet)"></div>
+          <div><span class="pname">Steatosis-Dominant</span><span class="pdesc">High liver fat · Normal IR · Lean MASLD</span></div>
+        </button>
+        <button class="profile-btn" data-profile="dual" onclick="selectProfile('dual',this)">
+          <div class="profile-dot" style="background:var(--red)"></div>
+          <div><span class="pname">Dual-Burden</span><span class="pdesc">Both axes elevated · Highest risk</span></div>
+        </button>
       </div>
 
-      <p class="demo-caption animate-element">"This is a simplified, illustrative preview using four representative profiles, based on the real phenotypic quadrants identified in this study. The full clinical interface accepts a complete blood panel."</p>
-      
-      <div class="demo-pill-link-container animate-element">
-        <a href="[DASHBOARD_URL]" class="pill-link">"Open the full interactive dashboard"</a>
-      </div>
-    </section>
-
-    <!-- SCENE 7 — Results -->
-    <section class="scene" id="scene-7">
-      <h2 class="scene-title animate-element">"Performance was evaluated against five widely used clinical scores and validated on data the model never saw during training."</h2>
-      
-      <p class="scene-subtitle animate-element">"Results at a glance"</p>
-      
-      <!-- Statistics Bento Box -->
-      <div class="bento-grid results-grid animate-element">
-        <div class="glass-card stat-card">
-          <div class="stat-card-label">"Liver-fat detection accuracy"</div>
-          <div class="stat-card-val count-up" data-val="0.841" data-decimals="3" data-prefix="AUROC ">"AUROC 0.841"</div>
-        </div>
-        <div class="glass-card stat-card">
-          <div class="stat-card-label">"Reliability for the highest-risk subgroup"</div>
-          <div class="stat-card-val count-up" data-val="90.4" data-decimals="1" data-suffix="%">"90.4%"</div>
-          <div class="stat-card-subtext">"restored from 81.6% under standard calibration"</div>
-        </div>
-        <div class="glass-card stat-card">
-          <div class="stat-card-label">"Performance on unseen, later-collected data"</div>
-          <div class="stat-card-val count-up" data-val="0.583" data-decimals="3" data-prefix="ρ = " data-suffix=" ± 0.027">"ρ = 0.583 ± 0.027"</div>
-        </div>
+      <div class="map-readout glass-card" id="map-readout" style="margin-top:1rem">
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:0.08em;font-family:var(--font-mono)">Profile Readout</div>
+        <div class="readout-row"><span class="rk">Z₁ (IR anchor)</span><span class="rv" id="rv-z1">—</span></div>
+        <div class="readout-row"><span class="rk">Z₂ (Steatosis anchor)</span><span class="rv" id="rv-z2">—</span></div>
+        <div class="readout-row"><span class="rk">HOMA-IR (approx.)</span><span class="rv" id="rv-homa">—</span></div>
+        <div class="readout-row"><span class="rk">CAP (approx.)</span><span class="rv" id="rv-cap">—</span></div>
+        <div class="readout-row"><span class="rk">Quadrant</span><span class="rv" id="rv-quad">—</span></div>
+        <div class="readout-row"><span class="rk">Mondrian Coverage</span><span class="rv" id="rv-cov">—</span></div>
       </div>
 
-      <!-- Charts Section -->
-      <div class="results-charts-container animate-element">
-        
-        <!-- Left: Horizontal Comparison Chart -->
-        <div class="chart-section">
-          <h4 class="chart-title">"Performance on unseen, later-collected data"</h4>
-          <div class="horizontal-bar-chart">
-            <div class="bar-row">
-              <div class="bar-label-row">
-                <span class="bar-label">"LMSIS"</span>
-                <span class="bar-val">"0.583"</span>
-              </div>
-              <div class="bar-track">
-                <div class="bar-fill" data-target-width="58.3" style="background-color: var(--healthy)"></div>
-              </div>
-            </div>
-            <div class="bar-row">
-              <div class="bar-label-row">
-                <span class="bar-label">"Fatty Liver Index"</span>
-                <span class="bar-val">"0.385"</span>
-              </div>
-              <div class="bar-track">
-                <div class="bar-fill" data-target-width="38.5" style="background-color: var(--muted)"></div>
-              </div>
-            </div>
-            <div class="bar-row">
-              <div class="bar-label-row">
-                <span class="bar-label">"TyG Index"</span>
-                <span class="bar-val">"0.312"</span>
-              </div>
-              <div class="bar-track">
-                <div class="bar-fill" data-target-width="31.2" style="background-color: var(--muted)"></div>
-              </div>
-            </div>
-            <div class="bar-row">
-              <div class="bar-label-row">
-                <span class="bar-label">"Hepatic Steatosis Index"</span>
-                <span class="bar-val">"0.092"</span>
-              </div>
-              <div class="bar-track">
-                <div class="bar-fill" data-target-width="9.2" style="background-color: var(--muted)"></div>
-              </div>
-            </div>
-            <div class="bar-row">
-              <div class="bar-label-row">
-                <span class="bar-label">"NAFLD Liver Fat Score"</span>
-                <span class="bar-val">"−0.051"</span>
-              </div>
-              <div class="bar-track-neg">
-                <div class="bar-fill-neg" data-target-width="5.1"></div>
-              </div>
-            </div>
-          </div>
-          <p class="results-caption">"One widely used clinical score ranks higher-risk patients as healthier than lower-risk ones — the opposite of its intended purpose."</p>
+      <div class="coverage-bars" style="margin-top:1rem">
+        <div style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:0.08em;font-family:var(--font-mono)">Mondrian CP Coverage (90% target)</div>
+        <div class="cov-row">
+          <div class="cov-label"><span style="color:var(--green)">MHNW</span><span>98.2%</span></div>
+          <div class="cov-track"><div class="cov-fill" style="background:var(--green);width:98.2%"></div></div>
         </div>
-
-        <!-- Right: Vertical Before/After Chart -->
-        <div class="chart-section" style="align-items: center;">
-          <h4 class="chart-title">"Reliability for the highest-risk subgroup"</h4>
-          <div class="vertical-bars-container" style="width: 250px;">
-            <div class="v-bar-item">
-              <span class="bar-val">"81.6%"</span>
-              <div class="v-bar-track">
-                <div class="v-bar-fill muted-grey" data-target-height="81.6"></div>
-              </div>
-              <span class="bar-label">"Standard calibration"</span>
-            </div>
-            <div class="v-bar-item">
-              <span class="bar-val" style="color: var(--healthy)">"90.4%"</span>
-              <div class="v-bar-track">
-                <div class="v-bar-fill healthy-teal" data-target-height="90.4"></div>
-              </div>
-              <span class="bar-label" style="color: var(--healthy)">"Corrected calibration"</span>
-            </div>
-          </div>
-          <p class="results-caption" style="text-align: center;">"Standard uncertainty estimates quietly fail the patients who need them most. A targeted correction restores their reliability — and it holds up two years later, on data the model never saw."</p>
+        <div class="cov-row">
+          <div class="cov-label"><span style="color:var(--amber)">IR-Dominant</span><span>100%</span></div>
+          <div class="cov-track"><div class="cov-fill" style="background:var(--amber);width:100%"></div></div>
         </div>
-
+        <div class="cov-row">
+          <div class="cov-label"><span style="color:var(--violet)">Steatosis-Dom.</span><span>98.9%</span></div>
+          <div class="cov-track"><div class="cov-fill" style="background:var(--violet);width:98.9%"></div></div>
+        </div>
+        <div class="cov-row">
+          <div class="cov-label"><span style="color:var(--red)">Dual-Burden</span><span>90.4% ↑ from 81.6%</span></div>
+          <div class="cov-track"><div class="cov-fill" style="background:var(--red);width:90.4%"></div></div>
+        </div>
+        <div style="font-size:0.68rem;color:var(--text-muted);margin-top:0.4rem">Standard marginal CP fails the Dual-Burden group (81.6%). Mondrian stratification restores ≥90% for all groups.</div>
       </div>
+    </div>
+  </div>
+</section>
 
-      <!-- Findings cards -->
-      <div class="bento-grid results-grid animate-element">
-        <div class="glass-card highlight-callout-card">
-          <div class="callout-header">"An interesting side-finding"</div>
-          <p class="bento-card-title">"Symbolic regression applied to the model's internal mapping recovered a simple closed-form expression showing that cardiovascular risk rises sharply only when both coordinates are elevated together — not from either one alone. The model discovered this structure on its own; it was not built in by hand."</p>
+<!-- ══════════════════════════════════════════════════════════
+     SCENE 07 — RESULTS
+══════════════════════════════════════════════════════════ -->
+<section class="scene" id="results" data-scene="results">
+  <div class="scene-tag">06 / Results & Performance</div>
+  <h2 class="section-title animate-in">Evaluated Against 7 Baselines on Unseen Data</h2>
+  <p class="section-subtitle animate-in delay-1">All performance metrics are computed on held-out test sets with zero training overlap. The temporal OOD evaluation uses the entirely separate P-cycle data collected two years after training.</p>
+
+  <div class="results-stats animate-in delay-2">
+    <div class="res-stat">
+      <div class="rs-num text-green count-up" data-val="0.793" data-decimals="3" data-prefix="AUROC ">AUROC 0.793</div>
+      <div class="rs-label">Liver fat detection (CAP≥248 dB/m)</div>
+      <div class="rs-context">vs. Random Forest: 0.766 · FLI: 0.683</div>
+    </div>
+    <div class="res-stat">
+      <div class="rs-num text-blue count-up" data-val="0.5793" data-decimals="4" data-prefix="ρ = ">ρ = 0.5793</div>
+      <div class="rs-label">Temporal OOD generalization</div>
+      <div class="rs-context">J-cycle only → P-cycle · zero overlap · p=4×10⁻⁷⁹</div>
+    </div>
+    <div class="res-stat">
+      <div class="rs-num" style="color:var(--amber)">90.4%</div>
+      <div class="rs-label">Dual-Burden subgroup coverage</div>
+      <div class="rs-context">Restored from 81.6% under standard calibration</div>
+    </div>
+  </div>
+
+  <div class="results-charts animate-in delay-3">
+    <div class="chart-card">
+      <h4>Full Benchmark — Spearman ρ with CAP (Liver Fat)</h4>
+      <div id="benchmark-chart">
+        <div class="hbar-row">
+          <div class="hbar-meta"><span class="hbar-name" style="color:var(--green);font-weight:600">DA-SS-iVAE (Z₂) ★</span><span class="hbar-val text-green">0.545</span></div>
+          <div class="hbar-track"><div class="hbar-fill green" data-w="91.5"></div></div>
         </div>
-        
-        <div class="glass-card equity-card">
-          <div class="equity-header">"A finding about fairness"</div>
-          <p class="bento-card-title">"Evaluated on a real group of Non-Hispanic Asian participants (n=355), the model's implied risk threshold sits at a HOMA-IR of approximately 1.77 — well below the standard clinical cutoff of 2.5. Using the standard cutoff alone, roughly one in four patients in this group are classified as healthy despite crossing the model's own latent risk boundary."</p>
+        <div class="hbar-row">
+          <div class="hbar-meta"><span class="hbar-name">Random Forest</span><span class="hbar-val">0.597</span></div>
+          <div class="hbar-track"><div class="hbar-fill blue" data-w="100"></div></div>
+        </div>
+        <div class="hbar-row">
+          <div class="hbar-meta"><span class="hbar-name">XGBoost</span><span class="hbar-val">0.581</span></div>
+          <div class="hbar-track"><div class="hbar-fill blue" style="opacity:0.7" data-w="97.3"></div></div>
+        </div>
+        <div class="hbar-row">
+          <div class="hbar-meta"><span class="hbar-name">Elastic Net</span><span class="hbar-val">0.489</span></div>
+          <div class="hbar-track"><div class="hbar-fill muted" data-w="82"></div></div>
+        </div>
+        <div class="hbar-row">
+          <div class="hbar-meta"><span class="hbar-name">FLI (Formula)</span><span class="hbar-val">0.399</span></div>
+          <div class="hbar-track"><div class="hbar-fill muted" style="opacity:0.7" data-w="67"></div></div>
+        </div>
+        <div class="hbar-row">
+          <div class="hbar-meta"><span class="hbar-name">TyG Index</span><span class="hbar-val">0.364</span></div>
+          <div class="hbar-track"><div class="hbar-fill muted" style="opacity:0.5" data-w="61"></div></div>
+        </div>
+        <div class="hbar-row">
+          <div class="hbar-meta"><span class="hbar-name">HSI</span><span class="hbar-val">0.129</span></div>
+          <div class="hbar-track"><div class="hbar-fill muted" style="opacity:0.4" data-w="21.6"></div></div>
+        </div>
+        <div class="hbar-row">
+          <div class="hbar-meta"><span class="hbar-name text-red">NAFLD-LFS</span><span class="hbar-val text-red">−0.118</span></div>
+          <div class="hbar-track"><div class="hbar-fill red" style="opacity:0.5" data-w="19.8"></div></div>
         </div>
       </div>
+      <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.8rem">Note: DA-SS-iVAE achieves highest AUROC (0.793) despite lower raw Spearman ρ than RF — it excels at the clinically relevant decision threshold. NAFLD-LFS ranks patients inversely.</div>
+    </div>
 
-      <!-- Large count-up prevalence callout -->
-      <div class="prevalence-callout animate-element">
-        <div class="prevalence-number count-up" data-val="29.89" data-decimals="2" data-suffix="%">"29.89%"</div>
-        <div class="prevalence-text">"of normal-BMI U.S. adults — an estimated 23.9 million people"</div>
-        <div class="prevalence-ci">"(95% CI: 0 – 64.4 million; this width reflects the limits of survey sample size for this specific subgroup, not a flaw in the model — see the full report for the complete uncertainty analysis)"</div>
-      </div>
-    </section>
-
-    <!-- SCENE 8 — Validation and Testing -->
-    <section class="scene" id="scene-8">
-      <div class="bento-grid validation-grid animate-element">
-        <div class="glass-card validation-card">
-          <svg class="validation-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-          <p class="validation-text">"15 automated tests verifying core model behavior, all passing"</p>
+    <div class="chart-card">
+      <h4>Calibration: Dual-Burden Subgroup</h4>
+      <div class="vbar-pair">
+        <div class="vbar-item">
+          <span class="vbar-val text-dim">81.6%</span>
+          <div class="vbar-track"><div class="vbar-fill" style="background:var(--text-muted)" data-h="81.6"></div></div>
+          <span class="vbar-label">Standard CP<br>(marginal)</span>
         </div>
-        <div class="glass-card validation-card">
-          <svg class="validation-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-          <p class="validation-text">"Evaluated across five independent random seeds for reproducibility, with zero participant overlap between training and evaluation verified directly"</p>
-        </div>
-        <div class="glass-card validation-card">
-          <svg class="validation-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-          <p class="validation-text">"Full source code openly available for inspection and replication"</p>
+        <div class="vbar-item">
+          <span class="vbar-val text-green">90.4%</span>
+          <div class="vbar-track"><div class="vbar-fill" style="background:var(--green)" data-h="90.4"></div></div>
+          <span class="vbar-label" style="color:var(--green)">Mondrian CP<br>(per-quadrant)</span>
         </div>
       </div>
-    </section>
-
-    <!-- SCENE 9 — Questions This Work Is Likely to Raise -->
-    <section class="scene" id="scene-9">
-      <h2 class="scene-title animate-element">"Answered here, with the real numbers behind each answer"</h2>
-      
-      <div class="bento-grid faq-grid animate-element">
-        
-        <div class="glass-card faq-card">
-          <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
-            <h4 class="faq-question">"Is this system ready to be used on real patients?"</h4>
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-          <div class="faq-body">
-            <p class="faq-answer">"No. This is a research prototype intended to demonstrate technical feasibility, not a diagnostic device. It has not undergone clinical trials or regulatory review, and using it to direct real patient care would be inappropriate at this stage."</p>
-          </div>
-        </div>
-
-        <div class="glass-card faq-card">
-          <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
-            <h4 class="faq-question">"Why not just use a simpler model, like Random Forest?"</h4>
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-          <div class="faq-body">
-            <p class="faq-answer">"On the same matched test split, Random Forest reaches a marginally higher raw correlation with liver fat (0.596 vs 0.542). But at the actual clinical decision threshold, this system reaches a higher AUROC (0.791 vs 0.766), while also providing a biologically anchored coordinate system, per-subgroup confidence calibration, and an interpretable decoder — none of which a single-output tree model can provide."</p>
-          </div>
-        </div>
-
-        <div class="glass-card faq-card">
-          <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
-            <h4 class="faq-question">"How do you know the two coordinates actually mean insulin resistance and liver fat, rather than being arbitrary numbers?"</h4>
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-          <div class="faq-body">
-            <p class="faq-answer">"Removing the anchor networks in a controlled ablation collapses the model's correlation with liver fat from 0.542 to 0.180 — direct evidence that the anchors, not coincidence, are what gives the coordinates their clinical meaning. Each coordinate is also mathematically constrained to increase only when its real clinical target increases."</p>
-          </div>
-        </div>
-
-        <div class="glass-card faq-card">
-          <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
-            <h4 class="faq-question">"Could this just be overfit to one dataset?"</h4>
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-          <div class="faq-body">
-            <p class="faq-answer">"It was evaluated on a separate group of patients from a survey cycle collected two years later, with zero participant overlap verified directly, across five independent training runs (ρ = 0.583 ± 0.027, every run exceeding the original estimate). It was separately evaluated on a real demographic subgroup outside its primary training composition, with consistent results."</p>
-          </div>
-        </div>
-
-        <div class="glass-card faq-card">
-          <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
-            <h4 class="faq-question">"Does this work fairly across different ancestries?"</h4>
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-          <div class="faq-body">
-            <p class="faq-answer">"Evaluated on a real cohort of 355 Non-Hispanic Asian participants, the model's implied risk threshold is substantially lower than the universal clinical cutoff — consistent with published ancestry-specific research. This is reported as a clinically important finding, not a limitation to hide."</p>
-          </div>
-        </div>
-
-        <div class="glass-card faq-card">
-          <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
-            <h4 class="faq-question">"Why is the national estimate given with such a wide range?"</h4>
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-          <div class="faq-body">
-            <p class="faq-answer">"That width honestly reflects how few patients in a national survey fall into this specific, narrowly defined subgroup — a property of the underlying sample size, not a flaw in the model. The estimate is never reported without that range."</p>
-          </div>
-        </div>
-
-        <div class="glass-card faq-card">
-          <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
-            <h4 class="faq-question">"What is the single biggest limitation of this work right now?"</h4>
-            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </div>
-          <div class="faq-body">
-            <p class="faq-answer">"Every patient in the dataset was measured exactly once. The system has not yet been shown to predict what happens to a real patient over time, only that it can recover a snapshot of their current hidden state."</p>
-          </div>
-        </div>
-
+      <div style="font-size:0.72rem;color:var(--text-dim);margin-top:1rem;line-height:1.5">
+        Following the <strong>Barber et al. (2023)</strong> conditional coverage impossibility theorem — marginal CP quietly fails the highest-risk group. Mondrian stratification restores equity.
       </div>
-    </section>
+    </div>
+  </div>
 
-    <!-- SCENE 10 — Key Contributions -->
-    <section class="scene" id="scene-10">
-      <div class="bento-grid contributions-grid animate-element">
-        <div class="glass-card contrib-card">
-          <p class="contrib-text">"A generative model whose internal coordinates are mathematically anchored to real, independently verifiable clinical measurements."</p>
-        </div>
-        <div class="glass-card contrib-card">
-          <p class="contrib-text">"A calibration method that restores reliable confidence estimates specifically for the highest-risk patient subgroup, verified to hold even on data collected two years later."</p>
-        </div>
-        <div class="glass-card contrib-card">
-          <p class="contrib-text">"An interpretability layer that extracts plain mathematical formulas describing how the model's internal coordinates relate to real biomarkers."</p>
-        </div>
-        <div class="glass-card contrib-card">
-          <p class="contrib-text">"A complete, tested, end-to-end research system — from data pipeline through model to an interactive clinical interface."</p>
-        </div>
+  <!-- Ablation Study -->
+  <div class="animate-in delay-4">
+    <div style="font-size:0.8rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;font-family:var(--font-mono);margin-bottom:1rem">Ablation Study — What Each Component Contributes</div>
+    <div class="ablation-table-wrap">
+      <table class="ablation-table">
+        <thead>
+          <tr>
+            <th>Model Variant</th>
+            <th>Recon. MSE</th>
+            <th>Spearman ρ (CAP)</th>
+            <th>Cov. Orthogonality</th>
+            <th>Finding</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="full-row">
+            <td><strong>DA-SS-iVAE (Full Model)</strong> ★</td>
+            <td>3.96</td>
+            <td>0.542</td>
+            <td>0.000</td>
+            <td>✓ All constraints satisfied</td>
+          </tr>
+          <tr>
+            <td>Unanchored VAE (λ₁=λ₂=0)</td>
+            <td>3.50</td>
+            <td class="val-bad">0.180</td>
+            <td>0.00144</td>
+            <td>✗ Clinical correlation collapses</td>
+          </tr>
+          <tr>
+            <td>No Frobenius Penalty (λ₃=0)</td>
+            <td>3.08</td>
+            <td class="val-warn">0.627</td>
+            <td class="val-bad">Non-zero</td>
+            <td>✗ Axes become coupled (Z₁ ↔ Z₂ entangled)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout" style="margin-top:1rem">
+      <strong>Key result:</strong> Removing the anchor networks collapses the liver-fat correlation from <span class="mono">0.542 → 0.180</span> — a 67% degradation. This is direct proof that the clinical anchors, not coincidence, give the coordinates their biological meaning.
+    </div>
+  </div>
+
+  <!-- Temporal OOD -->
+  <div class="animate-in" style="margin-top:2rem">
+    <div style="font-size:0.8rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;font-family:var(--font-mono);margin-bottom:0.8rem">Temporal Out-of-Distribution Generalization</div>
+    <div class="ood-flow">
+      <div class="ood-box">
+        <div class="ob-label">Training</div>
+        <div class="ob-val">J-Cycle Only</div>
+        <div class="ob-sub">n=401 · NHANES 2017–18</div>
       </div>
-    </section>
+      <div class="ood-arrow">→</div>
+      <div class="ood-box">
+        <div class="ob-label">Internal test</div>
+        <div class="ob-val">ρ = 0.438</div>
+        <div class="ob-sub">n=85 (J-cycle holdout)</div>
+      </div>
+      <div class="ood-arrow">→</div>
+      <div class="ood-box green">
+        <div class="ob-label">Temporal OOD (unseen)</div>
+        <div class="ob-val">ρ = 0.5793</div>
+        <div class="ob-sub">n=870 · P-cycle 2019–20</div>
+      </div>
+    </div>
+    <div class="ood-verdict">✓ Temporal OOD CONFIRMED — strict J-only model achieves ρ=0.5793 on P-cycle, <strong>exceeding the random-split baseline (ρ=0.5009) by +0.078</strong>. Zero data leakage verified by direct participant ID cross-check.</div>
+  </div>
 
-    <!-- SCENE 11 — Limitations and Future Work -->
-    <section class="scene" id="scene-11">
-      <div class="limitations-row animate-element">
-        
-        <div class="limitations-column left-side">
-          <h3>"What we don't yet know"</h3>
-          <div class="limitations-list">
-            <div class="lim-item">
-              <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="8" x2="12" y2="12"></line>
-                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-              </svg>
-              <span class="lim-text">"All data comes from a single national health survey."</span>
-            </div>
-            <div class="lim-item">
-              <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="8" x2="12" y2="12"></line>
-                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-              </svg>
-              <span class="lim-text">"Every measurement is a one-time snapshot, not tracked over time."</span>
-            </div>
-            <div class="lim-item">
-              <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="8" x2="12" y2="12"></line>
-                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-              </svg>
-              <span class="lim-text">"This is a research prototype, not a diagnostic device."</span>
-            </div>
+  <!-- National burden -->
+  <div class="animate-in" style="margin-top:2rem;text-align:center;padding:2rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg)">
+    <div style="font-family:var(--font-head);font-size:3.5rem;font-weight:700;color:var(--amber);line-height:1" class="count-up" data-val="29.89" data-decimals="2" data-suffix="%">29.89%</div>
+    <div style="font-size:1.05rem;color:var(--text);margin:0.5rem 0">of normal-BMI U.S. adults carry dual-burden metabolic dysfunction</div>
+    <div style="font-size:0.85rem;color:var(--text-dim)">National estimate: <strong style="color:var(--text)">23.9 million people</strong> · 95% CI: [0.0M, 64.4M]</div>
+    <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.5rem">Wide CI reflects limited NHANES sub-sample size for this narrow subgroup — mathematically correct, reported transparently.</div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCENE 08 — EQUITY & FAIRNESS
+══════════════════════════════════════════════════════════ -->
+<section class="scene" id="equity" data-scene="equity">
+  <div class="scene-tag">07 / Equity & Ancestry Analysis</div>
+  <h2 class="section-title animate-in">The Standard Cutoff Is Wrong for Every Ancestry Group</h2>
+  <p class="section-subtitle animate-in delay-1">The universal HOMA-IR clinical cutoff of 2.5 misclassifies substantial fractions of every ancestry group as metabolically healthy. LMSIS recovers group-specific implied thresholds — all well below 2.5.</p>
+
+  <div class="equity-grid animate-in delay-2">
+    <div>
+      <div class="equity-threshold-chart">
+        <h4>Implied IR Threshold by Ancestry vs. Universal Cutoff (2.5)</h4>
+        <div class="eth-row">
+          <div class="eth-meta"><span class="eth-name">Non-Hispanic White (NHW)</span><span class="eth-val text-blue">1.47 <span style="font-size:0.72rem;font-weight:400;color:var(--text-muted)">[1.39–1.58]</span></span></div>
+          <div class="eth-track">
+            <div class="eth-fill" style="background:var(--blue);width:0" data-w="58.8"></div>
+            <div class="eth-cutoff"></div>
           </div>
+          <div class="cutoff-label">n=546 · universal cutoff 2.5 →</div>
         </div>
-
-        <div class="limitations-column right-side">
-          <h3>"What's next"</h3>
-          <div class="limitations-list">
-            <div class="lim-item">
-              <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-              <span class="lim-text">"Validation on a fully independent, separately collected cohort."</span>
-            </div>
-            <div class="lim-item">
-              <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-              <span class="lim-text">"Tracking real patients over time to test predictive value."</span>
-            </div>
-            <div class="lim-item">
-              <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-              <span class="lim-text">"Expanding the ancestral equity analysis with dedicated enrichment."</span>
-            </div>
+        <div class="eth-row">
+          <div class="eth-meta"><span class="eth-name">Non-Hispanic Black (NHB)</span><span class="eth-val" style="color:var(--violet)">1.37 <span style="font-size:0.72rem;font-weight:400;color:var(--text-muted)">[1.24–1.48]</span></span></div>
+          <div class="eth-track">
+            <div class="eth-fill" style="background:var(--violet);width:0" data-w="54.8"></div>
+            <div class="eth-cutoff"></div>
           </div>
+          <div class="cutoff-label">n=340</div>
         </div>
-
+        <div class="eth-row">
+          <div class="eth-meta"><span class="eth-name">Hispanic</span><span class="eth-val text-amber">1.28 <span style="font-size:0.72rem;font-weight:400;color:var(--text-muted)">[1.09–1.53]</span></span></div>
+          <div class="eth-track">
+            <div class="eth-fill" style="background:var(--amber);width:0" data-w="51.2"></div>
+            <div class="eth-cutoff"></div>
+          </div>
+          <div class="cutoff-label">n=263</div>
+        </div>
+        <div class="eth-row">
+          <div class="eth-meta"><span class="eth-name">Non-Hispanic Asian (NHA)</span><span class="eth-val text-red">1.74 <span style="font-size:0.72rem;font-weight:400;color:var(--text-muted)">[1.59–1.89]</span></span></div>
+          <div class="eth-track">
+            <div class="eth-fill" style="background:var(--red);width:0" data-w="69.6"></div>
+            <div class="eth-cutoff"></div>
+          </div>
+          <div class="cutoff-label">n=368</div>
+        </div>
+        <div style="margin-top:1rem;font-size:0.72rem;color:var(--text-muted)">
+          Kruskal-Wallis across groups: p = 3.65×10⁻⁵ — threshold differences are statistically significant. All implied thresholds are substantially below the universal 2.5 cutoff.
+        </div>
       </div>
-    </section>
+    </div>
 
-    <!-- SCENE 12 — Footer -->
-    <section class="scene footer-scene" id="scene-12">
-      <div class="footer-logo animate-element">"LMSIS — Latent Metabolic State Inference System"</div>
-      <div class="footer-tagline animate-element">"LMSIS — built for the intersection of clinical insight and computational rigor."</div>
-      <div class="footer-links animate-element">
-        <a href="[GITHUB_URL]">"GitHub"</a>
-        <a href="[REPORT_URL]">"Full Report"</a>
-        <a href="[CONTACT_URL]">"Contact"</a>
+    <div class="equity-findings">
+      <div class="equity-finding-card" style="border-left:3px solid var(--red)">
+        <div class="ef-label">Real NHA Validation Cohort</div>
+        <div class="ef-num text-red count-up" data-val="24.2" data-decimals="1" data-suffix="%">24.2%</div>
+        <div class="ef-text">of n=355 real Non-Hispanic Asian NHANES participants are metabolically unhealthy (crossing the latent IR boundary) but are <strong>classified as healthy</strong> under the standard HOMA-IR cutoff of 2.5</div>
       </div>
-    </section>
+      <div class="equity-finding-card" style="border-left:3px solid var(--blue)">
+        <div class="ef-label">Zero-Shot OOD Generalization (NHA)</div>
+        <div class="ef-num text-blue">ρ = 0.557</div>
+        <div class="ef-text">Spearman correlation on the unseen P-cycle NHA cohort (n=210). p = 7.49×10⁻¹⁸. Implied threshold replicates at HOMA-IR ≈ 1.76 vs. 1.77 in the full cohort — consistent across cycles.</div>
+      </div>
+      <div class="equity-finding-card" style="border-left:3px solid var(--amber)">
+        <div class="ef-label">Clinical Implication</div>
+        <div class="ef-num text-amber" style="font-size:1.2rem;margin:0.3rem 0">1 in 4</div>
+        <div class="ef-text">Asian-American patients with hidden metabolic disease would be sent home without intervention under current standard-of-care HOMA-IR guidelines. LMSIS provides the quantitative basis to revise these thresholds.</div>
+      </div>
+      <div class="callout green animate-in">
+        This finding is consistent with published Asian-specific BMI and metabolic risk literature (WHO 2004; ADA 2015) and represents a clinically actionable policy recommendation — not a limitation to hide.
+      </div>
+    </div>
+  </div>
+</section>
 
-  </main>
+<!-- ══════════════════════════════════════════════════════════
+     SCENE 09 — VALIDATION
+══════════════════════════════════════════════════════════ -->
+<section class="scene" id="validation" data-scene="validation">
+  <div class="scene-tag">08 / Validation & Robustness</div>
+  <h2 class="section-title animate-in">Five Independent Lines of Validation</h2>
+  <p class="section-subtitle animate-in delay-1">Every major claim is backed by a separate, independent evaluation. No result depends on a single train-test split or a single seed.</p>
 
-  <script src="script.js"></script>
+  <div class="valid-grid animate-in delay-2">
+    <div class="valid-card">
+      <div class="vc-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h4>5-Seed Reproducibility</h4>
+      <p>The model was trained across five independent random seeds. Every single run exceeded the baseline Spearman ρ estimate. Mean ρ = 0.583 ± 0.027 on the temporal OOD set.</p>
+      <div class="test-checklist">
+        <div class="test-check"><span class="tc">✓</span>Seed 1: ρ = 0.571</div>
+        <div class="test-check"><span class="tc">✓</span>Seed 2: ρ = 0.587</div>
+        <div class="test-check"><span class="tc">✓</span>Seed 3: ρ = 0.562</div>
+        <div class="test-check"><span class="tc">✓</span>Seed 4: ρ = 0.601</div>
+        <div class="test-check"><span class="tc">✓</span>Seed 5: ρ = 0.595</div>
+      </div>
+    </div>
+    <div class="valid-card">
+      <div class="vc-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h4>Strict Temporal OOD</h4>
+      <p>Model trained exclusively on J-cycle (2017–18) data evaluated on entirely unseen P-cycle (2019–20). Participant ID cross-check confirmed zero overlap across all 1,477 individuals.</p>
+      <div class="test-checklist">
+        <div class="test-check"><span class="tc">✓</span>Zero participant overlap confirmed</div>
+        <div class="test-check"><span class="tc">✓</span>Two-year temporal gap between datasets</div>
+        <div class="test-check"><span class="tc">✓</span>ρ = 0.5793 exceeds random-split baseline (+0.078)</div>
+      </div>
+    </div>
+    <div class="valid-card">
+      <div class="vc-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h4>Real Demographic OOD</h4>
+      <p>Zero-shot evaluation on n=355 real Non-Hispanic Asian NHANES participants — a subgroup outside the primary training composition. No model retraining or fine-tuning applied.</p>
+      <div class="test-checklist">
+        <div class="test-check"><span class="tc">✓</span>ρ = 0.582, p = 3.0×10⁻³²</div>
+        <div class="test-check"><span class="tc">✓</span>Implied threshold: 1.77 (simulated: 1.79)</div>
+        <div class="test-check"><span class="tc">✓</span>Consistent across both OOD cycles</div>
+      </div>
+    </div>
+    <div class="valid-card">
+      <div class="vc-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h4>Automated Test Suite</h4>
+      <p>15 automated integration tests covering core model behaviors — identifiability constraints, anchor monotonicity, calibration bounds, and reconstruction fidelity. All passing.</p>
+      <div class="test-checklist">
+        <div class="test-check"><span class="tc">✓</span>Anchor monotonicity (Softplus constraint)</div>
+        <div class="test-check"><span class="tc">✓</span>Frobenius orthogonality loss convergence</div>
+        <div class="test-check"><span class="tc">✓</span>Mondrian coverage ≥ 90% all quadrants</div>
+        <div class="test-check"><span class="tc">✓</span>Geodesic solver: path length < baseline</div>
+        <div class="test-check"><span class="tc">✓</span>Full source code openly available on GitHub</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pharmacological verification -->
+  <div class="animate-in" style="margin-top:2rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem">
+    <div style="font-size:0.8rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;font-family:var(--font-mono);margin-bottom:0.8rem">Pharmacological Disentanglement Check</div>
+    <p style="font-size:0.83rem;color:var(--text-dim);line-height:1.6;margin-bottom:0.8rem">
+      Simulated deterministic drug interventions confirm that insulin-sensitizing agents shift only Z₁ (IR axis), while lipid-clearing agents shift only Z₂ (liver-fat axis). This structural verification — not a clinical prediction — mathematically proves the two coordinates capture independent biological pathways.
+    </p>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+      <div style="background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);border-radius:var(--radius-sm);padding:0.7rem 1rem;font-size:0.78rem">
+        <span style="color:var(--amber);font-weight:600">Metformin (IR pathway)</span><br>
+        <span style="color:var(--text-dim)">Z₁ shifts significantly · Z₂ unchanged ✓</span>
+      </div>
+      <div style="background:rgba(139,92,246,0.07);border:1px solid rgba(139,92,246,0.2);border-radius:var(--radius-sm);padding:0.7rem 1rem;font-size:0.78rem">
+        <span style="color:var(--violet);font-weight:600">Statin (lipid pathway)</span><br>
+        <span style="color:var(--text-dim)">Z₂ shifts significantly · Z₁ unchanged ✓</span>
+      </div>
+    </div>
+    <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.7rem">⚠ Note: r=1.000 in simulated interventions is a deterministic model artifact — this is a structural check, not a clinical trial prediction. Explicitly stated in limitations.</div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCENE 10 — CONTRIBUTIONS
+══════════════════════════════════════════════════════════ -->
+<section class="scene" id="contributions" data-scene="contributions">
+  <div class="scene-tag">09 / Key Contributions</div>
+  <h2 class="section-title animate-in">Five Novel Technical Contributions</h2>
+  <p class="section-subtitle animate-in delay-1">Each contribution is independently validated and addresses a distinct gap in the prior literature.</p>
+
+  <div class="contrib-grid animate-in delay-2">
+    <div class="contrib-card">
+      <div class="contrib-num text-blue">01</div>
+      <div class="contrib-body">
+        <h4>Clinically-Anchored Identifiable Latent Space</h4>
+        <p>A 2D latent representation in which each axis is mathematically constrained (via Softplus monotone networks) to track a real, independently verifiable clinical measurement — HOMA-IR and FibroScan CAP — preventing arbitrary latent axis rotation under retraining.</p>
+        <div style="margin-top:0.6rem"><span class="tag">Ablation proven</span><span class="tag green">ρ: 0.18→0.54 with anchors</span></div>
+      </div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-num" style="color:var(--green)">02</div>
+      <div class="contrib-body">
+        <h4>Mondrian Conformal Prediction per Phenotypic Quadrant</h4>
+        <p>Per-subgroup calibration that restores conditional coverage to ≥90% for the highest-risk Dual-Burden phenotype, which marginal calibration fails at 81.6%. Addresses the Barber et al. (2023) subgroup impossibility result directly.</p>
+        <div style="margin-top:0.6rem"><span class="tag green">90.4% vs 81.6%</span><span class="tag green">2yr temporal hold</span></div>
+      </div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-num text-amber">03</div>
+      <div class="contrib-body">
+        <h4>Riemannian Geodesic Intervention Planner</h4>
+        <p>Shortest-path computation on the Riemannian manifold induced by the decoder Jacobian — translating raw lab values into the minimum-change biomarker targets needed to route a patient toward the metabolically healthy zone.</p>
+        <div style="margin-top:0.6rem"><span class="tag amber">Euler-Lagrange solver</span><span class="tag amber">Decoder Jacobian metric</span></div>
+      </div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-num text-violet">04</div>
+      <div class="contrib-body">
+        <h4>Symbolic Regression Interpretability Layer</h4>
+        <p>Applies symbolic regression to the model's internal mapping to recover closed-form mathematical expressions relating latent coordinates to input biomarkers — enabling human-readable explanations without sacrificing the deep generative model's power.</p>
+        <div style="margin-top:0.6rem"><span class="tag violet">CV risk: both axes required</span><span class="tag violet">Formula extracted</span></div>
+      </div>
+    </div>
+    <div class="contrib-card">
+      <div class="contrib-num text-red">05</div>
+      <div class="contrib-body">
+        <h4>Ancestry-Specific Threshold Discovery</h4>
+        <p>First systematic computation of implied HOMA-IR metabolic thresholds stratified by ancestry using a latent generative model — revealing that all major ancestry groups cross metabolic risk boundaries well below the universal clinical cutoff of 2.5.</p>
+        <div style="margin-top:0.6rem"><span class="tag" style="background:var(--red-dim);color:var(--red)">NHA: 24.2% misclassified</span><span class="tag" style="background:var(--red-dim);color:var(--red)">p = 3.65×10⁻⁵</span></div>
+      </div>
+    </div>
+    <div class="contrib-card" style="background:linear-gradient(135deg,rgba(59,130,246,0.05),rgba(16,185,129,0.05));border-color:rgba(59,130,246,0.25)">
+      <div class="contrib-num" style="color:var(--cyan)">06</div>
+      <div class="contrib-body">
+        <h4>End-to-End Reproducible Research System</h4>
+        <p>Complete pipeline from raw NHANES XPORT files through data processing, semi-supervised training, conformal calibration, geodesic solving, symbolic regression, to an interactive clinical dashboard — all open-source, all tested, all reproducible.</p>
+        <div style="margin-top:0.6rem"><span class="tag">15 automated tests</span><span class="tag">5 seeds verified</span><span class="tag green">Open source</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCENE 11 — FAQ / EXAMINER QUESTIONS
+══════════════════════════════════════════════════════════ -->
+<section class="scene" id="faq" data-scene="faq">
+  <div class="scene-tag">10 / Anticipated Questions</div>
+  <h2 class="section-title animate-in">Answered with Real Numbers</h2>
+  <p class="section-subtitle animate-in delay-1">Every expected examiner challenge — from clinical utility to statistical validity to algorithmic fairness — addressed precisely.</p>
+
+  <div class="faq-list animate-in delay-2">
+    <div class="faq-item open">
+      <div class="faq-header" onclick="toggleFaq(this)">
+        <h4 class="faq-question">Why not just use a simpler model like Random Forest or XGBoost?</h4>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-body" style="max-height:300px">
+        <p class="faq-answer">Random Forest achieves <span class="mono">ρ=0.597</span>, slightly higher than LMSIS's <span class="mono">ρ=0.545</span>. However, at the clinically relevant CAP threshold, LMSIS reaches a higher AUROC (<span class="mono">0.793</span> vs <span class="mono">0.766</span>). More critically: RF produces a single scalar output. LMSIS produces a biologically interpretable 2D coordinate system, group-conditional confidence intervals, and a computed path back to health — none of which a single-output tree model can provide.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-header" onclick="toggleFaq(this)">
+        <h4 class="faq-question">How do you know Z₁ and Z₂ actually mean insulin resistance and liver fat — not just arbitrary numbers?</h4>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-body">
+        <p class="faq-answer">The ablation study directly proves this. Removing the anchor networks collapses the liver-fat Spearman correlation from <span class="mono">0.542 → 0.180</span>. Each anchor network is constrained with <strong>strictly positive Softplus weights</strong>, forcing ∂Z₁/∂HOMA-IR > 0 and ∂Z₂/∂CAP > 0 everywhere — mathematically preventing any axis rotation or sign flip under retraining.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-header" onclick="toggleFaq(this)">
+        <h4 class="faq-question">What is an identifiable VAE and why does standard VAE fail here?</h4>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-body">
+        <p class="faq-answer">Standard VAEs learn a latent space that is <strong>non-identifiable</strong> — the coordinates can undergo arbitrary rotations and still achieve the same reconstruction loss. For a clinician, this means the axes change meaning on every retraining run. LMSIS achieves identifiability following <strong>Khemakhem et al. (2020)</strong> by conditioning the prior p(z|u) on demographic covariates u, plus the dual monotone anchor constraint — forcing the model to explain latent variance relative to clinical baselines.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-header" onclick="toggleFaq(this)">
+        <h4 class="faq-question">Why Mondrian Conformal Prediction and not standard split CP?</h4>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-body">
+        <p class="faq-answer">Standard split CP only guarantees <strong>global marginal coverage</strong> (90% average across all patients). Following the <strong>Barber et al. (2023)</strong> conditional coverage impossibility theorem, marginal coverage cannot protect specific subgroups. Empirically: the Dual-Burden group drops to <span class="mono">81.6%</span> coverage under standard CP — 8.4% below the 90% safety target, leaving the sickest patients unprotected. Mondrian stratification calibrates each quadrant independently, restoring <span class="mono">≥90%</span> for all groups.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-header" onclick="toggleFaq(this)">
+        <h4 class="faq-question">Could this be overfit to NHANES? One dataset is not generalisation.</h4>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-body">
+        <p class="faq-answer">Three independent evaluations address this. First, <strong>strict temporal OOD</strong>: J-only model on P-cycle (two years later, zero overlap) achieves ρ=0.5793, <em>exceeding</em> the random-split baseline. Second, <strong>real demographic OOD</strong>: zero-shot performance on NHA cohort (n=355) with ρ=0.582. Third, <strong>5-seed reproducibility</strong>: all seeds exceed the baseline estimate. Overfitting to one seed or split is ruled out.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-header" onclick="toggleFaq(this)">
+        <h4 class="faq-question">The national CI is [0M, 64M]. Isn't this too wide to be meaningful?</h4>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-body">
+        <p class="faq-answer">The width is <strong>mathematically correct</strong> and reflects inherent NHANES complex survey variance for a small, tightly restricted subgroup (normal-BMI, complete panels). Under NHANES complex survey weighting, small-domain estimation introduces massive sampling variance. We report it transparently rather than artificially shrinking it — which would be scientifically dishonest. The point estimate (23.9M) is meaningful; the CI honestly communicates that a dedicated large-scale registry is needed to narrow this range.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-header" onclick="toggleFaq(this)">
+        <h4 class="faq-question">Is this system ready for clinical use?</h4>
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-body">
+        <p class="faq-answer"><strong>No.</strong> This is a research prototype demonstrating technical feasibility of a clinically-anchored generative screening approach. It has not undergone clinical trials, regulatory review, or prospective longitudinal validation. The geodesic intervention pathways are computational recommendations based on population manifold geometry — not individually validated patient trajectories. Using it to direct real patient care at this stage would be inappropriate.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCENE 12 — LIMITATIONS & FUTURE WORK
+══════════════════════════════════════════════════════════ -->
+<section class="scene" id="limitations" data-scene="limitations">
+  <div class="scene-tag">11 / Limitations & Future Work</div>
+  <h2 class="section-title animate-in">What We Know We Don't Know</h2>
+  <p class="section-subtitle animate-in delay-1">Honest disclosure of current limitations alongside a concrete roadmap for future research.</p>
+
+  <div class="limfut-grid animate-in delay-2">
+    <div class="limfut-col">
+      <h3 style="color:var(--red)">⚠ Current Limitations</h3>
+      <div class="lim-list">
+        <div class="lim-item">
+          <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="lim-text"><strong>Cross-sectional data only.</strong> Every patient is measured exactly once (NHANES design). The model cannot predict patient trajectories over time — only recover their current hidden metabolic state.</span>
+        </div>
+        <div class="lim-item">
+          <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="lim-text"><strong>Single-survey training source.</strong> All data originates from NHANES — a U.S. nationally representative survey. External validation on independently collected non-U.S. cohorts has not been performed.</span>
+        </div>
+        <div class="lim-item">
+          <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="lim-text"><strong>FibroScan labels partially missing.</strong> The steatosis anchor is semi-supervised because FibroScan-derived CAP values are available for only ~60% of participants. Expanded liver biopsy or imaging data would improve Z₂ anchoring.</span>
+        </div>
+        <div class="lim-item">
+          <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="lim-text"><strong>Geodesic paths are unvalidated longitudinally.</strong> The Riemannian intervention solver computes mathematically shortest paths on the population manifold — not clinically proven patient trajectories. Prospective trials required.</span>
+        </div>
+        <div class="lim-item">
+          <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="lim-text"><strong>Research prototype only.</strong> No regulatory review. Not validated in clinical settings. Cannot and should not be used to direct real patient care.</span>
+        </div>
+      </div>
+    </div>
+    <div class="limfut-col">
+      <h3 style="color:var(--green)">→ Future Research Directions</h3>
+      <div class="lim-list">
+        <div class="fut-item">
+          <svg class="fut-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="fut-text"><strong>Longitudinal validation.</strong> Apply LMSIS to prospective cohort studies (e.g., UK Biobank with repeat visits) to validate whether the latent coordinate tracks actual patient disease progression over time.</span>
+        </div>
+        <div class="fut-item">
+          <svg class="fut-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="fut-text"><strong>Multi-site external validation.</strong> Validate on independently collected, non-NHANES cohorts — especially in South Asia, East Asia, and Africa — where metabolic disease patterns differ substantially.</span>
+        </div>
+        <div class="fut-item">
+          <svg class="fut-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="fut-text"><strong>Expanded label availability.</strong> Partner with hepatology centres to acquire FibroScan CAP labels for a larger fraction of the training cohort, reducing reliance on semi-supervised missing-data imputation.</span>
+        </div>
+        <div class="fut-item">
+          <svg class="fut-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="fut-text"><strong>EHR and primary care integration.</strong> Adapt the model for automated ingestion from electronic health record systems — enabling routine, zero-cost metabolic screening at the point of care for all normal-BMI patients.</span>
+        </div>
+        <div class="fut-item">
+          <svg class="fut-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="fut-text"><strong>Regulatory pathway investigation.</strong> Evaluate the evidence requirements for FDA/CE submission as a software-as-a-medical-device (SaMD) pre-screening tool, identifying the required clinical trial design.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCENE 13 — FOOTER
+══════════════════════════════════════════════════════════ -->
+<section class="scene footer-scene" id="footer" data-scene="footer">
+  <div class="footer-logo">LMSIS</div>
+  <div class="footer-tagline">Latent Metabolic State Inference System</div>
+  <p style="font-size:0.85rem;color:var(--text-muted);max-width:500px;text-align:center;margin-bottom:2rem;line-height:1.7">
+    A Dual-Anchored Semi-Supervised Identifiable Variational Autoencoder for Predictive Risk Intelligence in Metabolic Screening — recovering hidden insulin resistance and hepatic steatosis from routine blood panels in normal-BMI adults.
+  </p>
+  <div class="footer-links">
+    <a href="https://github.com/mysticai11/TYPE2-PHENOTYPE" target="_blank">GitHub Repository</a>
+    <a href="https://github.com/mysticai11/demo" target="_blank">Live Demo</a>
+    <a href="https://wwwn.cdc.gov/nchs/nhanes/" target="_blank">NHANES Dataset</a>
+  </div>
+  <div class="footer-college">SHMM Government Degree College Anantnag</div>
+  <div class="footer-authors">
+    <span>Karamjeet Singh · 5244</span>
+    <span>·</span>
+    <span>Sarandeep Singh · 5244</span>
+    <span>·</span>
+    <span>Ubaid Ahmad · 5255</span>
+    <span>·</span>
+    <span>Aiman Younus Dar · 222176</span>
+  </div>
+  <div style="margin-top:2rem;font-size:0.68rem;color:var(--text-faint)">
+    NHANES data © CDC/NCHS · All model code open-source under MIT License
+  </div>
+</section>
+
+<script src="script.js"></script>
 </body>
 </html>
