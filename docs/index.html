@@ -175,57 +175,74 @@
       
       <!-- SVG Horizontal Architecture Diagram with Scroll-Linked Draw -->
       <div class="diagram-container animate-element">
-        <svg viewBox="0 0 1000 320" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Background grids/connectors -->
-          <path class="draw-path" d="M 180 80 H 260" stroke="var(--border)" stroke-width="2" />
-          <path class="draw-path" d="M 370 80 H 420" stroke="var(--border)" stroke-width="2" />
+        <svg viewBox="0 0 1000 380" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 1 2 L 7 5 L 1 8 Z" fill="rgba(74, 99, 128, 0.85)" />
+            </marker>
+          </defs>
+
+          <!-- Background connecting paths -->
+          <path class="draw-path" d="M 180 180 H 220" stroke="rgba(74, 99, 128, 0.65)" stroke-width="2.5" marker-end="url(#arrow)" />
+          <path class="draw-path" d="M 330 180 H 370" stroke="rgba(74, 99, 128, 0.65)" stroke-width="2.5" marker-end="url(#arrow)" />
           
           <!-- Branching paths from coordinate -->
-          <path class="draw-path" d="M 520 80 Q 570 80 570 50 H 620" stroke="var(--border)" stroke-width="2" />
-          <path class="draw-path" d="M 520 80 Q 570 80 570 110 H 620" stroke="var(--border)" stroke-width="2" />
-          <path class="draw-path" d="M 520 80 Q 570 80 570 170 H 620" stroke="var(--border)" stroke-width="2" />
+          <path class="draw-path" d="M 500 180 C 525 180, 525 60, 550 60" stroke="rgba(74, 99, 128, 0.65)" stroke-width="2.5" marker-end="url(#arrow)" />
+          <path class="draw-path" d="M 500 180 H 550" stroke="rgba(74, 99, 128, 0.65)" stroke-width="2.5" marker-end="url(#arrow)" />
+          <path class="draw-path" d="M 500 180 C 525 180, 525 300, 550 300" stroke="rgba(74, 99, 128, 0.65)" stroke-width="2.5" marker-end="url(#arrow)" />
 
           <!-- Post decoder path -->
-          <path class="draw-path" d="M 720 170 H 770" stroke="var(--border)" stroke-width="2" />
-          <path class="draw-path" d="M 870 170 H 920" stroke="var(--border)" stroke-width="2" />
+          <path class="draw-path" d="M 660 300 H 700" stroke="rgba(74, 99, 128, 0.65)" stroke-width="2.5" marker-end="url(#arrow)" />
+          <path class="draw-path" d="M 830 300 H 860" stroke="rgba(74, 99, 128, 0.65)" stroke-width="2.5" marker-end="url(#arrow)" />
 
-          <!-- Nodes as HTML overlay approximations or SVG shapes -->
+          <!-- Nodes using foreignObject for text wrapping and styling -->
           <!-- Node 1: Biomarkers -->
-          <rect x="10" y="45" width="170" height="70" rx="10" fill="var(--panel)" stroke="var(--border)" stroke-width="1.5" />
-          <text x="95" y="80" fill="var(--text)" font-size="10" font-weight="500" text-anchor="middle">"14 blood biomarkers + age, sex, ancestry"</text>
+          <foreignObject x="10" y="140" width="170" height="80">
+            <div class="dia-node">"14 blood biomarkers + age, sex, ancestry"</div>
+          </foreignObject>
 
           <!-- Node 2: Encoder -->
-          <rect x="260" y="45" width="110" height="70" rx="10" fill="var(--panel)" stroke="var(--border)" stroke-width="1.5" />
-          <text x="315" y="85" fill="var(--text)" font-size="12" font-weight="500" text-anchor="middle">"Encoder"</text>
+          <foreignObject x="220" y="140" width="110" height="80">
+            <div class="dia-node">"Encoder"</div>
+          </foreignObject>
 
-          <!-- Node 3: 2D coordinate -->
-          <rect x="420" y="45" width="100" height="70" rx="10" fill="var(--panel)" stroke="var(--healthy)" stroke-width="2" />
-          <text x="470" y="85" fill="var(--text)" font-size="10" font-weight="600" text-anchor="middle">"2D metabolic coordinate"</text>
+          <!-- Node 3: 2D Coordinate -->
+          <foreignObject x="370" y="140" width="130" height="80">
+            <div class="dia-node dia-node-healthy">"2D metabolic coordinate"</div>
+          </foreignObject>
 
           <!-- Branch 1: IR Anchor -->
-          <rect x="620" y="20" width="180" height="50" rx="10" fill="var(--panel)" stroke="var(--border)" stroke-width="1.5" />
-          <text x="710" y="50" fill="var(--text)" font-size="11" font-weight="500" text-anchor="middle">"Insulin-resistance anchor"</text>
+          <foreignObject x="550" y="20" width="180" height="80">
+            <div class="dia-node">"Insulin-resistance anchor"</div>
+          </foreignObject>
 
           <!-- Branch 2: Liver Fat Anchor -->
-          <rect x="620" y="85" width="180" height="50" rx="10" fill="var(--panel)" stroke="var(--border)" stroke-width="1.5" />
-          <text x="710" y="115" fill="var(--text)" font-size="11" font-weight="500" text-anchor="middle">"Liver-fat anchor"</text>
+          <foreignObject x="550" y="140" width="180" height="80">
+            <div class="dia-node">"Liver-fat anchor"</div>
+          </foreignObject>
 
           <!-- Branch 3: Decoder -->
-          <rect x="620" y="145" width="100" height="50" rx="10" fill="var(--panel)" stroke="var(--border)" stroke-width="1.5" />
-          <text x="670" y="175" fill="var(--text)" font-size="12" font-weight="500" text-anchor="middle">"Decoder"</text>
+          <foreignObject x="550" y="260" width="110" height="80">
+            <div class="dia-node">"Decoder"</div>
+          </foreignObject>
 
-          <!-- Node 4: Confidence -->
-          <rect x="770" y="145" width="100" height="50" rx="10" fill="var(--panel)" stroke="var(--border)" stroke-width="1.5" />
-          <text x="820" y="175" fill="var(--text)" font-size="9" font-weight="500" text-anchor="middle">"Per-group confidence calibration"</text>
+          <!-- Node 4: Confidence Calibration -->
+          <foreignObject x="700" y="260" width="130" height="80">
+            <div class="dia-node">"Per-group confidence calibration"</div>
+          </foreignObject>
 
-          <!-- Node 5: Route back -->
-          <rect x="920" y="145" width="70" height="50" rx="10" fill="var(--panel)" stroke="var(--border)" stroke-width="1.5" />
-          <!-- Map pin SVG icon embedded within diagram -->
-          <g transform="translate(935, 155) scale(0.6)">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="var(--healthy)" stroke-width="2" fill="none" />
-            <circle cx="12" cy="10" r="3" fill="var(--healthy)" />
-          </g>
-          <text x="955" y="185" fill="var(--text)" font-size="8" font-weight="500" text-anchor="middle">"Route back to a healthy position"</text>
+          <!-- Node 5: Route Back -->
+          <foreignObject x="860" y="260" width="130" height="80">
+            <div class="dia-node">
+              <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.2rem;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--healthy)" stroke-width="2" style="width: 18px; height: 18px; flex-shrink: 0;">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                  <circle cx="12" cy="10" r="3" fill="var(--healthy)" />
+                </svg>
+                <span style="font-size: 0.76rem; line-height: 1.25;">"Route back to a healthy position"</span>
+              </div>
+            </div>
+          </foreignObject>
         </svg>
       </div>
 
@@ -418,16 +435,14 @@
               <!-- Animated Intervention Pathway Route Curve (Dashed) -->
               <path id="demo-route" fill="none" stroke-width="2.5" stroke-dasharray="6,6" class="anim-path" style="display: none;" />
 
-              <!-- Waypoint Label text path target -->
+              <!-- Waypoint Label text target -->
               <text id="demo-waypoint-label" font-family="var(--font-body)" font-weight="600" font-size="11" text-anchor="middle" style="display: none;"></text>
 
-              <!-- Smooth Animating Active Profile locator pin -->
+              <!-- Active Profile locator pin -->
               <circle id="demo-pin" r="8" style="display: none; transition: cx 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), cy 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);" />
 
               <!-- Axis Labels -->
-              <!-- Insulin resistance along the bottom -->
               <text x="320" y="385" fill="var(--muted)" font-size="11" font-weight="500" text-anchor="middle">"Insulin resistance ->"</text>
-              <!-- Liver fat along the left edge -->
               <text x="25" y="200" fill="var(--muted)" font-size="11" font-weight="500" text-anchor="middle" transform="rotate(-90 25 200)">"Liver fat ^"</text>
             </svg>
           </div>
@@ -447,7 +462,7 @@
       
       <p class="scene-subtitle animate-element">"Results at a glance"</p>
       
-      <!-- Bento Grid of Statistics -->
+      <!-- Statistics Bento Box -->
       <div class="bento-grid results-grid animate-element">
         <div class="glass-card stat-card">
           <div class="stat-card-label">"Liver-fat detection accuracy"</div>
@@ -464,14 +479,13 @@
         </div>
       </div>
 
-      <!-- Charts Section (Grid containing Horizontal & Vertical Charts) -->
+      <!-- Charts Section -->
       <div class="results-charts-container animate-element">
         
         <!-- Left: Horizontal Comparison Chart -->
         <div class="chart-section">
           <h4 class="chart-title">"Performance on unseen, later-collected data"</h4>
           <div class="horizontal-bar-chart">
-            <!-- Row 1: LMSIS -->
             <div class="bar-row">
               <div class="bar-label-row">
                 <span class="bar-label">"LMSIS"</span>
@@ -481,7 +495,6 @@
                 <div class="bar-fill" data-target-width="58.3" style="background-color: var(--healthy)"></div>
               </div>
             </div>
-            <!-- Row 2: Fatty Liver Index -->
             <div class="bar-row">
               <div class="bar-label-row">
                 <span class="bar-label">"Fatty Liver Index"</span>
@@ -491,7 +504,6 @@
                 <div class="bar-fill" data-target-width="38.5" style="background-color: var(--muted)"></div>
               </div>
             </div>
-            <!-- Row 3: TyG Index -->
             <div class="bar-row">
               <div class="bar-label-row">
                 <span class="bar-label">"TyG Index"</span>
@@ -501,7 +513,6 @@
                 <div class="bar-fill" data-target-width="31.2" style="background-color: var(--muted)"></div>
               </div>
             </div>
-            <!-- Row 4: Hepatic Steatosis Index -->
             <div class="bar-row">
               <div class="bar-label-row">
                 <span class="bar-label">"Hepatic Steatosis Index"</span>
@@ -511,7 +522,6 @@
                 <div class="bar-fill" data-target-width="9.2" style="background-color: var(--muted)"></div>
               </div>
             </div>
-            <!-- Row 5: NAFLD Liver Fat Score -->
             <div class="bar-row">
               <div class="bar-label-row">
                 <span class="bar-label">"NAFLD Liver Fat Score"</span>
@@ -525,11 +535,10 @@
           <p class="results-caption">"One widely used clinical score ranks higher-risk patients as healthier than lower-risk ones — the opposite of its intended purpose."</p>
         </div>
 
-        <!-- Right: Vertical Before/After Conformal Correction Chart -->
+        <!-- Right: Vertical Before/After Chart -->
         <div class="chart-section" style="align-items: center;">
           <h4 class="chart-title">"Reliability for the highest-risk subgroup"</h4>
           <div class="vertical-bars-container" style="width: 250px;">
-            <!-- Before -->
             <div class="v-bar-item">
               <span class="bar-val">"81.6%"</span>
               <div class="v-bar-track">
@@ -537,7 +546,6 @@
               </div>
               <span class="bar-label">"Standard calibration"</span>
             </div>
-            <!-- After -->
             <div class="v-bar-item">
               <span class="bar-val" style="color: var(--healthy)">"90.4%"</span>
               <div class="v-bar-track">
@@ -551,15 +559,13 @@
 
       </div>
 
-      <!-- Additional Bento Findings Cards -->
+      <!-- Findings cards -->
       <div class="bento-grid results-grid animate-element">
-        <!-- Callout finding -->
         <div class="glass-card highlight-callout-card">
           <div class="callout-header">"An interesting side-finding"</div>
           <p class="bento-card-title">"Symbolic regression applied to the model's internal mapping recovered a simple closed-form expression showing that cardiovascular risk rises sharply only when both coordinates are elevated together — not from either one alone. The model discovered this structure on its own; it was not built in by hand."</p>
         </div>
         
-        <!-- Equity finding -->
         <div class="glass-card equity-card">
           <div class="equity-header">"A finding about fairness"</div>
           <p class="bento-card-title">"Evaluated on a real group of Non-Hispanic Asian participants (n=355), the model's implied risk threshold sits at a HOMA-IR of approximately 1.77 — well below the standard clinical cutoff of 2.5. Using the standard cutoff alone, roughly one in four patients in this group are classified as healthy despite crossing the model's own latent risk boundary."</p>
@@ -604,7 +610,6 @@
       
       <div class="bento-grid faq-grid animate-element">
         
-        <!-- FAQ 1 -->
         <div class="glass-card faq-card">
           <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
             <h4 class="faq-question">"Is this system ready to be used on real patients?"</h4>
@@ -617,7 +622,6 @@
           </div>
         </div>
 
-        <!-- FAQ 2 -->
         <div class="glass-card faq-card">
           <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
             <h4 class="faq-question">"Why not just use a simpler model, like Random Forest?"</h4>
@@ -630,7 +634,6 @@
           </div>
         </div>
 
-        <!-- FAQ 3 -->
         <div class="glass-card faq-card">
           <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
             <h4 class="faq-question">"How do you know the two coordinates actually mean insulin resistance and liver fat, rather than being arbitrary numbers?"</h4>
@@ -643,7 +646,6 @@
           </div>
         </div>
 
-        <!-- FAQ 4 -->
         <div class="glass-card faq-card">
           <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
             <h4 class="faq-question">"Could this just be overfit to one dataset?"</h4>
@@ -656,7 +658,6 @@
           </div>
         </div>
 
-        <!-- FAQ 5 -->
         <div class="glass-card faq-card">
           <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
             <h4 class="faq-question">"Does this work fairly across different ancestries?"</h4>
@@ -669,7 +670,6 @@
           </div>
         </div>
 
-        <!-- FAQ 6 -->
         <div class="glass-card faq-card">
           <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
             <h4 class="faq-question">"Why is the national estimate given with such a wide range?"</h4>
@@ -682,7 +682,6 @@
           </div>
         </div>
 
-        <!-- FAQ 7 -->
         <div class="glass-card faq-card">
           <div class="faq-header" onclick="toggleAccordion(this, '.faq-body')">
             <h4 class="faq-question">"What is the single biggest limitation of this work right now?"</h4>
@@ -720,7 +719,6 @@
     <section class="scene" id="scene-11">
       <div class="limitations-row animate-element">
         
-        <!-- Left: What we don't yet know -->
         <div class="limitations-column left-side">
           <h3>"What we don't yet know"</h3>
           <div class="limitations-list">
@@ -751,7 +749,6 @@
           </div>
         </div>
 
-        <!-- Right: What's next -->
         <div class="limitations-column right-side">
           <h3>"What's next"</h3>
           <div class="limitations-list">

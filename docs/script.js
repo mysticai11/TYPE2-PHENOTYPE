@@ -88,37 +88,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // --- 3. Keyboard Snape Handler ---
+  // --- 3. Keyboard Snap Handler (Tuned for tall scenes) ---
   window.addEventListener('keydown', (e) => {
     if (isScrolling) return;
 
+    const currentSection = sections[currentSectionIndex];
+    const rect = currentSection.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+
     if (['ArrowDown', 'ArrowRight', ' ', 'PageDown'].includes(e.key)) {
-      if (currentSectionIndex < sections.length - 1) {
+      if (rect.bottom > viewportHeight + 10) {
         e.preventDefault();
-        scrollToSection(currentSectionIndex + 1);
+        isScrolling = true;
+        window.scrollBy({
+          top: viewportHeight * 0.8,
+          behavior: 'smooth'
+        });
+        setTimeout(() => { isScrolling = false; }, 400);
+      } else {
+        if (currentSectionIndex < sections.length - 1) {
+          e.preventDefault();
+          scrollToSection(currentSectionIndex + 1);
+        }
       }
     } else if (['ArrowUp', 'ArrowLeft', 'PageUp'].includes(e.key)) {
-      if (currentSectionIndex > 0) {
+      if (rect.top < -10) {
         e.preventDefault();
-        scrollToSection(currentSectionIndex - 1);
+        isScrolling = true;
+        window.scrollBy({
+          top: -viewportHeight * 0.8,
+          behavior: 'smooth'
+        });
+        setTimeout(() => { isScrolling = false; }, 400);
+      } else {
+        if (currentSectionIndex > 0) {
+          e.preventDefault();
+          scrollToSection(currentSectionIndex - 1);
+        }
       }
     }
   });
-
-  // --- 4. IntersectionObserver for Natural Scrolling Sync ---
-  const sceneObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && !isScrolling) {
-        const activeIdx = sections.indexOf(entry.target);
-        if (activeIdx !== -1) {
-          currentSectionIndex = activeIdx;
-          updateNavigationStates(activeIdx);
-        }
-      }
-    });
-  }, { threshold: 0.4 });
-
-  sections.forEach(section => sceneObserver.observe(section));
 
   // --- 5. Entrance Fade & Rise Animations ---
   const animObserver = new IntersectionObserver((entries) => {
@@ -174,8 +183,33 @@ document.addEventListener('DOMContentLoaded', () => {
     path.style.strokeDashoffset = length;
   });
 
-  // --- 8. Continuous Scroll-Linked Drawing and Chart Growing ---
+  // --- 8. Continuous Scroll-Linked Drawing, Chart Growing, and Active Section Scroll-Sync ---
   window.addEventListener('scroll', () => {
+    // Scroll Sync Active Section Detection (calculates section spanning the screen midpoint)
+    if (!isScrolling) {
+      const viewportMid = window.innerHeight / 2;
+      let activeIdx = 0;
+      let minDistance = Infinity;
+
+      for (let i = 0; i < sections.length; i++) {
+        const rect = sections[i].getBoundingClientRect();
+        if (rect.top <= viewportMid && rect.bottom >= viewportMid) {
+          activeIdx = i;
+          break;
+        }
+        const distance = Math.min(Math.abs(rect.top - viewportMid), Math.abs(rect.bottom - viewportMid));
+        if (distance < minDistance) {
+          minDistance = distance;
+          activeIdx = i;
+        }
+      }
+
+      if (activeIdx !== currentSectionIndex) {
+        currentSectionIndex = activeIdx;
+        updateNavigationStates(activeIdx);
+      }
+    }
+
     // Scene 5 Method Architecture Scroll-Link
     const s5 = document.getElementById('scene-5');
     if (s5) {

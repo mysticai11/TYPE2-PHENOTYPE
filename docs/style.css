@@ -235,7 +235,7 @@ body::before {
 .dots-nav-item.active {
   opacity: 1;
   transform: scale(1.6);
-  background-color: var(--healthy); /* Set dynamically in JS */
+  background-color: var(--healthy);
 }
 
 /* Scenes Base Layout */
@@ -255,22 +255,22 @@ body::before {
 .scene-title {
   font-family: var(--font-title);
   font-weight: 700;
-  font-size: clamp(2rem, 4.5vw, 3.5rem);
-  line-height: 1.15;
+  font-size: clamp(1.6rem, 3.2vw, 2.5rem);
+  line-height: 1.2;
   letter-spacing: -0.03em;
   text-align: center;
   max-width: 960px;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   color: var(--text);
 }
 
 .scene-subtitle {
-  font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+  font-size: clamp(0.95rem, 1.8vw, 1.25rem);
   font-weight: 500;
   color: var(--muted);
   text-align: center;
   max-width: 800px;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 /* Monospace Numbers Class */
@@ -586,12 +586,59 @@ body::before {
 .diagram-container {
   width: 100%;
   max-width: 1100px;
-  margin: 3rem 0;
-  padding: 2rem;
+  margin: 2rem 0;
+  padding: 1.5rem;
   background: rgba(12, 17, 30, 0.4);
   border-radius: 16px;
   border: 1px solid var(--border);
   position: relative;
+}
+
+.diagram-container svg .draw-path {
+  stroke: rgba(74, 99, 128, 0.65);
+  stroke-width: 2px;
+}
+
+/* Architecture Diagram Custom HTML nodes inside SVG foreignObject */
+.dia-node {
+  background: rgba(12, 17, 30, 0.85);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--text);
+  box-sizing: border-box;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.dia-node:hover {
+  border-color: var(--healthy);
+  transform: scale(1.02);
+}
+
+.dia-node-healthy {
+  border-color: var(--healthy);
+  box-shadow: 0 0 15px rgba(0, 196, 125, 0.15);
+}
+
+.dia-node-healthy:hover {
+  border-color: #00e08f;
+  box-shadow: 0 0 20px rgba(0, 196, 125, 0.3);
+}
+
+.dia-node span {
+  display: block;
 }
 
 .details-toggle-container {
@@ -1287,10 +1334,10 @@ body::before {
 
 /* Scene 12 - Footer */
 .footer-scene {
-  min-height: 50vh;
+  min-height: 100vh;
   justify-content: center;
   align-items: center;
-  padding: 4rem 2rem;
+  padding: 7rem 4rem 4rem 4rem;
   border-top: 1px solid var(--border);
 }
 
