@@ -1,7 +1,7 @@
 <div align="center">
 
 # Predictive Risk Intelligence for Metabolic Screening in Diabetes
-### LMSIS
+### LMSIS: Latent Metabolic State Inference System
 
 *A Semi-Supervised Deep Learning Framework for Early Detection of Metabolic Dysfunction in Normal-BMI Adults*
 
@@ -18,16 +18,14 @@
 
 ---
 
-## Silent metabolic risk, made visible.
+## 🔬 Silent metabolic risk, made visible.
 
-> This dissertation, *Predictive Risk Intelligence for Metabolic Screening in Diabetes*, presents the **Latent Metabolic State Inference System (LMSIS)**, a computational pipeline designed to detect silent concurrent metabolic dysfunction in normal-BMI adults from routine blood biomarkers.
+Millions of adults worldwide receive a clean bill of health simply because their Body Mass Index falls within the normal range (18.5 ≤ BMI ≤ 24.9 kg/m²). However, BMI is strictly a measure of mass, completely blind to fat distribution and ectopic tissue accumulation. Underneath a healthy-looking exterior, a patient may carry a silent, severe dual metabolic burden — simultaneous insulin resistance and hepatic steatosis — invisible to traditional screening.
 
-Millions of adults worldwide receive a clean bill of health simply because their Body Mass Index falls within the normal range (18.5 ≤ BMI ≤ 24.9 kg/m²). However, BMI is blind to fat distribution and ectopic tissue accumulation. Underneath a healthy-looking exterior, a patient may carry a silent, severe dual metabolic burden — simultaneous insulin resistance and hepatic steatosis — invisible to traditional screening.
-
-**LMSIS** recovers a continuous 2D latent metabolic geometry from 14 routine blood biomarkers, validated against gold-standard FibroScan ultrasound elastography. It deploys a **Dual-Anchored Semi-Supervised Identifiable Variational Autoencoder (DA-SS-iVAE)** to identify the four phenotypic quadrants of metabolic health in normal-weight individuals.
+**LMSIS** deploys a **Dual-Anchored Semi-Supervised Identifiable Variational Autoencoder (DA-SS-iVAE)** to recover a continuous 2D latent metabolic geometry from 14 routine blood biomarkers. Validated against gold-standard FibroScan ultrasound elastography, the system successfully identifies high-risk metabolic phenotypes without requiring imaging or specialist referral.
 
 > [!IMPORTANT]
-> **Full Documentation**: For the complete dissertation, mathematical formulation (ELBO, Monotone Anchors), experimental validation metrics, conformal calibration guarantees, symbolic interpretability proofs, and system blueprints, please refer directly to the LaTeX source [dissertation.tex](file:///c:/Users/singh/TYPE2-PHENOTYPE/dissertation.tex).
+> **Full Dissertation & Results**: For the complete findings, including mathematical proofs, exact threshold derivations (e.g., the 24.2% NHA misclassification rate), ablation studies (ρ: 0.18 → 0.54), and temporal OOD validation (ρ=0.5793), please read the comprehensive **[dissertation.md](dissertation.md)** summary, or the full LaTeX source [dissertation.tex](dissertation.tex).
 
 ---
 
@@ -51,7 +49,16 @@ LMSIS projects every patient onto a two-axis plane, where each axis corresponds 
 | **Metabolically Healthy (MHNW)** | Neither axis elevated | Baseline healthy cohort. Low risk of cardiovascular progression. |
 | **IR-Dominant** | Z₁ elevated, Z₂ normal | Isolated tissue insulin resistance. Responds to sensitizers (Metformin). |
 | **Steatosis-Dominant** | Z₂ elevated, Z₁ normal | Isolated hepatic lipid accumulation. Responds to Statins/Fibrates. |
-| **Dual-Burden (High-Risk)** | Both axes elevated | **Highest risk clinical subpopulation.** Severe silent burden. |
+| **Dual-Burden (High-Risk)** | Both axes elevated | **Highest risk subpopulation.** Severe silent burden (29.89% prevalence). |
+
+---
+
+## 📊 Key Findings at a Glance
+
+- **29.89% National Prevalence:** An estimated 23.9 million normal-BMI U.S. adults carry dual-burden metabolic dysfunction.
+- **Ancestry Inequality:** The universal HOMA-IR cutoff of 2.5 misclassifies 24.2% of Asian-American patients as healthy. LMSIS discovers statistically significant, lower ancestry-specific thresholds (p = 3.65×10⁻⁵).
+- **Fair Uncertainty:** Mondrian Conformal Prediction restores 90.4% coverage for the high-risk Dual-Burden subgroup, which standard CP fails to protect (81.6%).
+- **Temporal Robustness:** Evaluated on an unseen future cohort (NHANES P-cycle 2019-2020) with zero data leakage, achieving ρ=0.5793.
 
 ---
 

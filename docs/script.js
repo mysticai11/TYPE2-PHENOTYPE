@@ -379,18 +379,11 @@
   };
 
   /* ══════════════════════════════════════════════
-     KEYBOARD NAVIGATION
+     NAVIGATION (KEYBOARD & BUTTONS)
   ══════════════════════════════════════════════ */
-  const TALL_SCENES = ['results', 'architecture', 'gap', 'faq', 'limitations'];
-  let lastKeyTime = 0;
+  let lastNavTime = 0;
 
-  document.addEventListener('keydown', (e) => {
-    const now = Date.now();
-    if (now - lastKeyTime < 300) return;
-    const key = e.key;
-    if (!['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' '].includes(key)) return;
-
-    // Determine current scene at viewport center
+  function getCurrentSceneIdx() {
     const mid = window.innerHeight / 2;
     let curIdx = 0;
     SCENES.forEach((s, i) => {
@@ -399,31 +392,45 @@
       const r = el.getBoundingClientRect();
       if (r.top <= mid && r.bottom >= mid) curIdx = i;
     });
+    return curIdx;
+  }
 
-    const curId = SCENES[curIdx].id;
-    const curEl = document.getElementById(curId);
-    const curR = curEl ? curEl.getBoundingClientRect() : null;
-    const isTall = TALL_SCENES.includes(curId);
+  function goToNext() {
+    const now = Date.now();
+    if (now - lastNavTime < 300) return;
+    const curIdx = getCurrentSceneIdx();
+    if (curIdx < SCENES.length - 1) {
+      const next = document.getElementById(SCENES[curIdx + 1].id);
+      if (next) next.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    lastNavTime = now;
+  }
 
-    if (key === 'ArrowDown' || key === 'PageDown' || key === ' ') {
+  function goToPrev() {
+    const now = Date.now();
+    if (now - lastNavTime < 300) return;
+    const curIdx = getCurrentSceneIdx();
+    if (curIdx > 0) {
+      const prev = document.getElementById(SCENES[curIdx - 1].id);
+      if (prev) prev.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    lastNavTime = now;
+  }
+
+  document.addEventListener('keydown', (e) => {
+    const key = e.key;
+    if (['ArrowDown', 'PageDown', ' '].includes(key)) {
       e.preventDefault();
-      if (isTall && curR && curR.bottom > window.innerHeight + 40) {
-        window.scrollBy({ top: window.innerHeight * 0.75, behavior: 'smooth' });
-      } else if (curIdx < SCENES.length - 1) {
-        const next = document.getElementById(SCENES[curIdx + 1].id);
-        if (next) next.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-      lastKeyTime = now;
-    } else if (key === 'ArrowUp' || key === 'PageUp') {
+      goToNext();
+    } else if (['ArrowUp', 'PageUp'].includes(key)) {
       e.preventDefault();
-      if (isTall && curR && curR.top < -40) {
-        window.scrollBy({ top: -window.innerHeight * 0.75, behavior: 'smooth' });
-      } else if (curIdx > 0) {
-        const prev = document.getElementById(SCENES[curIdx - 1].id);
-        if (prev) prev.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-      lastKeyTime = now;
+      goToPrev();
     }
   });
+
+  const btnUp = document.getElementById('nav-up');
+  const btnDown = document.getElementById('nav-down');
+  if (btnUp) btnUp.addEventListener('click', goToPrev);
+  if (btnDown) btnDown.addEventListener('click', goToNext);
 
 })();
