@@ -17,6 +17,7 @@
     { id: 'equity',        label: 'Equity' },
     { id: 'validation',    label: 'Validation' },
     { id: 'contributions', label: 'Contributions' },
+    { id: 'faq',           label: 'FAQ' },
     { id: 'limitations',   label: 'Limitations' },
     { id: 'footer',        label: 'Footer' },
   ];
