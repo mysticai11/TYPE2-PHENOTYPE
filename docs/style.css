@@ -130,8 +130,7 @@ table { border-collapse: collapse; width: 100%; }
 /* ─── SCENES ─── */
 .scene {
   position: relative;
-  height: 100vh;
-  overflow-y: auto;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -748,36 +747,4 @@ table { border-collapse: collapse; width: 100%; }
   .results-stats { grid-template-columns: 1fr; }
   .failure-grid { grid-template-columns: 1fr; }
   .author-grid { flex-direction: column; align-items: center; }
-}
-
-/* ─── NAVIGATION ARROWS ─── */
-.nav-arrows {
-  position: fixed;
-  bottom: 2rem;
-  right: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  z-index: 900;
-}
-.nav-arrow-btn {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--border);
-  color: var(--text-dim);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  backdrop-filter: blur(8px);
-}
-.nav-arrow-btn:hover {
-  background: var(--blue-dim);
-  border-color: var(--blue);
-  color: var(--blue);
-  box-shadow: 0 0 15px var(--blue-glow);
-  transform: translateY(-2px);
 }
