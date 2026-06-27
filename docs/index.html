@@ -17,13 +17,14 @@
   <span class="nav-brand">LMSIS — Latent Metabolic State Inference System</span>
   <ul class="nav-links">
     <li><a href="#problem" data-nav="problem">Problem</a></li>
-    <li><a href="#gap" data-nav="gap">Gap</a></li>
+    <li><a href="#gap" data-nav="gap">Research Gap</a></li>
     <li><a href="#dataset" data-nav="dataset">Dataset</a></li>
     <li><a href="#architecture" data-nav="architecture">Model</a></li>
     <li><a href="#latent" data-nav="latent">Latent Space</a></li>
     <li><a href="#results" data-nav="results">Results</a></li>
     <li><a href="#equity" data-nav="equity">Equity</a></li>
     <li><a href="#contributions" data-nav="contributions">Contributions</a></li>
+    <li><a href="#limitations" data-nav="limitations">Limitations</a></li>
   </ul>
 </nav>
 
@@ -35,7 +36,7 @@
 ══════════════════════════════════════════════════════════ -->
 <section class="scene hero-scene" id="hero" data-scene="hero">
   <canvas id="hero-canvas"></canvas>
-  <div class="hero-eyebrow">Deep Learning · Metabolic Phenotyping · Conformal Prediction</div>
+
   <h1 class="hero-title">Predictive Risk Intelligence<br>for Metabolic Screening in Diabetes</h1>
   <p class="hero-subtitle">A Dual-Anchored Semi-Supervised Identifiable Variational Autoencoder that recovers hidden insulin resistance and hepatic steatosis from fourteen routine blood biomarkers in normal-BMI adults — without any imaging or specialist referral.</p>
   <div class="author-grid">
@@ -918,150 +919,89 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════
-     SCENE 10 — CONTRIBUTIONS
-══════════════════════════════════════════════════════════ -->
 <section class="scene" id="contributions" data-scene="contributions">
   <div class="scene-tag">09 / Key Contributions</div>
-  <h2 class="section-title animate-in">Five Novel Technical Contributions</h2>
-  <p class="section-subtitle animate-in delay-1">Each contribution is independently validated and addresses a distinct gap in the prior literature.</p>
+  <h2 class="section-title animate-in">Three Core Contributions</h2>
+  <p class="section-subtitle animate-in delay-1">Each one directly addresses a gap that no prior system filled — and each is backed by a number from our results.</p>
 
-  <div class="contrib-grid animate-in delay-2">
+  <div class="contrib-grid animate-in delay-2" style="grid-template-columns: repeat(3,1fr)">
     <div class="contrib-card">
       <div class="contrib-num text-blue">01</div>
       <div class="contrib-body">
         <h4>Clinically-Anchored Identifiable Latent Space</h4>
-        <p>A 2D latent representation in which each axis is mathematically constrained (via Softplus monotone networks) to track a real, independently verifiable clinical measurement — HOMA-IR and FibroScan CAP — preventing arbitrary latent axis rotation under retraining.</p>
-        <div style="margin-top:0.6rem"><span class="tag">Ablation proven</span><span class="tag green">ρ: 0.18→0.54 with anchors</span></div>
+        <p>We built a 2D coordinate system where Z₁ <em>must</em> track insulin resistance and Z₂ <em>must</em> track liver fat — mathematically enforced by monotone anchor networks. Remove the anchors and clinical correlation collapses: ρ drops from 0.542 to 0.180.</p>
+        <div style="margin-top:0.8rem"><span class="tag">Ablation proven</span><span class="tag green">ρ: 0.18 → 0.54 with anchors</span></div>
       </div>
     </div>
     <div class="contrib-card">
       <div class="contrib-num" style="color:var(--green)">02</div>
       <div class="contrib-body">
-        <h4>Mondrian Conformal Prediction per Phenotypic Quadrant</h4>
-        <p>Per-subgroup calibration that restores conditional coverage to ≥90% for the highest-risk Dual-Burden phenotype, which marginal calibration fails at 81.6%. Addresses the Barber et al. (2023) subgroup impossibility result directly.</p>
-        <div style="margin-top:0.6rem"><span class="tag green">90.4% vs 81.6%</span><span class="tag green">2yr temporal hold</span></div>
+        <h4>Fair Uncertainty — Mondrian Conformal Prediction</h4>
+        <p>Standard uncertainty estimates silently fail the sickest patients. Our Mondrian CP calibrates confidence intervals separately per phenotypic quadrant — restoring 90.4% coverage for the Dual-Burden group that standard CP drops to 81.6%.</p>
+        <div style="margin-top:0.8rem"><span class="tag green">90.4% vs 81.6%</span><span class="tag green">Holds 2 years later (OOD)</span></div>
       </div>
     </div>
     <div class="contrib-card">
-      <div class="contrib-num text-amber">03</div>
+      <div class="contrib-num text-red">03</div>
       <div class="contrib-body">
-        <h4>Riemannian Geodesic Intervention Planner</h4>
-        <p>Shortest-path computation on the Riemannian manifold induced by the decoder Jacobian — translating raw lab values into the minimum-change biomarker targets needed to route a patient toward the metabolically healthy zone.</p>
-        <div style="margin-top:0.6rem"><span class="tag amber">Euler-Lagrange solver</span><span class="tag amber">Decoder Jacobian metric</span></div>
-      </div>
-    </div>
-    <div class="contrib-card">
-      <div class="contrib-num text-violet">04</div>
-      <div class="contrib-body">
-        <h4>Symbolic Regression Interpretability Layer</h4>
-        <p>Applies symbolic regression to the model's internal mapping to recover closed-form mathematical expressions relating latent coordinates to input biomarkers — enabling human-readable explanations without sacrificing the deep generative model's power.</p>
-        <div style="margin-top:0.6rem"><span class="tag violet">CV risk: both axes required</span><span class="tag violet">Formula extracted</span></div>
-      </div>
-    </div>
-    <div class="contrib-card">
-      <div class="contrib-num text-red">05</div>
-      <div class="contrib-body">
-        <h4>Ancestry-Specific Threshold Discovery</h4>
-        <p>First systematic computation of implied HOMA-IR metabolic thresholds stratified by ancestry using a latent generative model — revealing that all major ancestry groups cross metabolic risk boundaries well below the universal clinical cutoff of 2.5.</p>
-        <div style="margin-top:0.6rem"><span class="tag" style="background:var(--red-dim);color:var(--red)">NHA: 24.2% misclassified</span><span class="tag" style="background:var(--red-dim);color:var(--red)">p = 3.65×10⁻⁵</span></div>
-      </div>
-    </div>
-    <div class="contrib-card" style="background:linear-gradient(135deg,rgba(59,130,246,0.05),rgba(16,185,129,0.05));border-color:rgba(59,130,246,0.25)">
-      <div class="contrib-num" style="color:var(--cyan)">06</div>
-      <div class="contrib-body">
-        <h4>End-to-End Reproducible Research System</h4>
-        <p>Complete pipeline from raw NHANES XPORT files through data processing, semi-supervised training, conformal calibration, geodesic solving, symbolic regression, to an interactive clinical dashboard — all open-source, all tested, all reproducible.</p>
-        <div style="margin-top:0.6rem"><span class="tag">15 automated tests</span><span class="tag">5 seeds verified</span><span class="tag green">Open source</span></div>
+        <h4>Ancestry-Specific Risk Thresholds</h4>
+        <p>The universal HOMA-IR cutoff of 2.5 misclassifies 24.2% of Asian-American patients as healthy. Our model recovers group-specific implied thresholds — all significantly below 2.5 — validated on a real unseen cohort (n=355, ρ=0.582, p=3×10⁻³²).</p>
+        <div style="margin-top:0.8rem"><span class="tag" style="background:var(--red-dim);color:var(--red)">NHA: 24.2% misclassified</span><span class="tag" style="background:var(--red-dim);color:var(--red)">p = 3.65×10⁻⁵</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════
-     SCENE 11 — FAQ / EXAMINER QUESTIONS
-══════════════════════════════════════════════════════════ -->
-<section class="scene" id="faq" data-scene="faq">
-  <div class="scene-tag">10 / Anticipated Questions</div>
-  <h2 class="section-title animate-in">Answered with Real Numbers</h2>
-  <p class="section-subtitle animate-in delay-1">Every expected examiner challenge — from clinical utility to statistical validity to algorithmic fairness — addressed precisely.</p>
 
-  <div class="faq-list animate-in delay-2">
-    <div class="faq-item open">
-      <div class="faq-header" onclick="toggleFaq(this)">
-        <h4 class="faq-question">Why not just use a simpler model like Random Forest or XGBoost?</h4>
-        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-body" style="max-height:300px">
-        <p class="faq-answer">Random Forest achieves <span class="mono">ρ=0.597</span>, slightly higher than LMSIS's <span class="mono">ρ=0.545</span>. However, at the clinically relevant CAP threshold, LMSIS reaches a higher AUROC (<span class="mono">0.793</span> vs <span class="mono">0.766</span>). More critically: RF produces a single scalar output. LMSIS produces a biologically interpretable 2D coordinate system, group-conditional confidence intervals, and a computed path back to health — none of which a single-output tree model can provide.</p>
+
+
+
+<section class="scene" id="limitations" data-scene="limitations">
+  <div class="scene-tag">10 / Limitations &amp; Future Work</div>
+  <h2 class="section-title animate-in">Honest Limitations &amp; What Comes Next</h2>
+  <p class="section-subtitle animate-in delay-1">This is a research prototype. Here is exactly what it can and cannot do, stated plainly.</p>
+
+  <div class="limfut-grid animate-in delay-2">
+    <div class="limfut-col">
+      <h3 style="color:var(--red)">⚠ Real Limitations</h3>
+      <div class="lim-list">
+        <div class="lim-item">
+          <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="lim-text"><strong>No time-series data.</strong> NHANES is cross-sectional — every patient is measured once. The model cannot track how someone changes over time; it only recovers their metabolic state at a single point.</span>
+        </div>
+        <div class="lim-item">
+          <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="lim-text"><strong>Trained on U.S. data only.</strong> All 1,477 participants come from NHANES — a U.S. nationally representative survey. We have not validated on independently collected cohorts from other countries.</span>
+        </div>
+        <div class="lim-item">
+          <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="lim-text"><strong>FibroScan labels incomplete (~60%).</strong> The liver-fat anchor (Z₂) trains semi-supervised because FibroScan CAP values are only available for a subset. More liver-fat labels would make Z₂ anchoring stronger.</span>
+        </div>
+        <div class="lim-item">
+          <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="lim-text"><strong>Not a clinical tool.</strong> This is a research prototype. It has not been through clinical trials or regulatory review and must not be used to direct real patient care.</span>
+        </div>
       </div>
     </div>
-
-    <div class="faq-item">
-      <div class="faq-header" onclick="toggleFaq(this)">
-        <h4 class="faq-question">How do you know Z₁ and Z₂ actually mean insulin resistance and liver fat — not just arbitrary numbers?</h4>
-        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-body">
-        <p class="faq-answer">The ablation study directly proves this. Removing the anchor networks collapses the liver-fat Spearman correlation from <span class="mono">0.542 → 0.180</span>. Each anchor network is constrained with <strong>strictly positive Softplus weights</strong>, forcing ∂Z₁/∂HOMA-IR > 0 and ∂Z₂/∂CAP > 0 everywhere — mathematically preventing any axis rotation or sign flip under retraining.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-header" onclick="toggleFaq(this)">
-        <h4 class="faq-question">What is an identifiable VAE and why does standard VAE fail here?</h4>
-        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-body">
-        <p class="faq-answer">Standard VAEs learn a latent space that is <strong>non-identifiable</strong> — the coordinates can undergo arbitrary rotations and still achieve the same reconstruction loss. For a clinician, this means the axes change meaning on every retraining run. LMSIS achieves identifiability following <strong>Khemakhem et al. (2020)</strong> by conditioning the prior p(z|u) on demographic covariates u, plus the dual monotone anchor constraint — forcing the model to explain latent variance relative to clinical baselines.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-header" onclick="toggleFaq(this)">
-        <h4 class="faq-question">Why Mondrian Conformal Prediction and not standard split CP?</h4>
-        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-body">
-        <p class="faq-answer">Standard split CP only guarantees <strong>global marginal coverage</strong> (90% average across all patients). Following the <strong>Barber et al. (2023)</strong> conditional coverage impossibility theorem, marginal coverage cannot protect specific subgroups. Empirically: the Dual-Burden group drops to <span class="mono">81.6%</span> coverage under standard CP — 8.4% below the 90% safety target, leaving the sickest patients unprotected. Mondrian stratification calibrates each quadrant independently, restoring <span class="mono">≥90%</span> for all groups.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-header" onclick="toggleFaq(this)">
-        <h4 class="faq-question">Could this be overfit to NHANES? One dataset is not generalisation.</h4>
-        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-body">
-        <p class="faq-answer">Three independent evaluations address this. First, <strong>strict temporal OOD</strong>: J-only model on P-cycle (two years later, zero overlap) achieves ρ=0.5793, <em>exceeding</em> the random-split baseline. Second, <strong>real demographic OOD</strong>: zero-shot performance on NHA cohort (n=355) with ρ=0.582. Third, <strong>5-seed reproducibility</strong>: all seeds exceed the baseline estimate. Overfitting to one seed or split is ruled out.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-header" onclick="toggleFaq(this)">
-        <h4 class="faq-question">The national CI is [0M, 64M]. Isn't this too wide to be meaningful?</h4>
-        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-body">
-        <p class="faq-answer">The width is <strong>mathematically correct</strong> and reflects inherent NHANES complex survey variance for a small, tightly restricted subgroup (normal-BMI, complete panels). Under NHANES complex survey weighting, small-domain estimation introduces massive sampling variance. We report it transparently rather than artificially shrinking it — which would be scientifically dishonest. The point estimate (23.9M) is meaningful; the CI honestly communicates that a dedicated large-scale registry is needed to narrow this range.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-header" onclick="toggleFaq(this)">
-        <h4 class="faq-question">Is this system ready for clinical use?</h4>
-        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-body">
-        <p class="faq-answer"><strong>No.</strong> This is a research prototype demonstrating technical feasibility of a clinically-anchored generative screening approach. It has not undergone clinical trials, regulatory review, or prospective longitudinal validation. The geodesic intervention pathways are computational recommendations based on population manifold geometry — not individually validated patient trajectories. Using it to direct real patient care at this stage would be inappropriate.</p>
+    <div class="limfut-col">
+      <h3 style="color:var(--green)">→ What Comes Next</h3>
+      <div class="lim-list">
+        <div class="fut-item">
+          <svg class="fut-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="fut-text"><strong>Longitudinal validation.</strong> Repeat-measurement cohorts (e.g., UK Biobank with follow-up visits) would let us test whether our latent coordinates actually track how a patient's metabolic state changes over months or years.</span>
+        </div>
+        <div class="fut-item">
+          <svg class="fut-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="fut-text"><strong>Non-U.S. external validation.</strong> Testing on cohorts from South Asia, East Asia, or Africa — populations with very different metabolic disease patterns — would reveal how well the model generalises beyond its training distribution.</span>
+        </div>
+        <div class="fut-item">
+          <svg class="fut-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="fut-text"><strong>More FibroScan labels.</strong> Partnering with hepatology clinics to collect liver-fat measurements for a larger fraction of patients would let us train the Z₂ anchor fully supervised, removing the biggest current uncertainty in the model.</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
-
-<!-- ══════════════════════════════════════════════════════════
-     SCENE 12 — LIMITATIONS & FUTURE WORK
-══════════════════════════════════════════════════════════ -->
 <section class="scene" id="limitations" data-scene="limitations">
   <div class="scene-tag">11 / Limitations & Future Work</div>
   <h2 class="section-title animate-in">What We Know We Don't Know</h2>
