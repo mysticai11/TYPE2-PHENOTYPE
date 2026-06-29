@@ -58,73 +58,120 @@
     },
   };
 
+  let currentSlideIdx = 0;
+
   /* ─── INIT ─── */
   document.addEventListener('DOMContentLoaded', () => {
     buildDots();
-    initScrollEvents();
     initHeroCanvas();
-    initScrollAnimations();
-    initCountUps();
-    initBarCharts();
-    initEthBars();
+    initKeyboardNav();
+    initWheelNav();
+    initTouchNav();
+    goToSlide(0);
     autoOpenFaq();
   });
 
   /* ══════════════════════════════════════════════
-     DOTS NAVIGATION
+     DOTS NAVIGATION & SLIDE SWITCHING
   ══════════════════════════════════════════════ */
   function buildDots() {
-    const container = document.getElementById('dots-nav');
+    const container = document.getElementById('nav-dots');
     if (!container) return;
-    SCENES.forEach((s) => {
-      const dot = document.createElement('div');
-      dot.className = 'dot-item';
+    container.innerHTML = '';
+    SCENES.forEach((s, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'nav-dot';
       dot.title = s.label;
       dot.addEventListener('click', () => {
-        const el = document.getElementById(s.id);
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        goToSlide(i);
       });
-      dot.dataset.scene = s.id;
       container.appendChild(dot);
     });
   }
 
-  function updateActiveDot() {
-    const mid = window.innerHeight / 2;
-    let active = null;
-    SCENES.forEach((s) => {
+  function goToSlide(idx) {
+    if (idx < 0 || idx >= SCENES.length) return;
+    currentSlideIdx = idx;
+
+    // Update slides visibility classes
+    SCENES.forEach((s, i) => {
       const el = document.getElementById(s.id);
       if (!el) return;
-      const r = el.getBoundingClientRect();
-      if (r.top <= mid && r.bottom >= mid) active = s.id;
-    });
-    document.querySelectorAll('.dot-item').forEach((d) => {
-      d.classList.toggle('active', d.dataset.scene === active);
-    });
-    // Update nav links
-    document.querySelectorAll('.nav-links a').forEach((a) => {
-      const href = a.getAttribute('href');
-      a.classList.toggle('active', href === `#${active}`);
-    });
-  }
-
-  /* ══════════════════════════════════════════════
-     SCROLL EVENTS
-  ══════════════════════════════════════════════ */
-  function initScrollEvents() {
-    window.addEventListener('scroll', () => {
-      // Progress bar
-      const prog = document.getElementById('scroll-progress');
-      if (prog) {
-        const s = document.documentElement.scrollTop;
-        const h = document.documentElement.scrollHeight - window.innerHeight;
-        prog.style.width = `${(s / h) * 100}%`;
+      if (i === idx) {
+        el.classList.add('active');
+        el.classList.remove('prev');
+      } else if (i < idx) {
+        el.classList.add('prev');
+        el.classList.remove('active');
+      } else {
+        el.classList.remove('active', 'prev');
       }
-      updateActiveDot();
-      triggerVisibleAnimations();
-      triggerCountUps();
-      triggerBars();
-    }, { passive: true });
+    });
+
+    // Update progress bar
+    const prog = document.getElementById('slide-progress');
+    if (prog) {
+      prog.style.width = `${(idx / (SCENES.length - 1)) * 100}%`;
+    }
+
+    // Update counter
+    const counter = document.getElementById('slide-counter');
+    if (counter) {
+      counter.textContent = `Slide ${idx + 1} / ${SCENES.length}`;
+    }
+
+    // Update dots
+    document.querySelectorAll('.nav-dot').forEach((d, i) => {
+      d.classList.toggle('active', i === idx);
+    });
+
+    // Update nav arrows
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    if (prevBtn) prevBtn.disabled = (idx === 0);
+    if (nextBtn) nextBtn.disabled = (idx === SCENES.length - 1);
+
+    // Trigger animations in the active slide
+    const activeEl = document.getElementById(SCENES[idx].id);
+    if (activeEl) {
+      // 1. Animate-in elements
+      activeEl.querySelectorAll('.animate-in:not(.visible)').forEach((el) => {
+        el.classList.add('visible');
+      });
+
+      // 2. Count-ups
+      activeEl.querySelectorAll('.count-up').forEach((el) => {
+        if (!doneCountUps.has(el)) {
+          doneCountUps.add(el);
+          animateCountUp(el);
+        }
+      });
+
+      // 3. Horizontal and Vertical Bars
+      activeEl.querySelectorAll('.hbar-fill[data-w]:not([data-animated])').forEach((el) => {
+        el.dataset.animated = '1';
+        const w = parseFloat(el.dataset.w);
+        el.style.width = '0%';
+        setTimeout(() => { el.style.width = w + '%'; }, 80);
+      });
+      activeEl.querySelectorAll('.vbar-fill[data-h]:not([data-animated])').forEach((el) => {
+        el.dataset.animated = '1';
+        const h = parseFloat(el.dataset.h);
+        el.style.height = '0%';
+        setTimeout(() => { el.style.height = h + '%'; }, 80);
+      });
+
+      // 4. Ethnicity threshold bars
+      activeEl.querySelectorAll('.eth-fill[data-w]:not([data-animated])').forEach((el) => {
+        el.dataset.animated = '1';
+        const w = parseFloat(el.dataset.w);
+        el.style.width = '0%';
+        setTimeout(() => {
+          el.style.transition = 'width 1.3s cubic-bezier(0.25,1,0.5,1)';
+          el.style.width = w + '%';
+        }, 80);
+      });
+    }
   }
 
   /* ══════════════════════════════════════════════
@@ -196,40 +243,9 @@
   }
 
   /* ══════════════════════════════════════════════
-     SCROLL ANIMATIONS
-  ══════════════════════════════════════════════ */
-  function initScrollAnimations() {
-    triggerVisibleAnimations();
-  }
-
-  function triggerVisibleAnimations() {
-    document.querySelectorAll('.animate-in:not(.visible)').forEach((el) => {
-      const r = el.getBoundingClientRect();
-      if (r.top < window.innerHeight * 0.88) {
-        el.classList.add('visible');
-      }
-    });
-  }
-
-  /* ══════════════════════════════════════════════
-     COUNT-UP NUMBERS
+     ANIMATIONS & COUNTERS
   ══════════════════════════════════════════════ */
   const doneCountUps = new WeakSet();
-
-  function initCountUps() {
-    triggerCountUps();
-  }
-
-  function triggerCountUps() {
-    document.querySelectorAll('.count-up').forEach((el) => {
-      if (doneCountUps.has(el)) return;
-      const r = el.getBoundingClientRect();
-      if (r.top < window.innerHeight * 0.9) {
-        doneCountUps.add(el);
-        animateCountUp(el);
-      }
-    });
-  }
 
   function animateCountUp(el) {
     const target = parseFloat(el.dataset.val || 0);
@@ -247,57 +263,6 @@
       if (t < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
-  }
-
-  /* ══════════════════════════════════════════════
-     BAR CHART ANIMATIONS
-  ══════════════════════════════════════════════ */
-  const doneBars = new WeakSet();
-
-  function initBarCharts() {
-    triggerBars();
-  }
-
-  function triggerBars() {
-    // Horizontal bars
-    document.querySelectorAll('.hbar-fill[data-w]:not([data-animated])').forEach((el) => {
-      const r = el.getBoundingClientRect();
-      if (r.top < window.innerHeight + 100) {
-        el.dataset.animated = '1';
-        const w = parseFloat(el.dataset.w);
-        el.style.width = '0%';
-        setTimeout(() => { el.style.width = w + '%'; }, 80);
-      }
-    });
-    // Vertical bars
-    document.querySelectorAll('.vbar-fill[data-h]:not([data-animated])').forEach((el) => {
-      const r = el.getBoundingClientRect();
-      if (r.top < window.innerHeight + 100) {
-        el.dataset.animated = '1';
-        const h = parseFloat(el.dataset.h);
-        el.style.height = '0%';
-        setTimeout(() => { el.style.height = h + '%'; }, 80);
-      }
-    });
-  }
-
-  /* ══════════════════════════════════════════════
-     ETHNICITY THRESHOLD BARS
-  ══════════════════════════════════════════════ */
-  function initEthBars() {
-    const bars = document.querySelectorAll('.eth-fill[data-w]');
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting && !e.target.dataset.animated) {
-          e.target.dataset.animated = '1';
-          const w = parseFloat(e.target.dataset.w);
-          e.target.style.transition = 'width 1.3s cubic-bezier(0.25,1,0.5,1)';
-          e.target.style.width = w + '%';
-          obs.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.2 });
-    bars.forEach((b) => obs.observe(b));
   }
 
   /* ══════════════════════════════════════════════
@@ -380,51 +345,98 @@
   };
 
   /* ══════════════════════════════════════════════
-     KEYBOARD NAVIGATION
+     NAVIGATION EVENT LISTENERS
   ══════════════════════════════════════════════ */
-  const TALL_SCENES = ['results', 'architecture', 'gap', 'faq', 'limitations'];
   let lastKeyTime = 0;
+  function initKeyboardNav() {
+    document.addEventListener('keydown', (e) => {
+      const now = Date.now();
+      if (now - lastKeyTime < 300) return;
+      const key = e.key;
+      if (!['ArrowDown', 'ArrowUp', 'ArrowRight', 'ArrowLeft', 'PageDown', 'PageUp', ' '].includes(key)) return;
 
-  document.addEventListener('keydown', (e) => {
-    const now = Date.now();
-    if (now - lastKeyTime < 300) return;
-    const key = e.key;
-    if (!['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' '].includes(key)) return;
-
-    // Determine current scene at viewport center
-    const mid = window.innerHeight / 2;
-    let curIdx = 0;
-    SCENES.forEach((s, i) => {
-      const el = document.getElementById(s.id);
-      if (!el) return;
-      const r = el.getBoundingClientRect();
-      if (r.top <= mid && r.bottom >= mid) curIdx = i;
+      if (key === 'ArrowDown' || key === 'ArrowRight' || key === 'PageDown' || key === ' ') {
+        e.preventDefault();
+        if (currentSlideIdx < SCENES.length - 1) {
+          goToSlide(currentSlideIdx + 1);
+        }
+        lastKeyTime = now;
+      } else if (key === 'ArrowUp' || key === 'ArrowLeft' || key === 'PageUp') {
+        e.preventDefault();
+        if (currentSlideIdx > 0) {
+          goToSlide(currentSlideIdx - 1);
+        }
+        lastKeyTime = now;
+      }
     });
 
-    const curId = SCENES[curIdx].id;
-    const curEl = document.getElementById(curId);
-    const curR = curEl ? curEl.getBoundingClientRect() : null;
-    const isTall = TALL_SCENES.includes(curId);
-
-    if (key === 'ArrowDown' || key === 'PageDown' || key === ' ') {
-      e.preventDefault();
-      if (isTall && curR && curR.bottom > window.innerHeight + 40) {
-        window.scrollBy({ top: window.innerHeight * 0.75, behavior: 'smooth' });
-      } else if (curIdx < SCENES.length - 1) {
-        const next = document.getElementById(SCENES[curIdx + 1].id);
-        if (next) next.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-      lastKeyTime = now;
-    } else if (key === 'ArrowUp' || key === 'PageUp') {
-      e.preventDefault();
-      if (isTall && curR && curR.top < -40) {
-        window.scrollBy({ top: -window.innerHeight * 0.75, behavior: 'smooth' });
-      } else if (curIdx > 0) {
-        const prev = document.getElementById(SCENES[curIdx - 1].id);
-        if (prev) prev.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-      lastKeyTime = now;
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        goToSlide(currentSlideIdx - 1);
+      });
     }
-  });
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        goToSlide(currentSlideIdx + 1);
+      });
+    }
+  }
+
+  let lastWheelTime = 0;
+  function initWheelNav() {
+    window.addEventListener('wheel', (e) => {
+      const now = Date.now();
+      if (now - lastWheelTime < 800) return;
+      
+      const delta = e.deltaY;
+      if (Math.abs(delta) < 30) return;
+
+      if (delta > 0) {
+        if (currentSlideIdx < SCENES.length - 1) {
+          goToSlide(currentSlideIdx + 1);
+          lastWheelTime = now;
+        }
+      } else {
+        if (currentSlideIdx > 0) {
+          goToSlide(currentSlideIdx - 1);
+          lastWheelTime = now;
+        }
+      }
+    }, { passive: true });
+  }
+
+  let touchStartX = 0;
+  let touchStartY = 0;
+  function initTouchNav() {
+    window.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+      const diffX = e.changedTouches[0].screenX - touchStartX;
+      const diffY = e.changedTouches[0].screenY - touchStartY;
+      
+      if (Math.abs(diffX) > Math.abs(diffY)) {
+        if (Math.abs(diffX) > 60) {
+          if (diffX < 0) {
+            if (currentSlideIdx < SCENES.length - 1) goToSlide(currentSlideIdx + 1);
+          } else {
+            if (currentSlideIdx > 0) goToSlide(currentSlideIdx - 1);
+          }
+        }
+      } else {
+        if (Math.abs(diffY) > 60) {
+          if (diffY < 0) {
+            if (currentSlideIdx < SCENES.length - 1) goToSlide(currentSlideIdx + 1);
+          } else {
+            if (currentSlideIdx > 0) goToSlide(currentSlideIdx - 1);
+          }
+        }
+      }
+    }, { passive: true });
+  }
 
 })();

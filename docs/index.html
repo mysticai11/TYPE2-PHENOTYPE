@@ -9,26 +9,17 @@
 </head>
 <body>
 
-<!-- Scroll Progress -->
-<div class="scroll-progress" id="scroll-progress"></div>
+<!-- Slide Header -->
+<header class="slide-header">
+  <span class="slide-logo">LMSIS — Metabolic Screening Presentation</span>
+  <span class="slide-counter" id="slide-counter">Slide 1 / 13</span>
+</header>
 
-<!-- Top Navigation -->
-<nav class="top-nav">
-  <span class="nav-brand">LMSIS — Latent Metabolic State Inference System</span>
-  <ul class="nav-links">
-    <li><a href="#problem" data-nav="problem">Problem</a></li>
-    <li><a href="#gap" data-nav="gap">Gap</a></li>
-    <li><a href="#dataset" data-nav="dataset">Dataset</a></li>
-    <li><a href="#architecture" data-nav="architecture">Model</a></li>
-    <li><a href="#latent" data-nav="latent">Latent Space</a></li>
-    <li><a href="#results" data-nav="results">Results</a></li>
-    <li><a href="#equity" data-nav="equity">Equity</a></li>
-    <li><a href="#contributions" data-nav="contributions">Contributions</a></li>
-  </ul>
-</nav>
+<!-- Slide Progress Bar -->
+<div class="slide-progress" id="slide-progress" style="width: 0%;"></div>
 
-<!-- Dots Navigation -->
-<div class="dots-nav" id="dots-nav"></div>
+<!-- Slide Deck Container -->
+<div id="slide-deck">
 
 <!-- ══════════════════════════════════════════════════════════
      SCENE 01 — HERO
@@ -53,7 +44,7 @@
     <a href="#dataset" class="btn btn-ghost">Dataset Details</a>
     <a href="#latent" class="btn btn-primary">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="4"/><path d="M2 12h2m16 0h2M12 2v2m0 16v2"/></svg>
-      Live Demo
+      Explore Model
     </a>
   </div>
   <div class="scroll-hint" style="margin-top:3rem">
@@ -613,9 +604,9 @@
       <div class="rs-context">vs. Random Forest: 0.766 · FLI: 0.683</div>
     </div>
     <div class="res-stat">
-      <div class="rs-num text-blue count-up" data-val="0.5793" data-decimals="4" data-prefix="ρ = ">ρ = 0.5793</div>
-      <div class="rs-label">Temporal OOD generalization</div>
-      <div class="rs-context">J-cycle only → P-cycle · zero overlap · p=4×10⁻⁷⁹</div>
+      <div class="rs-num text-blue">ρ = 0.583 ± 0.027</div>
+      <div class="rs-label">Temporal OOD generalization (P-cycle)</div>
+      <div class="rs-context">J-cycle only → P-cycle · zero overlap · 5-seed audited mean · p=4×10⁻⁷⁹</div>
     </div>
     <div class="res-stat">
       <div class="rs-num" style="color:var(--amber)">90.4%</div>
@@ -628,40 +619,44 @@
     <div class="chart-card">
       <h4>Full Benchmark — Spearman ρ with CAP (Liver Fat)</h4>
       <div id="benchmark-chart">
+        <!-- Benchmark bar chart: ordered by Spearman rho, highest to lowest -->
+        <!-- AUROC context: LMSIS 0.793 vs RF 0.766 -- LMSIS wins at the clinical threshold -->
         <div class="hbar-row">
-          <div class="hbar-meta"><span class="hbar-name" style="color:var(--green);font-weight:600">DA-SS-iVAE (Z₂) ★</span><span class="hbar-val text-green">0.545</span></div>
-          <div class="hbar-track"><div class="hbar-fill green" data-w="91.5"></div></div>
-        </div>
-        <div class="hbar-row">
-          <div class="hbar-meta"><span class="hbar-name">Random Forest</span><span class="hbar-val">0.597</span></div>
+          <div class="hbar-meta"><span class="hbar-name">Random Forest</span><span class="hbar-val">ρ = 0.597</span></div>
           <div class="hbar-track"><div class="hbar-fill blue" data-w="100"></div></div>
         </div>
         <div class="hbar-row">
-          <div class="hbar-meta"><span class="hbar-name">XGBoost</span><span class="hbar-val">0.581</span></div>
+          <div class="hbar-meta"><span class="hbar-name">XGBoost</span><span class="hbar-val">ρ = 0.581</span></div>
           <div class="hbar-track"><div class="hbar-fill blue" style="opacity:0.7" data-w="97.3"></div></div>
         </div>
         <div class="hbar-row">
-          <div class="hbar-meta"><span class="hbar-name">Elastic Net</span><span class="hbar-val">0.489</span></div>
+          <div class="hbar-meta"><span class="hbar-name">Elastic Net</span><span class="hbar-val">ρ = 0.489</span></div>
           <div class="hbar-track"><div class="hbar-fill muted" data-w="82"></div></div>
         </div>
         <div class="hbar-row">
-          <div class="hbar-meta"><span class="hbar-name">FLI (Formula)</span><span class="hbar-val">0.399</span></div>
+          <div class="hbar-meta"><span class="hbar-name" style="color:var(--green);font-weight:600">DA-SS-iVAE (Z₂) ★</span><span class="hbar-val text-green">ρ = 0.545</span></div>
+          <div class="hbar-track"><div class="hbar-fill green" data-w="91.5"></div></div>
+        </div>
+        <div class="hbar-row">
+          <div class="hbar-meta"><span class="hbar-name">FLI (Formula)</span><span class="hbar-val">ρ = 0.399</span></div>
           <div class="hbar-track"><div class="hbar-fill muted" style="opacity:0.7" data-w="67"></div></div>
         </div>
         <div class="hbar-row">
-          <div class="hbar-meta"><span class="hbar-name">TyG Index</span><span class="hbar-val">0.364</span></div>
+          <div class="hbar-meta"><span class="hbar-name">TyG Index</span><span class="hbar-val">ρ = 0.364</span></div>
           <div class="hbar-track"><div class="hbar-fill muted" style="opacity:0.5" data-w="61"></div></div>
         </div>
         <div class="hbar-row">
-          <div class="hbar-meta"><span class="hbar-name">HSI</span><span class="hbar-val">0.129</span></div>
+          <div class="hbar-meta"><span class="hbar-name">HSI</span><span class="hbar-val">ρ = 0.129</span></div>
           <div class="hbar-track"><div class="hbar-fill muted" style="opacity:0.4" data-w="21.6"></div></div>
         </div>
         <div class="hbar-row">
-          <div class="hbar-meta"><span class="hbar-name text-red">NAFLD-LFS</span><span class="hbar-val text-red">−0.118</span></div>
+          <div class="hbar-meta"><span class="hbar-name text-red">NAFLD-LFS</span><span class="hbar-val text-red">ρ = −0.118</span></div>
           <div class="hbar-track"><div class="hbar-fill red" style="opacity:0.5" data-w="19.8"></div></div>
         </div>
       </div>
-      <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.8rem">Note: DA-SS-iVAE achieves highest AUROC (0.793) despite lower raw Spearman ρ than RF — it excels at the clinically relevant decision threshold. NAFLD-LFS ranks patients inversely.</div>
+      <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.8rem;border-top:1px solid var(--border);padding-top:0.6rem">
+        <strong style="color:var(--green)">★ Why DA-SS-iVAE wins despite lower Spearman ρ than RF/XGBoost:</strong> Tree-based models are optimised for rank correlation on the full continuous CAP range. At the clinically meaningful decision threshold (CAP ≥ 248 dB/m), LMSIS achieves AUROC <strong>0.793 vs RF 0.766</strong>. More importantly: RF outputs a single scalar. LMSIS outputs a 2D identifiable coordinate, subgroup-calibrated confidence intervals, and a Riemannian path to health. Bars above reflect raw Spearman ρ, ordered honestly.
+      </div>
     </div>
 
     <div class="chart-card">
@@ -750,7 +745,7 @@
         <div class="ob-sub">n=870 · P-cycle 2019–20</div>
       </div>
     </div>
-    <div class="ood-verdict">✓ Temporal OOD CONFIRMED — strict J-only model achieves ρ=0.5793 on P-cycle, <strong>exceeding the random-split baseline (ρ=0.5009) by +0.078</strong>. Zero data leakage verified by direct participant ID cross-check.</div>
+    <div class="ood-verdict">✓ Temporal OOD CONFIRMED — strict J-only model achieves <strong>ρ = 0.583 ± 0.027 (5-seed mean)</strong> on P-cycle, <strong>exceeding the random-split baseline (ρ=0.5009) by +0.082</strong>. Zero data leakage verified by direct participant ID cross-check.</div>
   </div>
 
   <!-- National burden -->
@@ -896,7 +891,24 @@
         <div class="test-check"><span class="tc">✓</span>Full source code openly available on GitHub</div>
       </div>
     </div>
+    <div class="valid-card" style="border-color:rgba(245,158,11,0.3)">
+      <div class="vc-icon" style="background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.3)">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      </div>
+      <h4 style="color:var(--amber)">Post-Pandemic Stress Test (L-Cycle)</h4>
+      <p>The frozen J-cycle model was evaluated zero-shot on the August 2021–August 2023 NHANES L-cycle (n=726) — a severe post-COVID temporal and lifestyle shift. This is the hardest possible test, reported honestly.</p>
+      <div class="test-checklist">
+        <div class="test-check" style="color:var(--green)"><span class="tc">✓</span>Z₁ (vs HOMA-IR): ρ = 0.801 → 0.773 — <strong>stable</strong></div>
+        <div class="test-check" style="color:var(--red)"><span class="tc">✗</span>Z₂ (vs FibroScan): ρ = 0.583 → 0.332 — <strong>severe degradation</strong></div>
+        <div class="test-check" style="color:var(--green)"><span class="tc">✓</span>Mondrian CP: ≥90% coverage preserved across all quadrants</div>
+        <div class="test-check" style="color:var(--green)"><span class="tc">✓</span>Interval widths held stable (median set size = 1.0)</div>
+      </div>
+      <div style="margin-top:0.7rem;font-size:0.73rem;color:var(--text-muted);line-height:1.5;padding:0.6rem;background:rgba(245,158,11,0.05);border-radius:6px;border-left:2px solid var(--amber)">
+        <strong style="color:var(--amber)">Finding:</strong> The failure localized to Z₂ — the steatosis encoder is sensitive to post-pandemic lifestyle distributions. The mechanism is an open question. The Mondrian safety layer contained the point-prediction failure without any clinical coverage collapse. This is disclosed as a known limitation.
+      </div>
+    </div>
   </div>
+
 
   <!-- Pharmacological verification -->
   <div class="animate-in" style="margin-top:2rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem">
@@ -1089,6 +1101,10 @@
         </div>
         <div class="lim-item">
           <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="lim-text"><strong>Post-pandemic distribution sensitivity (Z₂).</strong> The frozen model evaluated on the August 2021–2023 NHANES L-cycle shows Z₂ (liver fat axis) degrading severely (ρ = 0.583 → 0.332) while Z₁ (insulin resistance) remains stable (0.801 → 0.773). The mechanism is not yet explained. The Mondrian CP layer successfully trapped the uncertainty, preserving ≥90% clinical coverage — but the steatosis point-prediction should be treated with additional caution for post-pandemic populations.</span>
+        </div>
+        <div class="lim-item">
+          <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           <span class="lim-text"><strong>Research prototype only.</strong> No regulatory review. Not validated in clinical settings. Cannot and should not be used to direct real patient care.</span>
         </div>
       </div>
@@ -1149,6 +1165,18 @@
     NHANES data © CDC/NCHS · All model code open-source under MIT License
   </div>
 </section>
+
+</div> <!-- End #slide-deck -->
+
+<!-- Slide Navigation Controls -->
+<div class="slide-nav">
+  <button class="nav-arrow" id="prev-btn" aria-label="Previous slide" disabled>&larr;</button>
+  <div class="nav-dots" id="nav-dots"></div>
+  <button class="nav-arrow" id="next-btn" aria-label="Next slide">&rarr;</button>
+</div>
+
+<!-- Keyboard navigation hint -->
+<div class="key-hint">Use Left/Right/Up/Down arrows, Space or Mouse Scroll</div>
 
 <script src="script.js"></script>
 </body>
