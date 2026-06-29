@@ -17,7 +17,6 @@
     { id: 'equity',        label: 'Equity' },
     { id: 'validation',    label: 'Validation' },
     { id: 'contributions', label: 'Contributions' },
-    { id: 'faq',           label: 'FAQ' },
     { id: 'limitations',   label: 'Limitations' },
     { id: 'footer',        label: 'Footer' },
   ];
@@ -62,32 +61,16 @@
 
   /* ─── INIT ─── */
   document.addEventListener('DOMContentLoaded', () => {
-    buildDots();
     initHeroCanvas();
     initKeyboardNav();
     initWheelNav();
     initTouchNav();
     goToSlide(0);
-    autoOpenFaq();
   });
 
   /* ══════════════════════════════════════════════
-     DOTS NAVIGATION & SLIDE SWITCHING
+     SLIDE SWITCHING
   ══════════════════════════════════════════════ */
-  function buildDots() {
-    const container = document.getElementById('nav-dots');
-    if (!container) return;
-    container.innerHTML = '';
-    SCENES.forEach((s, i) => {
-      const dot = document.createElement('button');
-      dot.className = 'nav-dot';
-      dot.title = s.label;
-      dot.addEventListener('click', () => {
-        goToSlide(i);
-      });
-      container.appendChild(dot);
-    });
-  }
 
   function goToSlide(idx) {
     if (idx < 0 || idx >= SCENES.length) return;

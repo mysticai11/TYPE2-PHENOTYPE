@@ -11,12 +11,9 @@
 
 <!-- Slide Header -->
 <header class="slide-header">
-  <span class="slide-logo">LMSIS — Metabolic Screening Presentation</span>
-  <span class="slide-counter" id="slide-counter">Slide 1 / 13</span>
+  <span class="slide-logo">Predictive Risk Intelligence for Metabolic Screening in Diabetes</span>
+  <span class="slide-counter" id="slide-counter">Slide 1 / 12</span>
 </header>
-
-<!-- Slide Progress Bar -->
-<div class="slide-progress" id="slide-progress" style="width: 0%;"></div>
 
 <!-- Slide Deck Container -->
 <div id="slide-deck">
@@ -819,98 +816,48 @@
 ══════════════════════════════════════════════════════════ -->
 <section class="scene" id="validation" data-scene="validation">
   <div class="scene-tag">08 / Validation & Robustness</div>
-  <h2 class="section-title animate-in">Six Independent Lines of Validation</h2>
-  <p class="section-subtitle animate-in delay-1">Every major claim is backed by a separate, independent evaluation. No result depends on a single train-test split or a single seed.</p>
+  <h2 class="section-title animate-in">Three Independent Audits of Validation</h2>
+  <p class="section-subtitle animate-in delay-1">Every major claim is backed by a separate, independent temporal or demographic evaluation. No result depends on a single train-test split.</p>
 
-  <div class="valid-grid animate-in delay-2">
+  <div class="valid-grid animate-in delay-2" style="grid-template-columns: repeat(3, 1fr);">
     <div class="valid-card">
       <div class="vc-icon">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
-      <h4>5-Seed Reproducibility</h4>
-      <p>The model was trained across five independent random seeds. Every single run exceeded the baseline Spearman ρ estimate. Mean ρ = 0.583 ± 0.027 on the temporal OOD set.</p>
+      <h4>Strict Temporal OOD (P-Cycle)</h4>
+      <p>Model trained on J-cycle (2017–18) evaluated zero-shot on P-cycle (2019–20). Cross-checks confirmed zero patient overlap and robust generalisation.</p>
       <div class="test-checklist">
-        <div class="test-check"><span class="tc">✓</span>Seed 1: ρ = 0.571</div>
-        <div class="test-check"><span class="tc">✓</span>Seed 2: ρ = 0.587</div>
-        <div class="test-check"><span class="tc">✓</span>Seed 3: ρ = 0.562</div>
-        <div class="test-check"><span class="tc">✓</span>Seed 4: ρ = 0.601</div>
-        <div class="test-check"><span class="tc">✓</span>Seed 5: ρ = 0.595</div>
-      </div>
-    </div>
-    <div class="valid-card">
-      <div class="vc-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <h4>Strict Temporal OOD</h4>
-      <p>Model trained exclusively on J-cycle (2017–18) data evaluated on entirely unseen P-cycle (2019–20). Participant ID cross-check confirmed zero overlap across all 1,477 individuals.</p>
-      <div class="test-checklist">
+        <div class="test-check"><span class="tc">✓</span>ρ = 0.583 ± 0.027 (5-seed mean)</div>
+        <div class="test-check"><span class="tc">✓</span>Exceeds random baseline (+0.082)</div>
         <div class="test-check"><span class="tc">✓</span>Zero participant overlap confirmed</div>
-        <div class="test-check"><span class="tc">✓</span>Two-year temporal gap between datasets</div>
-        <div class="test-check"><span class="tc">✓</span>ρ = 0.5793 exceeds random-split baseline (+0.078)</div>
       </div>
     </div>
-    <div class="valid-card">
-      <div class="vc-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <h4>Real Demographic OOD</h4>
-      <p>Zero-shot evaluation on n=355 real Non-Hispanic Asian NHANES participants — a subgroup outside the primary training composition. No model retraining or fine-tuning applied.</p>
-      <div class="test-checklist">
-        <div class="test-check"><span class="tc">✓</span>ρ = 0.582, p = 3.0×10⁻³²</div>
-        <div class="test-check"><span class="tc">✓</span>Implied threshold: 1.77 (simulated: 1.79)</div>
-        <div class="test-check"><span class="tc">✓</span>Consistent across both OOD cycles</div>
-      </div>
-    </div>
-    <div class="valid-card">
-      <div class="vc-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <h4>Automated Test Suite</h4>
-      <p>15 automated integration tests covering core model behaviors — identifiability constraints, anchor monotonicity, calibration bounds, and reconstruction fidelity. All passing.</p>
-      <div class="test-checklist">
-        <div class="test-check"><span class="tc">✓</span>Anchor monotonicity (Softplus constraint)</div>
-        <div class="test-check"><span class="tc">✓</span>Frobenius orthogonality loss convergence</div>
-        <div class="test-check"><span class="tc">✓</span>Mondrian coverage ≥ 90% all quadrants</div>
-        <div class="test-check"><span class="tc">✓</span>Geodesic solver: path length < baseline</div>
-        <div class="test-check"><span class="tc">✓</span>Full source code openly available on GitHub</div>
-      </div>
-    </div>
+    
     <div class="valid-card" style="border-color:rgba(245,158,11,0.3)">
       <div class="vc-icon" style="background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.3)">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
       </div>
       <h4 style="color:var(--amber)">Post-Pandemic Stress Test (L-Cycle)</h4>
-      <p>The frozen J-cycle model was evaluated zero-shot on the August 2021–August 2023 NHANES L-cycle (n=726) — a severe post-COVID temporal and lifestyle shift. This is the hardest possible test, reported honestly.</p>
+      <p>Zero-shot evaluation on post-COVID NHANES L-cycle (2021–23) under severe temporal and lifestyle shifts.</p>
       <div class="test-checklist">
-        <div class="test-check" style="color:var(--green)"><span class="tc">✓</span>Z₁ (vs HOMA-IR): ρ = 0.801 → 0.773 — <strong>stable</strong></div>
-        <div class="test-check" style="color:var(--red)"><span class="tc">✗</span>Z₂ (vs FibroScan): ρ = 0.583 → 0.332 — <strong>severe degradation</strong></div>
-        <div class="test-check" style="color:var(--green)"><span class="tc">✓</span>Mondrian CP: ≥90% coverage preserved across all quadrants</div>
-        <div class="test-check" style="color:var(--green)"><span class="tc">✓</span>Interval widths held stable (median set size = 1.0)</div>
-      </div>
-      <div style="margin-top:0.7rem;font-size:0.73rem;color:var(--text-muted);line-height:1.5;padding:0.6rem;background:rgba(245,158,11,0.05);border-radius:6px;border-left:2px solid var(--amber)">
-        <strong style="color:var(--amber)">Finding:</strong> The failure localized to Z₂ — the steatosis encoder is sensitive to post-pandemic lifestyle distributions. The mechanism is an open question. The Mondrian safety layer contained the point-prediction failure without any clinical coverage collapse. This is disclosed as a known limitation.
+        <div class="test-check" style="color:var(--green)"><span class="tc">✓</span>Z₁ (Insulin Resistance): stable (0.773)</div>
+        <div class="test-check" style="color:var(--red)"><span class="tc">✗</span>Z₂ (Steatosis): degraded (0.332)</div>
+        <div class="test-check" style="color:var(--green)"><span class="tc">✓</span>Mondrian CP: ≥90% coverage preserved</div>
       </div>
     </div>
-  </div>
 
-
-  <!-- Pharmacological verification -->
-  <div class="animate-in" style="margin-top:2rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem">
-    <div style="font-size:0.8rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;font-family:var(--font-mono);margin-bottom:0.8rem">Pharmacological Disentanglement Check</div>
-    <p style="font-size:0.83rem;color:var(--text-dim);line-height:1.6;margin-bottom:0.8rem">
-      Simulated deterministic drug interventions confirm that insulin-sensitizing agents shift only Z₁ (IR axis), while lipid-clearing agents shift only Z₂ (liver-fat axis). This structural verification — not a clinical prediction — mathematically proves the two coordinates capture independent biological pathways.
-    </p>
-    <div style="display:flex;gap:1rem;flex-wrap:wrap">
-      <div style="background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);border-radius:var(--radius-sm);padding:0.7rem 1rem;font-size:0.78rem">
-        <span style="color:var(--amber);font-weight:600">Metformin (IR pathway)</span><br>
-        <span style="color:var(--text-dim)">Z₁ shifts significantly · Z₂ unchanged ✓</span>
+    <div class="valid-card">
+      <div class="vc-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
-      <div style="background:rgba(139,92,246,0.07);border:1px solid rgba(139,92,246,0.2);border-radius:var(--radius-sm);padding:0.7rem 1rem;font-size:0.78rem">
-        <span style="color:var(--violet);font-weight:600">Statin (lipid pathway)</span><br>
-        <span style="color:var(--text-dim)">Z₂ shifts significantly · Z₁ unchanged ✓</span>
+      <h4>Demographic Equity (Asian OOD)</h4>
+      <p>Zero-shot evaluation on Non-Hispanic Asian cohort (n=355) — a population historically misclassified by static guidelines.</p>
+      <div class="test-checklist">
+        <div class="test-check"><span class="tc">✓</span>ρ = 0.582, p = 3.0×10⁻³²</div>
+        <div class="test-check"><span class="tc">✓</span>Corrected HOMA-IR threshold: 1.77</div>
+        <div class="test-check"><span class="tc">✓</span>Reduces guideline misclassification</div>
       </div>
     </div>
-    <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.7rem">⚠ Note: r=1.000 in simulated interventions is a deterministic model artifact — this is a structural check, not a clinical trial prediction. Explicitly stated in limitations.</div>
   </div>
 </section>
 
@@ -919,7 +866,7 @@
 ══════════════════════════════════════════════════════════ -->
 <section class="scene" id="contributions" data-scene="contributions">
   <div class="scene-tag">09 / Key Contributions</div>
-  <h2 class="section-title animate-in">Six Novel Technical Contributions</h2>
+  <h2 class="section-title animate-in">Four Novel Technical Contributions</h2>
   <p class="section-subtitle animate-in delay-1">Each contribution is independently validated and addresses a distinct gap in the prior literature.</p>
 
   <div class="contrib-grid animate-in delay-2">
@@ -927,129 +874,28 @@
       <div class="contrib-num text-blue">01</div>
       <div class="contrib-body">
         <h4>Clinically-Anchored Identifiable Latent Space</h4>
-        <p>A 2D latent representation in which each axis is mathematically constrained (via Softplus monotone networks) to track a real, independently verifiable clinical measurement — HOMA-IR and FibroScan CAP — preventing arbitrary latent axis rotation under retraining.</p>
-        <div style="margin-top:0.6rem"><span class="tag">Ablation proven</span><span class="tag green">ρ: 0.18→0.54 with anchors</span></div>
+        <p>A 2D latent representation in which each axis is mathematically constrained to track real, verifiable clinical measurement (HOMA-IR and FibroScan CAP).</p>
       </div>
     </div>
     <div class="contrib-card">
       <div class="contrib-num" style="color:var(--green)">02</div>
       <div class="contrib-body">
-        <h4>Mondrian Conformal Prediction per Phenotypic Quadrant</h4>
-        <p>Per-subgroup calibration that restores conditional coverage to ≥90% for the highest-risk Dual-Burden phenotype, which marginal calibration fails at 81.6%. Addresses the Barber et al. (2023) subgroup impossibility result directly.</p>
-        <div style="margin-top:0.6rem"><span class="tag green">90.4% vs 81.6%</span><span class="tag green">2yr temporal hold</span></div>
+        <h4>Mondrian Conformal Prediction</h4>
+        <p>Per-subgroup calibration restoring conditional coverage to ≥90% for high-risk cohorts, addressing subgroup impossibility results.</p>
       </div>
     </div>
     <div class="contrib-card">
       <div class="contrib-num text-amber">03</div>
       <div class="contrib-body">
-        <h4>Riemannian Geodesic Intervention Planner</h4>
-        <p>Shortest-path computation on the Riemannian manifold induced by the decoder Jacobian — translating raw lab values into the minimum-change biomarker targets needed to route a patient toward the metabolically healthy zone.</p>
-        <div style="margin-top:0.6rem"><span class="tag amber">Euler-Lagrange solver</span><span class="tag amber">Decoder Jacobian metric</span></div>
+        <h4>Riemannian Geodesic Planner</h4>
+        <p>Shortest-path computation on the decoder manifold translating lab values to the metabolically healthy zone.</p>
       </div>
     </div>
     <div class="contrib-card">
-      <div class="contrib-num text-violet">04</div>
-      <div class="contrib-body">
-        <h4>Symbolic Regression Interpretability Layer</h4>
-        <p>Applies symbolic regression to the model's internal mapping to recover closed-form mathematical expressions relating latent coordinates to input biomarkers — enabling human-readable explanations without sacrificing the deep generative model's power.</p>
-        <div style="margin-top:0.6rem"><span class="tag violet">CV risk: both axes required</span><span class="tag violet">Formula extracted</span></div>
-      </div>
-    </div>
-    <div class="contrib-card">
-      <div class="contrib-num text-red">05</div>
+      <div class="contrib-num text-red">04</div>
       <div class="contrib-body">
         <h4>Ancestry-Specific Threshold Discovery</h4>
-        <p>First systematic computation of implied HOMA-IR metabolic thresholds stratified by ancestry using a latent generative model — revealing that all major ancestry groups cross metabolic risk boundaries well below the universal clinical cutoff of 2.5.</p>
-        <div style="margin-top:0.6rem"><span class="tag" style="background:var(--red-dim);color:var(--red)">NHA: 24.2% misclassified</span><span class="tag" style="background:var(--red-dim);color:var(--red)">p = 3.65×10⁻⁵</span></div>
-      </div>
-    </div>
-    <div class="contrib-card" style="background:linear-gradient(135deg,rgba(59,130,246,0.05),rgba(16,185,129,0.05));border-color:rgba(59,130,246,0.25)">
-      <div class="contrib-num" style="color:var(--cyan)">06</div>
-      <div class="contrib-body">
-        <h4>End-to-End Reproducible Research System</h4>
-        <p>Complete pipeline from raw NHANES XPORT files through data processing, semi-supervised training, conformal calibration, geodesic solving, symbolic regression, to an interactive clinical dashboard — all open-source, all tested, all reproducible.</p>
-        <div style="margin-top:0.6rem"><span class="tag">15 automated tests</span><span class="tag">5 seeds verified</span><span class="tag green">Open source</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════════════════════
-     SCENE 11 — FAQ / EXAMINER QUESTIONS
-══════════════════════════════════════════════════════════ -->
-<section class="scene" id="faq" data-scene="faq">
-  <div class="scene-tag">10 / Anticipated Questions</div>
-  <h2 class="section-title animate-in">Answered with Real Numbers</h2>
-  <p class="section-subtitle animate-in delay-1">Every expected examiner challenge — from clinical utility to statistical validity to algorithmic fairness — addressed precisely.</p>
-
-  <div class="faq-list animate-in delay-2">
-    <div class="faq-item open">
-      <div class="faq-header" onclick="toggleFaq(this)">
-        <h4 class="faq-question">Why not just use a simpler model like Random Forest or XGBoost?</h4>
-        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-body" style="max-height:300px">
-        <p class="faq-answer">Random Forest achieves <span class="mono">ρ=0.597</span>, slightly higher than LMSIS's <span class="mono">ρ=0.545</span>. However, at the clinically relevant CAP threshold, LMSIS reaches a higher AUROC (<span class="mono">0.793</span> vs <span class="mono">0.766</span>). More critically: RF produces a single scalar output. LMSIS produces a biologically interpretable 2D coordinate system, group-conditional confidence intervals, and a computed path back to health — none of which a single-output tree model can provide.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-header" onclick="toggleFaq(this)">
-        <h4 class="faq-question">How do you know Z₁ and Z₂ actually mean insulin resistance and liver fat — not just arbitrary numbers?</h4>
-        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-body">
-        <p class="faq-answer">The ablation study directly proves this. Removing the anchor networks collapses the liver-fat Spearman correlation from <span class="mono">0.542 → 0.180</span>. Each anchor network is constrained with <strong>strictly positive Softplus weights</strong>, forcing ∂Z₁/∂HOMA-IR > 0 and ∂Z₂/∂CAP > 0 everywhere — mathematically preventing any axis rotation or sign flip under retraining.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-header" onclick="toggleFaq(this)">
-        <h4 class="faq-question">What is an identifiable VAE and why does standard VAE fail here?</h4>
-        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-body">
-        <p class="faq-answer">Standard VAEs learn a latent space that is <strong>non-identifiable</strong> — the coordinates can undergo arbitrary rotations and still achieve the same reconstruction loss. For a clinician, this means the axes change meaning on every retraining run. LMSIS achieves identifiability following <strong>Khemakhem et al. (2020)</strong> by conditioning the prior p(z|u) on demographic covariates u, plus the dual monotone anchor constraint — forcing the model to explain latent variance relative to clinical baselines.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-header" onclick="toggleFaq(this)">
-        <h4 class="faq-question">Why Mondrian Conformal Prediction and not standard split CP?</h4>
-        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-body">
-        <p class="faq-answer">Standard split CP only guarantees <strong>global marginal coverage</strong> (90% average across all patients). Following the <strong>Barber et al. (2023)</strong> conditional coverage impossibility theorem, marginal coverage cannot protect specific subgroups. Empirically: the Dual-Burden group drops to <span class="mono">81.6%</span> coverage under standard CP — 8.4% below the 90% safety target, leaving the sickest patients unprotected. Mondrian stratification calibrates each quadrant independently, restoring <span class="mono">≥90%</span> for all groups.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-header" onclick="toggleFaq(this)">
-        <h4 class="faq-question">Could this be overfit to NHANES? One dataset is not generalisation.</h4>
-        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-body">
-        <p class="faq-answer">Three independent evaluations address this. First, <strong>strict temporal OOD</strong>: J-only model on P-cycle (two years later, zero overlap) achieves ρ=0.5793, <em>exceeding</em> the random-split baseline. Second, <strong>real demographic OOD</strong>: zero-shot performance on NHA cohort (n=355) with ρ=0.582. Third, <strong>5-seed reproducibility</strong>: all seeds exceed the baseline estimate. Overfitting to one seed or split is ruled out.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-header" onclick="toggleFaq(this)">
-        <h4 class="faq-question">The national CI is [0M, 64M]. Isn't this too wide to be meaningful?</h4>
-        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-body">
-        <p class="faq-answer">The width is <strong>mathematically correct</strong> and reflects inherent NHANES complex survey variance for a small, tightly restricted subgroup (normal-BMI, complete panels). Under NHANES complex survey weighting, small-domain estimation introduces massive sampling variance. We report it transparently rather than artificially shrinking it — which would be scientifically dishonest. The point estimate (23.9M) is meaningful; the CI honestly communicates that a dedicated large-scale registry is needed to narrow this range.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <div class="faq-header" onclick="toggleFaq(this)">
-        <h4 class="faq-question">Is this system ready for clinical use?</h4>
-        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-body">
-        <p class="faq-answer"><strong>No.</strong> This is a research prototype demonstrating technical feasibility of a clinically-anchored generative screening approach. It has not undergone clinical trials, regulatory review, or prospective longitudinal validation. The geodesic intervention pathways are computational recommendations based on population manifold geometry — not individually validated patient trajectories. Using it to direct real patient care at this stage would be inappropriate.</p>
+        <p>Systematic computation of ancestry-stratified IR thresholds showing standard guidelines misclassify risks across all major groups.</p>
       </div>
     </div>
   </div>
@@ -1059,7 +905,7 @@
      SCENE 12 — LIMITATIONS & FUTURE WORK
 ══════════════════════════════════════════════════════════ -->
 <section class="scene" id="limitations" data-scene="limitations">
-  <div class="scene-tag">11 / Limitations & Future Work</div>
+  <div class="scene-tag">10 / Limitations & Future Work</div>
   <h2 class="section-title animate-in">What We Know We Don't Know</h2>
   <p class="section-subtitle animate-in delay-1">Honest disclosure of current limitations alongside a concrete roadmap for future research.</p>
 
@@ -1069,27 +915,15 @@
       <div class="lim-list">
         <div class="lim-item">
           <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span class="lim-text"><strong>Cross-sectional data only.</strong> Every patient is measured exactly once (NHANES design). The model cannot predict patient trajectories over time — only recover their current hidden metabolic state.</span>
+          <span class="lim-text"><strong>Cross-sectional data only.</strong> Every patient is measured exactly once (NHANES design). The model cannot predict individual patient trajectories over time.</span>
         </div>
         <div class="lim-item">
           <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span class="lim-text"><strong>Single-survey training source.</strong> All data originates from NHANES — a U.S. nationally representative survey. External validation on independently collected non-U.S. cohorts has not been performed.</span>
+          <span class="lim-text"><strong>Post-pandemic distribution shift sensitivity.</strong> Z₂ (liver fat axis) degrades severely on the post-pandemic L-cycle (ρ = 0.583 → 0.332) while Z₁ remains stable. Mondrian CP successfully preserved ≥90% coverage.</span>
         </div>
         <div class="lim-item">
           <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span class="lim-text"><strong>FibroScan labels partially missing.</strong> The steatosis anchor is semi-supervised because FibroScan-derived CAP values are available for only ~60% of participants. Expanded liver biopsy or imaging data would improve Z₂ anchoring.</span>
-        </div>
-        <div class="lim-item">
-          <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span class="lim-text"><strong>Geodesic paths are unvalidated longitudinally.</strong> The Riemannian intervention solver computes mathematically shortest paths on the population manifold — not clinically proven patient trajectories. Prospective trials required.</span>
-        </div>
-        <div class="lim-item">
-          <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span class="lim-text"><strong>Post-pandemic distribution sensitivity (Z₂).</strong> The frozen model evaluated on the August 2021–2023 NHANES L-cycle shows Z₂ (liver fat axis) degrading severely (ρ = 0.583 → 0.332) while Z₁ (insulin resistance) remains stable (0.801 → 0.773). The mechanism is not yet explained. The Mondrian CP layer successfully trapped the uncertainty, preserving ≥90% clinical coverage — but the steatosis point-prediction should be treated with additional caution for post-pandemic populations.</span>
-        </div>
-        <div class="lim-item">
-          <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span class="lim-text"><strong>Research prototype only.</strong> No regulatory review. Not validated in clinical settings. Cannot and should not be used to direct real patient care.</span>
+          <span class="lim-text"><strong>Research prototype only.</strong> No regulatory review. Not validated in clinical trials. Cannot be used to direct real patient care.</span>
         </div>
       </div>
     </div>
@@ -1098,23 +932,15 @@
       <div class="lim-list">
         <div class="fut-item">
           <svg class="fut-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          <span class="fut-text"><strong>Longitudinal validation.</strong> Apply LMSIS to prospective cohort studies (e.g., UK Biobank with repeat visits) to validate whether the latent coordinate tracks actual patient disease progression over time.</span>
+          <span class="fut-text"><strong>Longitudinal validation.</strong> Apply LMSIS to prospective cohorts (e.g., UK Biobank with repeat visits) to validate latent progression tracking.</span>
         </div>
         <div class="fut-item">
           <svg class="fut-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          <span class="fut-text"><strong>Multi-site external validation.</strong> Validate on independently collected, non-NHANES cohorts — especially in South Asia, East Asia, and Africa — where metabolic disease patterns differ substantially.</span>
+          <span class="fut-text"><strong>Multi-site external validation.</strong> Validate on non-U.S. cohorts to account for differences in baseline prevalence and ancestry.</span>
         </div>
         <div class="fut-item">
           <svg class="fut-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          <span class="fut-text"><strong>Expanded label availability.</strong> Partner with hepatology centres to acquire FibroScan CAP labels for a larger fraction of the training cohort, reducing reliance on semi-supervised missing-data imputation.</span>
-        </div>
-        <div class="fut-item">
-          <svg class="fut-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          <span class="fut-text"><strong>EHR and primary care integration.</strong> Adapt the model for automated ingestion from electronic health record systems — enabling routine, zero-cost metabolic screening at the point of care for all normal-BMI patients.</span>
-        </div>
-        <div class="fut-item">
-          <svg class="fut-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          <span class="fut-text"><strong>Regulatory pathway investigation.</strong> Evaluate the evidence requirements for FDA/CE submission as a software-as-a-medical-device (SaMD) pre-screening tool, identifying the required clinical trial design.</span>
+          <span class="fut-text"><strong>Clinical EHR integration.</strong> Adapt the model for automated, zero-cost screening at the point of care within electronic health records.</span>
         </div>
       </div>
     </div>
@@ -1151,13 +977,6 @@
 </section>
 
 </div> <!-- End #slide-deck -->
-
-<!-- Slide Navigation Controls -->
-<div class="slide-nav">
-  <button class="nav-arrow" id="prev-btn" aria-label="Previous slide" disabled>&larr;</button>
-  <div class="nav-dots" id="nav-dots"></div>
-  <button class="nav-arrow" id="next-btn" aria-label="Next slide">&rarr;</button>
-</div>
 
 <script src="script.js"></script>
 </body>
