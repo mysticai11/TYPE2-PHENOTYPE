@@ -14,6 +14,7 @@
     { id: 'architecture',  label: 'Model' },
     { id: 'latent',        label: 'Latent' },
     { id: 'results',       label: 'Results' },
+    { id: 'ablation',      label: 'Ablation' },
     { id: 'equity',        label: 'Equity' },
     { id: 'validation',    label: 'Validation' },
     { id: 'contributions', label: 'Contributions' },

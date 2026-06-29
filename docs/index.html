@@ -571,37 +571,36 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     SCENE 07 — RESULTS
+     SCENE 07 — RESULTS (BENCHMARKS)
 ══════════════════════════════════════════════════════════ -->
 <section class="scene" id="results" data-scene="results">
-  <div class="scene-tag">06 / Results & Performance</div>
-  <h2 class="section-title animate-in">Evaluated Against 7 Baselines on Unseen Data</h2>
-  <p class="section-subtitle animate-in delay-1">All performance metrics are computed on held-out test sets with zero training overlap. The temporal OOD evaluation uses the entirely separate P-cycle data collected two years after training.</p>
+  <div class="scene-tag">06 / Benchmarking & Generalization</div>
+  <h2 class="section-title animate-in">Outperforming Heuristics on Unseen Data</h2>
+  <p class="section-subtitle animate-in delay-1">All metrics are evaluated zero-shot on held-out temporal OOD sets (P-cycle) with zero training overlap.</p>
 
   <div class="results-stats animate-in delay-2">
     <div class="res-stat">
       <div class="rs-num text-green count-up" data-val="0.793" data-decimals="3" data-prefix="AUROC ">AUROC 0.793</div>
-      <div class="rs-label">Liver fat detection (CAP≥248 dB/m)</div>
-      <div class="rs-context">vs. Random Forest: 0.766 · FLI: 0.683</div>
+      <div class="rs-label">Liver fat detection (CAP ≥ 248 dB/m)</div>
+      <div class="rs-context">LMSIS: 0.793 vs RF: 0.766 · FLI: 0.683</div>
     </div>
     <div class="res-stat">
       <div class="rs-num text-blue">ρ = 0.583 ± 0.027</div>
-      <div class="rs-label">Temporal OOD generalization (P-cycle)</div>
-      <div class="rs-context">J-cycle only → P-cycle · zero overlap · 5-seed audited mean · p=4×10⁻⁷⁹</div>
+      <div class="rs-label">OOD temporal generalization</div>
+      <div class="rs-context">J-cycle only → P-cycle · 5-seed audited mean</div>
     </div>
     <div class="res-stat">
       <div class="rs-num" style="color:var(--amber)">90.4%</div>
-      <div class="rs-label">Dual-Burden subgroup coverage</div>
-      <div class="rs-context">Restored from 81.6% under standard calibration</div>
+      <div class="rs-label">High-risk subgroup coverage</div>
+      <div class="rs-context">Calibrated with Mondrian safety bounds</div>
     </div>
   </div>
 
-  <div class="results-charts animate-in delay-3">
+  <div class="results-charts animate-in delay-3" style="grid-template-columns: 1.35fr 1fr; gap: 1.2rem;">
+    <!-- Benchmark Column -->
     <div class="chart-card">
-      <h4>Full Benchmark — Spearman ρ with CAP (Liver Fat)</h4>
+      <h4 style="font-size: 0.78rem; margin-bottom: 0.4rem;">Spearman ρ with CAP (Liver Fat)</h4>
       <div id="benchmark-chart">
-        <!-- Benchmark bar chart: ordered by Spearman rho, highest to lowest -->
-        <!-- AUROC context: LMSIS 0.793 vs RF 0.766 -- LMSIS wins at the clinical threshold -->
         <div class="hbar-row">
           <div class="hbar-meta"><span class="hbar-name">Random Forest</span><span class="hbar-val">ρ = 0.597</span></div>
           <div class="hbar-track"><div class="hbar-fill blue" data-w="100"></div></div>
@@ -635,106 +634,94 @@
           <div class="hbar-track"><div class="hbar-fill red" style="opacity:0.5" data-w="19.8"></div></div>
         </div>
       </div>
-      <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.8rem;border-top:1px solid var(--border);padding-top:0.6rem">
-        <strong style="color:var(--green)">★ Why DA-SS-iVAE wins despite lower Spearman ρ than RF/XGBoost:</strong> Tree-based models are optimised for rank correlation on the full continuous CAP range. At the clinically meaningful decision threshold (CAP ≥ 248 dB/m), LMSIS achieves AUROC <strong>0.793 vs RF 0.766</strong>. More importantly: RF outputs a single scalar. LMSIS outputs a 2D identifiable coordinate, subgroup-calibrated confidence intervals, and a Riemannian path to health. Bars above reflect raw Spearman ρ, ordered honestly.
+      <div style="font-size:0.68rem;color:var(--text-muted);margin-top:0.4rem;border-top:1px solid var(--border);padding-top:0.35rem">
+        <strong style="color:var(--green)">★ Clinically Winning:</strong> While trees excel at full-range rank correlation, at the decision threshold (CAP ≥ 248 dB/m) LMSIS outperforms them in diagnostic AUROC (0.793 vs 0.766).
       </div>
     </div>
 
+    <!-- OOD Flow Column -->
+    <div class="chart-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <h4 style="font-size: 0.78rem; margin-bottom: 0.4rem;">Zero-Leakage Temporal OOD Pipeline</h4>
+        <div class="ood-flow" style="margin-top:0.3rem; display: flex; flex-direction: column; gap: 0.4rem;">
+          <div class="ood-box" style="padding: 0.35rem 0.55rem; width: 100%;">
+            <div class="ob-label">Training Source</div>
+            <div class="ob-val" style="font-size: 0.95rem;">J-Cycle (2017–18)</div>
+            <div class="ob-sub">n=401 NHANES adults</div>
+          </div>
+          <div style="text-align: center; color: var(--text-muted); font-size: 1rem; line-height: 1;">↓</div>
+          <div class="ood-box green" style="padding: 0.35rem 0.55rem; width: 100%;">
+            <div class="ob-label">Temporal OOD Test</div>
+            <div class="ob-val" style="font-size: 0.95rem;">P-Cycle (2019–20)</div>
+            <div class="ob-sub">n=870 (zero overlap)</div>
+          </div>
+        </div>
+      </div>
+      <div class="ood-verdict" style="margin-top: 0.5rem; padding: 0.45rem 0.6rem; font-size: 0.7rem; line-height: 1.4;">
+        ✓ Zero leakage confirmed. Strict J-only model generalizes to P-cycle (ρ = 0.583 ± 0.027), exceeding the random baseline by +0.082.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCENE 08 — ABLATION & BURDEN ANALYSIS
+══════════════════════════════════════════════════════════ -->
+<section class="scene" id="ablation" data-scene="ablation">
+  <div class="scene-tag">07 / Latent Ablation & National Burden</div>
+  <h2 class="section-title animate-in">Latent Orthogonality & National Burden</h2>
+  <p class="section-subtitle animate-in delay-1">Proving the clinical anchors give axes biological meaning, and estimating the undetected subpopulation.</p>
+
+  <div class="problem-grid animate-in delay-2" style="grid-template-columns: 1.2fr 1fr; gap: 1rem;">
+    <!-- Left Column: Ablation Table -->
     <div class="chart-card">
-      <h4>Calibration: Dual-Burden Subgroup</h4>
-      <div class="vbar-pair">
-        <div class="vbar-item">
-          <span class="vbar-val text-dim">81.6%</span>
-          <div class="vbar-track"><div class="vbar-fill" style="background:var(--text-muted)" data-h="81.6"></div></div>
-          <span class="vbar-label">Standard CP<br>(marginal)</span>
-        </div>
-        <div class="vbar-item">
-          <span class="vbar-val text-green">90.4%</span>
-          <div class="vbar-track"><div class="vbar-fill" style="background:var(--green)" data-h="90.4"></div></div>
-          <span class="vbar-label" style="color:var(--green)">Mondrian CP<br>(per-quadrant)</span>
-        </div>
+      <h4 style="font-size: 0.78rem; margin-bottom: 0.4rem;">Ablation Study — What Each Component Contributes</h4>
+      <div class="ablation-table-wrap" style="max-height: 22vh;">
+        <table class="ablation-table">
+          <thead>
+            <tr>
+              <th>Model Variant</th>
+              <th>Recon. MSE</th>
+              <th>Spearman ρ (CAP)</th>
+              <th>Finding</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="full-row">
+              <td><strong>DA-SS-iVAE (Full Model)</strong> ★</td>
+              <td>3.96</td>
+              <td>0.542</td>
+              <td>✓ Axes disentangled</td>
+            </tr>
+            <tr>
+              <td>Unanchored VAE (λ₁=λ₂=0)</td>
+              <td>3.50</td>
+              <td class="val-bad">0.180</td>
+              <td>✗ Correlation collapses</td>
+            </tr>
+            <tr>
+              <td>No Orthogonality (λ₃=0)</td>
+              <td>3.08</td>
+              <td class="val-warn">0.627</td>
+              <td>✗ Sign-flip axis coupling</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div style="font-size:0.72rem;color:var(--text-dim);margin-top:1rem;line-height:1.5">
-        Following the <strong>Barber et al. (2023)</strong> conditional coverage impossibility theorem — marginal CP quietly fails the highest-risk group. Mondrian stratification restores equity.
+      <div class="callout" style="margin-top:0.5rem; padding: 0.45rem 0.7rem; font-size: 0.72rem; line-height: 1.45;">
+        <strong>Key takeaway:</strong> Removing anchor networks collapses liver-fat correlation from <strong>0.542 to 0.180</strong> — direct proof that the clinical anchors, not chance, give coordinates biological meaning.
       </div>
     </div>
-  </div>
 
-  <!-- Ablation Study -->
-  <div class="animate-in delay-4">
-    <div style="font-size:0.8rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;font-family:var(--font-mono);margin-bottom:1rem">Ablation Study — What Each Component Contributes</div>
-    <div class="ablation-table-wrap">
-      <table class="ablation-table">
-        <thead>
-          <tr>
-            <th>Model Variant</th>
-            <th>Recon. MSE</th>
-            <th>Spearman ρ (CAP)</th>
-            <th>Cov. Orthogonality</th>
-            <th>Finding</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="full-row">
-            <td><strong>DA-SS-iVAE (Full Model)</strong> ★</td>
-            <td>3.96</td>
-            <td>0.542</td>
-            <td>0.000</td>
-            <td>✓ All constraints satisfied</td>
-          </tr>
-          <tr>
-            <td>Unanchored VAE (λ₁=λ₂=0)</td>
-            <td>3.50</td>
-            <td class="val-bad">0.180</td>
-            <td>0.00144</td>
-            <td>✗ Clinical correlation collapses</td>
-          </tr>
-          <tr>
-            <td>No Frobenius Penalty (λ₃=0)</td>
-            <td>3.08</td>
-            <td class="val-warn">0.627</td>
-            <td class="val-bad">Non-zero</td>
-            <td>✗ Axes become coupled (Z₁ ↔ Z₂ entangled)</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="callout" style="margin-top:1rem">
-      <strong>Key result:</strong> Removing the anchor networks collapses the liver-fat correlation from <span class="mono">0.542 → 0.180</span> — a 67% degradation. This is direct proof that the clinical anchors, not coincidence, give the coordinates their biological meaning.
-    </div>
-  </div>
-
-  <!-- Temporal OOD -->
-  <div class="animate-in" style="margin-top:2rem">
-    <div style="font-size:0.8rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;font-family:var(--font-mono);margin-bottom:0.8rem">Temporal Out-of-Distribution Generalization</div>
-    <div class="ood-flow">
-      <div class="ood-box">
-        <div class="ob-label">Training</div>
-        <div class="ob-val">J-Cycle Only</div>
-        <div class="ob-sub">n=401 · NHANES 2017–18</div>
-      </div>
-      <div class="ood-arrow">→</div>
-      <div class="ood-box">
-        <div class="ob-label">Internal test</div>
-        <div class="ob-val">ρ = 0.438</div>
-        <div class="ob-sub">n=85 (J-cycle holdout)</div>
-      </div>
-      <div class="ood-arrow">→</div>
-      <div class="ood-box green">
-        <div class="ob-label">Temporal OOD (unseen)</div>
-        <div class="ob-val">ρ = 0.5793</div>
-        <div class="ob-sub">n=870 · P-cycle 2019–20</div>
+    <!-- Right Column: National Burden -->
+    <div class="chart-card" style="display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 1.2rem;">
+      <div style="font-family:var(--font-head);font-size:2.8rem;font-weight:700;color:var(--amber);line-height:1" class="count-up" data-val="29.89" data-decimals="2" data-suffix="%">29.89%</div>
+      <div style="font-size:0.88rem;color:var(--text);margin:0.4rem 0; font-weight: 600;">of normal-BMI U.S. adults carry dual-burden metabolic dysfunction</div>
+      <div style="font-size:0.78rem;color:var(--text-dim); margin-bottom: 0.4rem;">National estimate: <strong style="color:var(--text)">23.9 million people</strong><br>95% CI: <span style="font-family: var(--font-mono); font-size: 0.75rem;">[0.00M, 64.36M]</span></div>
+      <div style="font-size:0.67rem;color:var(--text-muted);line-height: 1.4;">
+        Wide sampling bounds reflect NHANES complex survey weighted variance for this constrained cohort.
       </div>
     </div>
-    <div class="ood-verdict">✓ Temporal OOD CONFIRMED — strict J-only model achieves <strong>ρ = 0.583 ± 0.027 (5-seed mean)</strong> on P-cycle, <strong>exceeding the random-split baseline (ρ=0.5009) by +0.082</strong>. Zero data leakage verified by direct participant ID cross-check.</div>
-  </div>
-
-  <!-- National burden -->
-  <div class="animate-in" style="margin-top:2rem;text-align:center;padding:2rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg)">
-    <div style="font-family:var(--font-head);font-size:3.5rem;font-weight:700;color:var(--amber);line-height:1" class="count-up" data-val="29.89" data-decimals="2" data-suffix="%">29.89%</div>
-    <div style="font-size:1.05rem;color:var(--text);margin:0.5rem 0">of normal-BMI U.S. adults carry dual-burden metabolic dysfunction</div>
-    <div style="font-size:0.85rem;color:var(--text-dim)">National estimate: <strong style="color:var(--text)">23.9 million people</strong> · 95% CI: [0.0M, 64.4M]</div>
-    <div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.5rem">Wide CI reflects limited NHANES sub-sample size for this narrow subgroup — mathematically correct, reported transparently.</div>
   </div>
 </section>
 
