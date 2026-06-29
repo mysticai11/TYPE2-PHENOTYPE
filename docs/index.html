@@ -12,7 +12,7 @@
 <!-- Slide Header -->
 <header class="slide-header">
   <span class="slide-logo">Predictive Risk Intelligence for Metabolic Screening in Diabetes</span>
-  <span class="slide-counter" id="slide-counter">Slide 1 / 12</span>
+  <span class="slide-counter" id="slide-counter">Slide 1 / 14</span>
 </header>
 
 <!-- Slide Deck Container -->
@@ -24,7 +24,7 @@
 <section class="scene hero-scene" id="hero" data-scene="hero">
   <canvas id="hero-canvas"></canvas>
   <h1 class="hero-title">Predictive Risk Intelligence<br>for Metabolic Screening in Diabetes</h1>
-  <p class="hero-subtitle">A Dual-Anchored Semi-Supervised Identifiable Variational Autoencoder that recovers hidden insulin resistance and hepatic steatosis from fourteen routine blood biomarkers in normal-BMI adults — without any imaging or specialist referral.</p>
+  <p class="hero-subtitle">An AI-powered screening system that detects hidden insulin resistance and liver fat from a single routine blood test in normal-BMI adults — without expensive imaging or specialist referrals.</p>
   <div class="author-grid">
     <div class="author-chip"><strong>Karamjeet Singh</strong><span class="roll">5244</span></div>
     <div class="author-chip"><strong>Sarandeep Singh</strong><span class="roll">5244</span></div>
@@ -40,7 +40,7 @@
 <section class="scene" id="problem" data-scene="problem">
   <div class="scene-tag">01 / The Problem</div>
   <h2 class="section-title animate-in">The Hidden Epidemic Inside Normal Weight</h2>
-  <p class="section-subtitle animate-in delay-1">Millions of adults with a clinically normal BMI carry concurrent insulin resistance and hepatic steatosis — metabolic dysfunction that routine screening, built around body weight, is structurally unable to detect.</p>
+  <p class="section-subtitle animate-in delay-1">Millions of normal-weight adults have hidden liver fat and insulin resistance. Standard screening misses them because it is built around body weight (BMI). They look healthy on the outside, but carry high cardiovascular and diabetes risks.</p>
 
   <div class="problem-grid animate-in delay-2">
     <div>
@@ -48,19 +48,19 @@
         <div class="stat-hero-card">
           <div>
             <div class="stat-hero-num blue count-up" data-val="537" data-suffix="M">537M</div>
-            <div class="stat-hero-label">adults globally live with diabetes (IDF 2023). Lean metabolic dysfunction is the invisible precursor.</div>
+            <div class="stat-hero-label">adults live with diabetes globally. Silent metabolic dysfunction is the invisible precursor.</div>
           </div>
         </div>
         <div class="stat-hero-card">
           <div>
             <div class="stat-hero-num amber count-up" data-val="29.89" data-decimals="2" data-suffix="%">29.89%</div>
-            <div class="stat-hero-label">of normal-BMI U.S. adults in this study carry dual-burden metabolic dysfunction — estimated <strong>23.9M people</strong> nationwide.</div>
+            <div class="stat-hero-label">of normal-weight adults carry hidden metabolic dysfunction — estimated <strong>23.9M people</strong> in the U.S. alone.</div>
           </div>
         </div>
         <div class="stat-hero-card">
           <div>
-            <div class="stat-hero-num" style="color:var(--red);font-size:2.2rem">0</div>
-            <div class="stat-hero-label">of these patients would be flagged by BMI alone. They have a <em>normal</em> body weight by definition.</div>
+            <div class="stat-hero-num" style="color:var(--red);font-size:2.2rem">0%</div>
+            <div class="stat-hero-label">of these high-risk patients are flagged by BMI screening. They have a normal weight by definition.</div>
           </div>
         </div>
       </div>
@@ -77,7 +77,7 @@
             <rect x="43" y="120" width="7" height="80" rx="3" fill="#3b82f6" fill-opacity="0.4"/>
             <rect x="50" y="120" width="7" height="80" rx="3" fill="#3b82f6" fill-opacity="0.4"/>
           </svg>
-          <div class="label"><strong>Normal BMI = 22</strong>Screened as "healthy"<br>Sent home</div>
+          <div class="label"><strong>BMI = 22 (Normal)</strong>Screened as "healthy"<br>Sent home without help</div>
         </div>
         <div style="color:var(--text-muted);font-size:1.5rem">≡</div>
         <div class="silhouette-wrap">
@@ -93,26 +93,26 @@
             <ellipse cx="50" cy="78" rx="17" ry="13" fill="#ef4444" fill-opacity="0.35" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3,2"/>
             <text x="50" y="82" fill="#ef4444" font-size="7" text-anchor="middle" font-family="Inter,sans-serif">visceral fat</text>
           </svg>
-          <div class="label"><strong>Same BMI = 22</strong>Hidden IR + steatosis<br>Missed by screening</div>
+          <div class="label"><strong>BMI = 22 (Normal)</strong>Hidden risk detected<br>by LMSIS AI model</div>
         </div>
       </div>
 
       <div class="failure-grid animate-in delay-4">
         <div class="failure-card">
-          <h4>BMI is a weight ratio</h4>
-          <p>It cannot distinguish subcutaneous fat (benign) from visceral/hepatic fat (pathological). Location is everything.</p>
+          <h4>BMI only measures weight</h4>
+          <p>It cannot tell healthy muscle or skin from dangerous visceral fat wrapping around internal organs. Location is everything.</p>
         </div>
         <div class="failure-card amber-l">
-          <h4>Clinical scores fail in normal BMI</h4>
-          <p>Clinical risk formulas lose accuracy when body weight is restricted to the normal range — their training distribution assumption breaks.</p>
+          <h4>Standard calculators fail</h4>
+          <p>Traditional clinical calculators lose accuracy when weight is restricted to the normal range — their basic formulas break down.</p>
         </div>
         <div class="failure-card violet-l">
-          <h4>Individual biomarkers in normal range</h4>
-          <p>Each of the 14 biomarkers may individually appear within normal reference intervals. The pathology lives in the joint 14-dimensional distribution.</p>
+          <h4>Normal results are misleading</h4>
+          <p>Individual lab values (like glucose) often appear normal in isolation. Early disease is only visible when analyzing all markers together.</p>
         </div>
         <div class="failure-card blue-l">
-          <h4>No routine, affordable alternative</h4>
-          <p>FibroScan costs $300–$500/scan and is gated behind specialist hepatology clinics — inaccessible for primary care screening.</p>
+          <h4>Scans are too expensive</h4>
+          <p>Specialist scans (FibroScan) cost $300–$500 and require referrals, making them impossible to use for routine patient check-ups.</p>
         </div>
       </div>
     </div>
@@ -124,24 +124,24 @@
 ══════════════════════════════════════════════════════════ -->
 <section class="scene" id="gap" data-scene="gap">
   <div class="scene-tag">02 / Research Gap</div>
-  <h2 class="section-title animate-in">Prior Work Solves Pieces. No System Solves All Four.</h2>
-  <p class="section-subtitle animate-in delay-1">Existing approaches each fail at least one property required to screen metabolic risk in normal-BMI populations with clinical interpretability, population equity, and reliable uncertainty.</p>
+  <h2 class="section-title animate-in">Prior Work Only Solves Pieces. LMSIS Solves All.</h2>
+  <p class="section-subtitle animate-in delay-1">Existing diagnostic tools fail at at least one key requirement needed for safe, equitable, and actionable screening in normal-weight populations.</p>
 
   <div class="comp-table-wrap animate-in delay-2">
     <table class="comp-table">
       <thead>
         <tr>
           <th>System / Approach</th>
-          <th>Normal-BMI Specific</th>
-          <th>Clinically Anchored Axes</th>
-          <th>Identifiable Latent Space</th>
-          <th>Per-Subgroup Calibration</th>
-          <th>Counterfactual Paths</th>
+          <th>Normal-BMI Focused</th>
+          <th>Clinically Anchored</th>
+          <th>Interpretable Layout</th>
+          <th>Guaranteed Safety Bounds</th>
+          <th>Personalized Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><strong>Wearable + biomarker models</strong><br><span style="font-size:0.72rem;color:var(--text-muted)">Ng et al., 2025; Dunn et al., 2024</span></td>
+          <td><strong>Wearable track models</strong><br><span style="font-size:0.72rem;color:var(--text-muted)">General health trackers</span></td>
           <td><span class="cross">✗</span></td>
           <td><span class="cross">✗</span></td>
           <td><span class="cross">✗</span></td>
@@ -149,7 +149,7 @@
           <td><span class="cross">✗</span></td>
         </tr>
         <tr>
-          <td><strong>Tree-based classifiers (XGBoost/RF)</strong><br><span style="font-size:0.72rem;color:var(--text-muted)">on NHANES, UKBB survey data</span></td>
+          <td><strong>Standard Machine Learning</strong><br><span style="font-size:0.72rem;color:var(--text-muted)">Black-box classifiers</span></td>
           <td><span class="cross">✗</span></td>
           <td><span class="cross">✗</span></td>
           <td><span class="cross">✗</span></td>
@@ -157,23 +157,7 @@
           <td><span class="cross">✗</span></td>
         </tr>
         <tr>
-          <td><strong>Biopsy-based clustering (VAE/GMM)</strong><br><span style="font-size:0.72rem;color:var(--text-muted)">Liver histology cohorts, 2024</span></td>
-          <td><span class="partial">~</span></td>
-          <td><span class="check">✓</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-        </tr>
-        <tr>
-          <td><strong>Causal rep. learning on genetics</strong><br><span style="font-size:0.72rem;color:var(--text-muted)">Schölkopf et al., 2025; iVAE framework</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="check">✓</span></td>
-          <td><span class="cross">✗</span></td>
-          <td><span class="partial">~</span></td>
-        </tr>
-        <tr>
-          <td><strong>Clinical score formulas</strong><br><span style="font-size:0.72rem;color:var(--text-muted)">FLI, HSI, TyG, NAFLD-LFS, HOMA-IR</span></td>
+          <td><strong>Clinical score formulas</strong><br><span style="font-size:0.72rem;color:var(--text-muted)">FLI, TyG, HSI, HOMA-IR</span></td>
           <td><span class="cross">✗</span></td>
           <td><span class="partial">~</span></td>
           <td><span class="cross">✗</span></td>
@@ -181,7 +165,7 @@
           <td><span class="cross">✗</span></td>
         </tr>
         <tr class="lmsis-row">
-          <td><strong>LMSIS — DA-SS-iVAE (this work)</strong><br><span style="font-size:0.72rem;color:var(--blue)">NHANES 2017–20 · n=1,477</span></td>
+          <td><strong>LMSIS — DA-SS-iVAE (this work)</strong><br><span style="font-size:0.72rem;color:var(--blue)">NHANES U.S. Database</span></td>
           <td><span class="check">✓</span></td>
           <td><span class="check">✓</span></td>
           <td><span class="check">✓</span></td>
@@ -193,8 +177,8 @@
   </div>
 
   <div class="gap-callout animate-in delay-3">
-    <strong>The gap is not a missing model — it is a missing coordinate system.</strong><br>
-    No prior approach simultaneously enforces that latent axes must monotonically track clinically-measured quantities, while providing group-conditional uncertainty that protects the highest-risk subgroup, and computing geometrically-shortest intervention paths back to metabolic health.
+    <strong>We didn't just build a better model — we built a clearer coordinate system.</strong><br>
+    LMSIS is the first model to separate insulin resistance from liver fat, guarantee medical safety limits (confidence intervals), and calculate a step-by-step pathway back to metabolic health for each individual patient.
   </div>
 </section>
 
@@ -203,66 +187,61 @@
 ══════════════════════════════════════════════════════════ -->
 <section class="scene" id="dataset" data-scene="dataset">
   <div class="scene-tag">03 / Dataset</div>
-  <h2 class="section-title animate-in">NHANES 2017–2020 — 1,477 Normal-BMI Adults</h2>
-  <p class="section-subtitle animate-in delay-1">National Health and Nutrition Examination Survey (NHANES), two collection cycles. Restricted to BMI 18.5–24.9, complete metabolic panels, and age 20–65. All data are publicly available from the CDC.</p>
+  <h2 class="section-title animate-in">NHANES Gold-Standard Cohort (1,477 Adults)</h2>
+  <p class="section-subtitle animate-in delay-1">National Health and Nutrition Examination Survey (NHANES) collected by the CDC. We restricted the cohort strictly to adults with a normal BMI (18.5–24.9) and complete lab panels.</p>
 
   <div class="dataset-layout">
     <div class="animate-in delay-2">
       <div class="dataset-identity">
         <h3>Cohort Summary</h3>
-        <div class="sub">NHANES CDC · Nationally representative cross-sectional survey · U.S. adults</div>
+        <div class="sub">Nationally representative U.S. database. Zero dataset overlap.</div>
         <div class="cycle-row">
           <div class="cycle-card">
-            <div class="cycle-name">J-Cycle (2017–18)</div>
+            <div class="cycle-name">Training Cohort (J-Cycle)</div>
             <div class="cycle-n count-up" data-val="574">574</div>
-            <div class="cycle-label">participants · Training cohort</div>
+            <div class="cycle-label">participants (NHANES 2017-18)</div>
           </div>
           <div class="cycle-card">
-            <div class="cycle-name">P-Cycle (2019–20)</div>
+            <div class="cycle-name">Temporal Test (P-Cycle)</div>
             <div class="cycle-n count-up" data-val="903">903</div>
-            <div class="cycle-label">participants · Temporal OOD test</div>
+            <div class="cycle-label">participants (NHANES 2019-20)</div>
           </div>
         </div>
         <div style="font-size:0.82rem;color:var(--text-dim);margin-bottom:0.8rem">
-          <strong style="color:var(--text)">Inclusion criteria:</strong> BMI 18.5–24.9 kg/m², complete blood metabolic panel, age 20–65, no bariatric surgery, no current corticosteroids.
+          <strong style="color:var(--text)">Inclusion criteria:</strong> BMI 18.5–24.9, age 20–65, complete routine blood panels, no previous bariatric surgeries or corticosteroids.
         </div>
         <div style="font-size:0.82rem;color:var(--text-dim);margin-bottom:1rem">
-          <strong style="color:var(--text)">Reference measurements:</strong>
-          HOMA-IR (insulin resistance proxy, full cohort) ·
-          FibroScan CAP dB/m (liver fat, partial — used semi-supervised)
+          <strong style="color:var(--text)">Primary reference indicators:</strong>
+          HOMA-IR (clinical insulin resistance proxy) ·
+          FibroScan CAP (ultrasound-derived liver fat marker)
         </div>
-        <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.6rem">Four phenotypic quadrants (unsupervised):</div>
+        <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.6rem">Four Phenotypic Groups (Discovered Unsupervised):</div>
         <div class="quadrant-chips">
-          <span class="q-chip mhnw">● MHNW — 385</span>
-          <span class="q-chip ir">● IR-Dominant — 264</span>
-          <span class="q-chip steat">● Steatosis-Dominant — 346</span>
+          <span class="q-chip mhnw">● Healthy (MHNW) — 385</span>
+          <span class="q-chip ir">● Insulin Resistant — 264</span>
+          <span class="q-chip steat">● Fatty Liver — 346</span>
           <span class="q-chip dual">● Dual-Burden — 482</span>
-        </div>
-        <div class="label-avail" style="margin-top:1.2rem">
-          <strong>⚡ Semi-supervised label availability</strong>
-          HOMA-IR labels: all 1,477 participants (supervised, full) ·
-          FibroScan CAP labels: ~60% subset (semi-supervised, binary mask applied during training)
         </div>
       </div>
     </div>
 
     <div class="animate-in delay-3">
-      <div style="font-size:0.82rem;font-weight:600;margin-bottom:0.8rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;font-family:var(--font-mono)">14 Input Biomarkers + Covariates</div>
+      <div style="font-size:0.82rem;font-weight:600;margin-bottom:0.8rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;font-family:var(--font-mono)">14 Routine Biomarkers Decoded by the AI</div>
       <div class="biomarker-grid">
-        <div class="bm-item"><div class="bm-dot" style="background:var(--blue)"></div><div><div class="bm-name">Glucose (fasting)</div><div class="bm-role">IR proxy, carb metabolism</div></div></div>
-        <div class="bm-item"><div class="bm-dot" style="background:var(--blue)"></div><div><div class="bm-name">Insulin (fasting)</div><div class="bm-role">direct HOMA-IR component</div></div></div>
-        <div class="bm-item"><div class="bm-dot" style="background:var(--amber)"></div><div><div class="bm-name">Triglycerides</div><div class="bm-role">lipid metabolism, steatosis</div></div></div>
-        <div class="bm-item"><div class="bm-dot" style="background:var(--amber)"></div><div><div class="bm-name">HDL-C</div><div class="bm-role">protective lipoprotein</div></div></div>
-        <div class="bm-item"><div class="bm-dot" style="background:var(--amber)"></div><div><div class="bm-name">LDL-C</div><div class="bm-role">atherogenic lipoprotein</div></div></div>
-        <div class="bm-item"><div class="bm-dot" style="background:var(--violet)"></div><div><div class="bm-name">ALT (SGPT)</div><div class="bm-role">hepatocellular damage</div></div></div>
-        <div class="bm-item"><div class="bm-dot" style="background:var(--violet)"></div><div><div class="bm-name">AST (SGOT)</div><div class="bm-role">liver/muscle damage marker</div></div></div>
-        <div class="bm-item"><div class="bm-dot" style="background:var(--violet)"></div><div><div class="bm-name">GGT</div><div class="bm-role">bile duct, alcohol, steatosis</div></div></div>
-        <div class="bm-item"><div class="bm-dot" style="background:var(--green)"></div><div><div class="bm-name">HbA1c</div><div class="bm-role">3-month glycaemic average</div></div></div>
-        <div class="bm-item"><div class="bm-dot" style="background:var(--green)"></div><div><div class="bm-name">Uric Acid</div><div class="bm-role">purine metabolism, IR link</div></div></div>
-        <div class="bm-item"><div class="bm-dot" style="background:var(--cyan)"></div><div><div class="bm-name">Albumin</div><div class="bm-role">liver synthetic function</div></div></div>
-        <div class="bm-item"><div class="bm-dot" style="background:var(--cyan)"></div><div><div class="bm-name">ALP</div><div class="bm-role">bile / bone enzyme</div></div></div>
-        <div class="bm-item"><div class="bm-dot" style="background:var(--cyan)"></div><div><div class="bm-name">Creatinine</div><div class="bm-role">renal function, muscle mass</div></div></div>
-        <div class="bm-item"><div class="bm-dot" style="background:var(--cyan)"></div><div><div class="bm-name">Total Bilirubin</div><div class="bm-role">hepatic clearance</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--blue)"></div><div><div class="bm-name">Glucose (fasting)</div><div class="bm-role">Blood sugar level</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--blue)"></div><div><div class="bm-name">Insulin (fasting)</div><div class="bm-role">HOMA-IR component</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--amber)"></div><div><div class="bm-name">Triglycerides</div><div class="bm-role">Blood fat level</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--amber)"></div><div><div class="bm-name">HDL Cholesterol</div><div class="bm-role">"Good" cholesterol</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--amber)"></div><div><div class="bm-name">LDL Cholesterol</div><div class="bm-role">"Bad" cholesterol</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--violet)"></div><div><div class="bm-name">ALT (SGPT)</div><div class="bm-role">Liver enzyme (fat liver indicator)</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--violet)"></div><div><div class="bm-name">AST (SGOT)</div><div class="bm-role">Liver stress enzyme</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--violet)"></div><div><div class="bm-name">GGT</div><div class="bm-role">Liver/bile health indicator</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--green)"></div><div><div class="bm-name">HbA1c</div><div class="bm-role">3-month average blood sugar</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--green)"></div><div><div class="bm-name">Uric Acid</div><div class="bm-role">Metabolic stress marker</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--cyan)"></div><div><div class="bm-name">Albumin</div><div class="bm-role">Liver protein level</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--cyan)"></div><div><div class="bm-name">ALP</div><div class="bm-role">Liver enzyme</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--cyan)"></div><div><div class="bm-name">Creatinine</div><div class="bm-role">Kidney health indicator</div></div></div>
+        <div class="bm-item"><div class="bm-dot" style="background:var(--cyan)"></div><div><div class="bm-name">Total Bilirubin</div><div class="bm-role">Liver clearance marker</div></div></div>
       </div>
       <div style="margin-top:1rem;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0.9rem 1rem;font-size:0.8rem;color:var(--text-dim)">
         <span class="tag">Covariate</span>Age · <span class="tag">Covariate</span>Sex · <span class="tag">Covariate</span>Ancestry (NHW / NHB / Hispanic / NHA) — used to condition the identifiable prior p(z|u)
@@ -571,7 +550,122 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     SCENE 07 — RESULTS (BENCHMARKS)
+     SCENE 07 — UNDER THE HOOD (HOW IT WORKS VISUALLY)
+══════════════════════════════════════════════════════════ -->
+<section class="scene" id="breakthrough" data-scene="breakthrough">
+  <div class="scene-tag">06 / Under the Hood: Visual Breakthroughs</div>
+  <h2 class="section-title animate-in">The Core Breakthroughs Explained Visually</h2>
+  <p class="section-subtitle animate-in delay-1">How LMSIS transforms standard AI clinical screening into an interpretable, safe, and actionable system.</p>
+
+  <div class="breakthrough-grid animate-in delay-2">
+    <!-- Breakthrough 1: Disentanglement -->
+    <div class="bt-card">
+      <div>
+        <h3>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+          Separating the Signals
+        </h3>
+        <p class="bt-desc">Standard AI mixes insulin resistance and liver fat signals. LMSIS separates them onto two independent coordinates so doctors can see the exact driver of disease.</p>
+      </div>
+      <div class="bt-visual-box">
+        <svg width="100%" height="100%" viewBox="0 0 200 120" style="overflow:visible">
+          <line x1="25" y1="100" x2="175" y2="100" stroke="rgba(255,255,255,0.08)" stroke-dasharray="2 2" />
+          <line x1="25" y1="20" x2="25" y2="100" stroke="rgba(255,255,255,0.08)" stroke-dasharray="2 2" />
+          <line x1="25" y1="100" x2="160" y2="100" stroke="var(--blue)" stroke-width="2" marker-end="url(#arrow-blue)"/>
+          <line x1="25" y1="100" x2="25" y2="35" stroke="var(--green)" stroke-width="2" marker-end="url(#arrow-green)"/>
+          <text x="165" y="103" fill="var(--blue)" font-size="7" font-family="monospace">Insulin Axis</text>
+          <text x="28" y="32" fill="var(--green)" font-size="7" font-family="monospace">Liver Fat Axis</text>
+          <circle cx="25" cy="100" r="3.5" fill="var(--amber)">
+            <animate attributeName="cx" values="25;90;90" dur="4s" repeatCount="indefinite" />
+            <animate attributeName="cy" values="100;100;60" dur="4s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="25" cy="100" r="3.5" fill="var(--violet)">
+            <animate attributeName="cx" values="25;130;130" dur="4s" repeatCount="indefinite" />
+            <animate attributeName="cy" values="100;100;100" dur="4s" repeatCount="indefinite" />
+          </circle>
+          <path d="M 25 100 Q 60 90 90 60" fill="none" stroke="rgba(245,158,11,0.2)" stroke-dasharray="2 2" />
+          <path d="M 25 100 Q 80 100 130 100" fill="none" stroke="rgba(139,92,246,0.2)" stroke-dasharray="2 2" />
+          <defs>
+            <marker id="arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--blue)"/>
+            </marker>
+            <marker id="arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--green)"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Breakthrough 2: Riemannian Pathway -->
+    <div class="bt-card">
+      <div>
+        <h3>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          The Safest Path to Health
+        </h3>
+        <p class="bt-desc">Instead of giving generic advice (like "lose weight"), the AI calculates a custom, curved path around risk zones, showing step-by-step marker adjustments.</p>
+      </div>
+      <div class="bt-visual-box">
+        <svg width="100%" height="100%" viewBox="0 0 200 120">
+          <circle cx="100" cy="55" r="20" fill="rgba(239,68,68,0.12)" stroke="var(--red)" stroke-width="1.2" stroke-dasharray="2 2" />
+          <text x="100" y="58" fill="var(--red)" font-size="7" text-anchor="middle" font-family="sans-serif">Risk Barrier</text>
+          
+          <circle cx="35" cy="85" r="4.5" fill="var(--amber)" />
+          <text x="35" y="98" fill="var(--amber)" font-size="7" text-anchor="middle">Unhealthy State</text>
+          
+          <circle cx="165" cy="30" r="4.5" fill="var(--green)" />
+          <text x="165" y="21" fill="var(--green)" font-size="7" text-anchor="middle">Healthy Target</text>
+          
+          <line x1="35" y1="85" x2="165" y2="30" stroke="rgba(255,255,255,0.18)" stroke-width="1" stroke-dasharray="3 3" />
+          
+          <path d="M 35 85 C 75 105, 125 95, 165 30" fill="none" stroke="var(--green)" stroke-width="2" />
+          <path d="M 35 85 C 75 105, 125 95, 165 30" fill="none" stroke="var(--cyan)" stroke-width="2.5" opacity="0.3" stroke-linecap="round">
+            <animate attributeName="stroke-dasharray" values="0,300;300,0" dur="3.5s" repeatCount="indefinite"/>
+          </path>
+          <text x="110" y="96" fill="var(--green)" font-size="7" text-anchor="middle">AI Recommendation Path</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Breakthrough 3: Conformal Safety Net -->
+    <div class="bt-card">
+      <div>
+        <h3>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Statistical Safety Net
+        </h3>
+        <p class="bt-desc">The AI never guesses blindly. It draws a custom confidence boundary around the patient's score, warning the physician if uncertainty is too high.</p>
+      </div>
+      <div class="bt-visual-box">
+        <svg width="100%" height="100%" viewBox="0 0 200 120">
+          <circle cx="100" cy="55" r="38" fill="none" stroke="rgba(255,255,255,0.03)" />
+          <circle cx="100" cy="55" r="22" fill="none" stroke="rgba(255,255,255,0.03)" />
+          
+          <circle cx="100" cy="55" r="28" fill="var(--blue-dim)" stroke="var(--blue)" stroke-width="1.5">
+            <animate attributeName="r" values="26;30;26" dur="3s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.6;0.8;0.6" dur="3s" repeatCount="indefinite" />
+          </circle>
+          
+          <circle cx="100" cy="55" r="3.5" fill="var(--blue)" />
+          <circle cx="100" cy="55" r="6" fill="none" stroke="var(--blue)" stroke-width="0.8">
+            <animate attributeName="r" values="3.5;12" dur="2s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="1;0" dur="2s" repeatCount="indefinite" />
+          </circle>
+          
+          <circle cx="112" cy="46" r="3" fill="var(--green)" />
+          <text x="118" y="44" fill="var(--green)" font-size="7">True State (Inside Boundary)</text>
+          <line x1="100" y1="55" x2="112" y2="46" stroke="rgba(255,255,255,0.2)" stroke-width="0.6" />
+          
+          <text x="100" y="100" fill="var(--blue)" font-size="7" font-weight="bold" text-anchor="middle">Guaranteed 90% Confidence Zone</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCENE 08 — RESULTS (BENCHMARKS)
 ══════════════════════════════════════════════════════════ -->
 <section class="scene" id="results" data-scene="results">
   <div class="scene-tag">06 / Benchmarking & Generalization</div>

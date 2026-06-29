@@ -13,6 +13,7 @@
     { id: 'dataset',       label: 'Dataset' },
     { id: 'architecture',  label: 'Model' },
     { id: 'latent',        label: 'Latent' },
+    { id: 'breakthrough',  label: 'Under the Hood' },
     { id: 'results',       label: 'Results' },
     { id: 'ablation',      label: 'Ablation' },
     { id: 'equity',        label: 'Equity' },
