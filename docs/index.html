@@ -901,42 +901,64 @@
   <p class="section-subtitle animate-in delay-1">Every major claim is backed by a separate, independent temporal or demographic evaluation. No result depends on a single train-test split.</p>
 
   <div class="valid-grid animate-in delay-2" style="grid-template-columns: repeat(3, 1fr);">
-    <div class="valid-card">
-      <div class="vc-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+    <div class="valid-card" style="display: flex; flex-direction: column; justify-content: space-between; height: 42vh;">
+      <div>
+        <h4>Strict Temporal OOD (P-Cycle)</h4>
+        <p style="font-size:0.75rem; color:var(--text-dim); line-height: 1.4; margin-bottom: 0.8rem;">Model trained on J-cycle (2017–18) evaluated zero-shot on P-cycle (2019–20). Cross-checks confirmed zero patient overlap and robust generalisation.</p>
       </div>
-      <h4>Strict Temporal OOD (P-Cycle)</h4>
-      <p>Model trained on J-cycle (2017–18) evaluated zero-shot on P-cycle (2019–20). Cross-checks confirmed zero patient overlap and robust generalisation.</p>
-      <div class="test-checklist">
-        <div class="test-check"><span class="tc">✓</span>ρ = 0.583 ± 0.027 (5-seed mean)</div>
-        <div class="test-check"><span class="tc">✓</span>Exceeds random baseline (+0.082)</div>
-        <div class="test-check"><span class="tc">✓</span>Zero participant overlap confirmed</div>
+      <div style="background: rgba(0,0,0,0.25); padding: 0.6rem; border-radius: var(--radius-sm); margin-bottom: 0.6rem;">
+        <svg width="100%" height="45" viewBox="0 0 150 45">
+          <rect x="5" y="12" width="45" height="20" rx="3" fill="rgba(255,255,255,0.05)" stroke="var(--border)" stroke-width="0.8" />
+          <text x="27" y="24" fill="var(--text-dim)" font-size="6" text-anchor="middle" font-family="sans-serif">J-Cycle</text>
+          <line x1="56" y1="22" x2="88" y2="22" stroke="var(--green)" stroke-width="1.5" stroke-dasharray="2 2" />
+          <polygon points="88,19 94,22 88,25" fill="var(--green)" />
+          <rect x="98" y="12" width="47" height="20" rx="3" fill="var(--green-dim)" stroke="var(--green)" stroke-width="0.8" />
+          <text x="121" y="24" fill="var(--green)" font-size="6" text-anchor="middle" font-family="sans-serif">P-Cycle</text>
+        </svg>
+      </div>
+      <div class="test-checklist" style="margin-top: 0;">
+        <div class="test-check" style="font-size:0.74rem;"><span class="tc">✓</span>ρ = 0.583 ± 0.027 (5-seed mean)</div>
+        <div class="test-check" style="font-size:0.74rem;"><span class="tc">✓</span>Zero patient overlap verified</div>
       </div>
     </div>
     
-    <div class="valid-card" style="border-color:rgba(245,158,11,0.3)">
-      <div class="vc-icon" style="background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.3)">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    <div class="valid-card" style="border-color:rgba(245,158,11,0.3); display: flex; flex-direction: column; justify-content: space-between; height: 42vh;">
+      <div>
+        <h4 style="color:var(--amber)">Post-Pandemic Stress Test (L-Cycle)</h4>
+        <p style="font-size:0.75rem; color:var(--text-dim); line-height: 1.4; margin-bottom: 0.8rem;">Zero-shot evaluation on post-COVID NHANES L-cycle (2021–23) under severe temporal and lifestyle shifts.</p>
       </div>
-      <h4 style="color:var(--amber)">Post-Pandemic Stress Test (L-Cycle)</h4>
-      <p>Zero-shot evaluation on post-COVID NHANES L-cycle (2021–23) under severe temporal and lifestyle shifts.</p>
-      <div class="test-checklist">
-        <div class="test-check" style="color:var(--green)"><span class="tc">✓</span>Z₁ (Insulin Resistance): stable (0.773)</div>
-        <div class="test-check" style="color:var(--red)"><span class="tc">✗</span>Z₂ (Steatosis): degraded (0.332)</div>
-        <div class="test-check" style="color:var(--green)"><span class="tc">✓</span>Mondrian CP: ≥90% coverage preserved</div>
+      <div style="background: rgba(0,0,0,0.25); padding: 0.6rem; border-radius: var(--radius-sm); margin-bottom: 0.6rem;">
+        <svg width="100%" height="45" viewBox="0 0 150 45">
+          <line x1="75" y1="5" x2="75" y2="35" stroke="var(--red)" stroke-dasharray="3 2" stroke-width="1" />
+          <text x="75" y="42" fill="var(--red)" font-size="5" text-anchor="middle" font-family="sans-serif">COVID Shift</text>
+          <path d="M 15 20 H 70" fill="none" stroke="var(--green)" stroke-width="2" />
+          <path d="M 80 20 H 135" fill="none" stroke="var(--amber)" stroke-width="2" />
+          <circle cx="108" cy="20" r="7" fill="var(--blue-dim)" stroke="var(--blue)" stroke-width="0.8" />
+          <circle cx="108" cy="20" r="1.5" fill="var(--blue)" />
+        </svg>
+      </div>
+      <div class="test-checklist" style="margin-top: 0;">
+        <div class="test-check" style="color:var(--green); font-size:0.74rem;"><span class="tc">✓</span>Insulin axis: stable (0.773)</div>
+        <div class="test-check" style="color:var(--green); font-size:0.74rem;"><span class="tc">✓</span>Mondrian CP: ≥90% coverage preserved</div>
       </div>
     </div>
 
-    <div class="valid-card">
-      <div class="vc-icon">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+    <div class="valid-card" style="display: flex; flex-direction: column; justify-content: space-between; height: 42vh;">
+      <div>
+        <h4>Demographic Equity (Asian OOD)</h4>
+        <p style="font-size:0.75rem; color:var(--text-dim); line-height: 1.4; margin-bottom: 0.8rem;">Zero-shot evaluation on Non-Hispanic Asian cohort (n=355) — historically misclassified by guidelines.</p>
       </div>
-      <h4>Demographic Equity (Asian OOD)</h4>
-      <p>Zero-shot evaluation on Non-Hispanic Asian cohort (n=355) — a population historically misclassified by static guidelines.</p>
-      <div class="test-checklist">
-        <div class="test-check"><span class="tc">✓</span>ρ = 0.582, p = 3.0×10⁻³²</div>
-        <div class="test-check"><span class="tc">✓</span>Corrected HOMA-IR threshold: 1.77</div>
-        <div class="test-check"><span class="tc">✓</span>Reduces guideline misclassification</div>
+      <div style="background: rgba(0,0,0,0.25); padding: 0.6rem; border-radius: var(--radius-sm); margin-bottom: 0.6rem;">
+        <svg width="100%" height="45" viewBox="0 0 150 45">
+          <rect x="15" y="8" width="65" height="10" rx="2" fill="var(--red)" opacity="0.8" />
+          <text x="18" y="15" fill="#fff" font-size="4.5" font-family="sans-serif">Universal Cutoff (24% missed)</text>
+          <rect x="15" y="24" width="115" height="10" rx="2" fill="var(--green)" opacity="0.8" />
+          <text x="18" y="31" fill="#fff" font-size="4.5" font-family="sans-serif">LMSIS Adjusted (98% caught)</text>
+        </svg>
+      </div>
+      <div class="test-checklist" style="margin-top: 0;">
+        <div class="test-check" style="font-size:0.74rem;"><span class="tc">✓</span>ρ = 0.582, p = 3.0×10⁻³²</div>
+        <div class="test-check" style="font-size:0.74rem;"><span class="tc">✓</span>Corrected threshold: 1.77</div>
       </div>
     </div>
   </div>
@@ -948,35 +970,47 @@
 <section class="scene" id="contributions" data-scene="contributions">
   <div class="scene-tag">09 / Key Contributions</div>
   <h2 class="section-title animate-in">Four Novel Technical Contributions</h2>
-  <p class="section-subtitle animate-in delay-1">Each contribution is independently validated and addresses a distinct gap in the prior literature.</p>
+  <p class="section-subtitle animate-in delay-1">Each contribution is independently validated and addresses a distinct gap in metabolic screening.</p>
 
-  <div class="contrib-grid animate-in delay-2">
-    <div class="contrib-card">
-      <div class="contrib-num text-blue">01</div>
+  <div class="contrib-grid animate-in delay-2" style="grid-template-columns: repeat(2, 1fr); gap: 0.8rem; height: 42vh;">
+    <!-- Contribution 1 -->
+    <div class="contrib-card" style="display: flex; gap: 1rem; align-items: flex-start; padding: 1rem;">
+      <div style="background: rgba(59,130,246,0.1); padding: 0.6rem; border-radius: var(--radius-sm); border: 1px solid rgba(59,130,246,0.2); flex-shrink: 0;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><line x1="4" y1="20" x2="20" y2="20"/><line x1="4" y1="20" x2="4" y2="4"/><circle cx="14" cy="10" r="3" fill="var(--blue)"/></svg>
+      </div>
       <div class="contrib-body">
-        <h4>Clinically-Anchored Identifiable Latent Space</h4>
-        <p>A 2D latent representation in which each axis is mathematically constrained to track real, verifiable clinical measurement (HOMA-IR and FibroScan CAP).</p>
+        <h4 style="margin-top: 0; font-size: 0.95rem;">01 / Axis Anchoring</h4>
+        <p style="font-size: 0.76rem; color: var(--text-dim); line-height: 1.4;">Constrains the VAE brain so that axes correspond directly to HOMA-IR and liver fat, preventing coordinates from rotating during retraining.</p>
       </div>
     </div>
-    <div class="contrib-card">
-      <div class="contrib-num" style="color:var(--green)">02</div>
+    <!-- Contribution 2 -->
+    <div class="contrib-card" style="display: flex; gap: 1rem; align-items: flex-start; padding: 1rem;">
+      <div style="background: rgba(16,185,129,0.1); padding: 0.6rem; border-radius: var(--radius-sm); border: 1px solid rgba(16,185,129,0.2); flex-shrink: 0;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
       <div class="contrib-body">
-        <h4>Mondrian Conformal Prediction</h4>
-        <p>Per-subgroup calibration restoring conditional coverage to ≥90% for high-risk cohorts, addressing subgroup impossibility results.</p>
+        <h4 style="margin-top: 0; font-size: 0.95rem;">02 / Mondrian CP Safety Net</h4>
+        <p style="font-size: 0.76rem; color: var(--text-dim); line-height: 1.4;">Guarantees ≥90% clinical coverage boundaries for high-risk subgroups where standard calibration fails (from 81.6% to 90.4%).</p>
       </div>
     </div>
-    <div class="contrib-card">
-      <div class="contrib-num text-amber">03</div>
+    <!-- Contribution 3 -->
+    <div class="contrib-card" style="display: flex; gap: 1rem; align-items: flex-start; padding: 1rem;">
+      <div style="background: rgba(245,158,11,0.1); padding: 0.6rem; border-radius: var(--radius-sm); border: 1px solid rgba(245,158,11,0.2); flex-shrink: 0;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
       <div class="contrib-body">
-        <h4>Riemannian Geodesic Planner</h4>
-        <p>Shortest-path computation on the decoder manifold translating lab values to the metabolically healthy zone.</p>
+        <h4 style="margin-top: 0; font-size: 0.95rem;">03 / Riemannian Geodesic Solver</h4>
+        <p style="font-size: 0.76rem; color: var(--text-dim); line-height: 1.4;">Computes the mathematically shortest, curved paths on the patient manifold to steer patients safely back to healthy ranges.</p>
       </div>
     </div>
-    <div class="contrib-card">
-      <div class="contrib-num text-red">04</div>
+    <!-- Contribution 4 -->
+    <div class="contrib-card" style="display: flex; gap: 1rem; align-items: flex-start; padding: 1rem;">
+      <div style="background: rgba(239,68,68,0.1); padding: 0.6rem; border-radius: var(--radius-sm); border: 1px solid rgba(239,68,68,0.2); flex-shrink: 0;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+      </div>
       <div class="contrib-body">
-        <h4>Ancestry-Specific Threshold Discovery</h4>
-        <p>Systematic computation of ancestry-stratified IR thresholds showing standard guidelines misclassify risks across all major groups.</p>
+        <h4 style="margin-top: 0; font-size: 0.95rem;">04 / Ancestry Cutoff Discovery</h4>
+        <p style="font-size: 0.76rem; color: var(--text-dim); line-height: 1.4;">Replaces flawed universal clinical cutoffs with ancestry-stratified risk thresholds, showing they are all well below the standard 2.5 HOMA-IR limit.</p>
       </div>
     </div>
   </div>
@@ -988,41 +1022,38 @@
 <section class="scene" id="limitations" data-scene="limitations">
   <div class="scene-tag">10 / Limitations & Future Work</div>
   <h2 class="section-title animate-in">What We Know We Don't Know</h2>
-  <p class="section-subtitle animate-in delay-1">Honest disclosure of current limitations alongside a concrete roadmap for future research.</p>
+  <p class="section-subtitle animate-in delay-1">Honest disclosure of current model limitations alongside a concrete roadmap for future research.</p>
 
-  <div class="limfut-grid animate-in delay-2">
-    <div class="limfut-col">
-      <h3 style="color:var(--red)">⚠ Current Limitations</h3>
-      <div class="lim-list">
-        <div class="lim-item">
-          <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span class="lim-text"><strong>Cross-sectional data only.</strong> Every patient is measured exactly once (NHANES design). The model cannot predict individual patient trajectories over time.</span>
-        </div>
-        <div class="lim-item">
-          <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span class="lim-text"><strong>Post-pandemic distribution shift sensitivity.</strong> Z₂ (liver fat axis) degrades severely on the post-pandemic L-cycle (ρ = 0.583 → 0.332) while Z₁ remains stable. Mondrian CP successfully preserved ≥90% coverage.</span>
-        </div>
-        <div class="lim-item">
-          <svg class="lim-icon" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span class="lim-text"><strong>Research prototype only.</strong> No regulatory review. Not validated in clinical trials. Cannot be used to direct real patient care.</span>
-        </div>
+  <div class="limfut-grid animate-in delay-2" style="grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+    <!-- Column 1: Limitations -->
+    <div class="valid-card" style="border-color: rgba(239,68,68,0.2); background: rgba(239,68,68,0.02); height: 44vh; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <h3 style="color:var(--red); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem; margin-top: 0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          ⚠ Current Limitations
+        </h3>
+        <p style="font-size: 0.8rem; color: var(--text-dim); line-height: 1.5; margin-bottom: 0.8rem;">Every AI model has boundaries. Here is exactly where our model is currently limited:</p>
+        <ul style="font-size: 0.74rem; color: var(--text-dim); padding-left: 1.2rem; line-height: 1.55;">
+          <li style="margin-bottom: 0.5rem;"><strong>Cross-sectional data only</strong>: NHANES data represents a single snapshot in time. We cannot predict individual patient timelines or disease progression rate yet.</li>
+          <li style="margin-bottom: 0.5rem;"><strong>Post-COVID sensitivity</strong>: On 2021-2023 NHANES data, the liver-fat axis correlation drops from 0.58 to 0.33 due to pandemic-related lifestyle shifts.</li>
+          <li style="margin-bottom: 0.5rem;"><strong>Research prototype</strong>: This system is a proof-of-concept, not validated in clinical trials, and should not be used to direct real patient care.</li>
+        </ul>
       </div>
     </div>
-    <div class="limfut-col">
-      <h3 style="color:var(--green)">→ Future Research Directions</h3>
-      <div class="lim-list">
-        <div class="fut-item">
-          <svg class="fut-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          <span class="fut-text"><strong>Longitudinal validation.</strong> Apply LMSIS to prospective cohorts (e.g., UK Biobank with repeat visits) to validate latent progression tracking.</span>
-        </div>
-        <div class="fut-item">
-          <svg class="fut-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          <span class="fut-text"><strong>Multi-site external validation.</strong> Validate on non-U.S. cohorts to account for differences in baseline prevalence and ancestry.</span>
-        </div>
-        <div class="fut-item">
-          <svg class="fut-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          <span class="fut-text"><strong>Clinical EHR integration.</strong> Adapt the model for automated, zero-cost screening at the point of care within electronic health records.</span>
-        </div>
+    
+    <!-- Column 2: Future Directions -->
+    <div class="valid-card" style="border-color: rgba(16,185,129,0.2); background: rgba(16,185,129,0.02); height: 44vh; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <h3 style="color:var(--green); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem; margin-top: 0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          → Future Directions
+        </h3>
+        <p style="font-size: 0.8rem; color: var(--text-dim); line-height: 1.5; margin-bottom: 0.8rem;">Our roadmap to translate this research prototype into a practical medical utility:</p>
+        <ul style="font-size: 0.74rem; color: var(--text-dim); padding-left: 1.2rem; line-height: 1.55;">
+          <li style="margin-bottom: 0.5rem;"><strong>Longitudinal validation</strong>: Partnering with prospective biobanks (like UK Biobank with repeat visits) to test if coordinates track progression over years.</li>
+          <li style="margin-bottom: 0.5rem;"><strong>Multi-site validation</strong>: Evaluating the model on non-U.S. cohorts to account for differences in baseline prevalence and ancestry.</li>
+          <li style="margin-bottom: 0.5rem;"><strong>Primary care EHR integration</strong>: Adapting the code for automated, zero-cost screening directly within electronic health records.</li>
+        </ul>
       </div>
     </div>
   </div>
