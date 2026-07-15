@@ -125,15 +125,21 @@ function MetabolicMap({ result, pinVisible, routeVisible }) {
 
   const isHealthy = result.phenotype === 'Metabolically Healthy';
 
-  // Safe zone target (upper-left quadrant center)
-  const safeX = toSvgX(-0.7);
-  const safeY = toSvgY(-0.55);
+  // Safe zone target (lower-left quadrant center)
+  const safeX = toSvgX(-0.85);
+  const safeY = toSvgY(-0.7);
 
   // Geodesic path
   const geoPath = result.geodesicPath;
-
-  // Waypoints interpolated along path
   const waypoints = result.waypoints || [];
+
+  // Quadrant badge data — positioned in each corner, away from center
+  const QUADRANT_BADGES = [
+    { qx: 125, qy: 390, color: '#00C47D', bg: '#00C47D18', line1: 'METABOLICALLY', line2: 'HEALTHY', icon: '✓' },
+    { qx: 375, qy: 390, color: '#F5A623', bg: '#F5A62318', line1: 'INSULIN', line2: 'RESISTANT', icon: '⚠' },
+    { qx: 125, qy: 100, color: '#3D8EF8', bg: '#3D8EF818', line1: 'FATTY LIVER', line2: 'DOMINANT', icon: '⚡' },
+    { qx: 375, qy: 100, color: '#E8394A', bg: '#E8394A18', line1: 'DUAL BURDEN', line2: 'HIGH RISK', icon: '⛔' },
+  ];
 
   return (
     <svg
@@ -142,107 +148,122 @@ function MetabolicMap({ result, pinVisible, routeVisible }) {
       aria-label="Metabolic location map"
     >
       <defs>
-        {/* Radial gradients per quadrant – radiating from outer corners */}
         <radialGradient id="grad-healthy" cx="0%" cy="100%" r="80%">
-          <stop offset="0%" stopColor="#00C47D" stopOpacity="0.22" />
+          <stop offset="0%" stopColor="#00C47D" stopOpacity="0.18" />
           <stop offset="100%" stopColor="#00C47D" stopOpacity="0.0" />
         </radialGradient>
         <radialGradient id="grad-ir" cx="100%" cy="100%" r="80%">
-          <stop offset="0%" stopColor="#F5A623" stopOpacity="0.22" />
+          <stop offset="0%" stopColor="#F5A623" stopOpacity="0.18" />
           <stop offset="100%" stopColor="#F5A623" stopOpacity="0.0" />
         </radialGradient>
         <radialGradient id="grad-steatosis" cx="0%" cy="0%" r="80%">
-          <stop offset="0%" stopColor="#3D8EF8" stopOpacity="0.22" />
+          <stop offset="0%" stopColor="#3D8EF8" stopOpacity="0.18" />
           <stop offset="100%" stopColor="#3D8EF8" stopOpacity="0.0" />
         </radialGradient>
         <radialGradient id="grad-dual" cx="100%" cy="0%" r="80%">
-          <stop offset="0%" stopColor="#E8394A" stopOpacity="0.22" />
+          <stop offset="0%" stopColor="#E8394A" stopOpacity="0.18" />
           <stop offset="100%" stopColor="#E8394A" stopOpacity="0.0" />
         </radialGradient>
-
-        {/* Dashed animated route */}
         <marker id="route-arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
           <path d="M0,0 L0,6 L6,3 z" fill="#00C47D" opacity="0.8" />
         </marker>
       </defs>
 
-      {/* LAYER 1: Territory backgrounds */}
-      {/* Q3 healthy: x<0, y>250 (z2<0) */}
+      {/* ── LAYER 1: Territory fill ── */}
       <rect x={0} y={250} width={250} height={250} fill="url(#grad-healthy)" />
-      {/* Q1 IR: x>250, y>250 */}
       <rect x={250} y={250} width={250} height={250} fill="url(#grad-ir)" />
-      {/* Q2 steatosis: x<250, y<250 */}
       <rect x={0} y={0} width={250} height={250} fill="url(#grad-steatosis)" />
-      {/* Q4 dual: x>250, y<250 */}
       <rect x={250} y={0} width={250} height={250} fill="url(#grad-dual)" />
 
-      {/* Territory name watermarks */}
-      {[
-        { x: 125, y: 380, text: 'METABOLICALLY\nHEALTHY', color: '#00C47D' },
-        { x: 375, y: 380, text: 'INSULIN\nRESISTANT', color: '#F5A623' },
-        { x: 125, y: 120, text: 'STEATOSIS\nDOMINANT', color: '#3D8EF8' },
-        { x: 375, y: 120, text: 'DUAL BURDEN\nZONE', color: '#E8394A' },
-      ].map(({ x, y, text, color }) =>
-        text.split('\n').map((line, li) => (
-          <text
-            key={`${x}-${li}`}
-            x={x}
-            y={y + li * 22}
-            textAnchor="middle"
-            fill={color}
-            opacity={0.09}
-            fontSize={16}
-            fontFamily='"Instrument Sans", sans-serif'
-            fontWeight={700}
-            letterSpacing={2}
-          >
-            {line}
-          </text>
-        ))
-      )}
-
-      {/* LAYER 2: Population cloud */}
+      {/* ── LAYER 2: Population cloud ── */}
       {POPULATION_DOTS.map((dot, i) => {
         const qColors = ['#00C47D', '#F5A623', '#3D8EF8', '#E8394A'];
         return (
-          <circle
-            key={i}
-            cx={toSvgX(dot.x)}
-            cy={toSvgY(dot.y)}
-            r={2.5}
-            fill={qColors[dot.q]}
-            opacity={0.07}
-          />
+          <circle key={i} cx={toSvgX(dot.x)} cy={toSvgY(dot.y)} r={2.5}
+            fill={qColors[dot.q]} opacity={0.08} />
         );
       })}
 
-      {/* LAYER 3: Threshold lines */}
-      {/* Vertical: IR threshold (z1=0) */}
-      <line
-        x1={250} y1={10} x2={250} y2={490}
-        stroke="#C9A227"
-        strokeWidth={1}
-        strokeDasharray="5,5"
-        opacity={0.5}
-      />
-      <text x={255} y={22} fill="#C9A227" fontSize={9} opacity={0.7}
-        fontFamily='"Instrument Sans", sans-serif' letterSpacing={1}>
-        IR THRESHOLD
+      {/* ── LAYER 3: Divider lines ── */}
+      {/* Vertical divider */}
+      <line x1={250} y1={0} x2={250} y2={500}
+        stroke="rgba(255,255,255,0.12)" strokeWidth={1.5} />
+      {/* Horizontal divider */}
+      <line x1={0} y1={250} x2={500} y2={250}
+        stroke="rgba(255,255,255,0.12)" strokeWidth={1.5} />
+
+      {/* ── LAYER 4: Quadrant badge labels (corner-anchored, no overlap) ── */}
+      {QUADRANT_BADGES.map(({ qx, qy, color, bg, line1, line2, icon }) => {
+        const badgeW = 100;
+        const badgeH = 42;
+        return (
+          <g key={line1}>
+            {/* Badge pill background */}
+            <rect
+              x={qx - badgeW / 2}
+              y={qy - badgeH / 2}
+              width={badgeW}
+              height={badgeH}
+              rx={6}
+              fill={bg}
+              stroke={color}
+              strokeWidth={0.8}
+              strokeOpacity={0.4}
+            />
+            {/* Icon + Line 1 */}
+            <text
+              x={qx}
+              y={qy - 7}
+              textAnchor="middle"
+              fill={color}
+              opacity={0.95}
+              fontSize={11}
+              fontFamily='"Instrument Sans", sans-serif'
+              fontWeight={700}
+              letterSpacing={1.5}
+            >
+              {icon} {line1}
+            </text>
+            {/* Line 2 */}
+            <text
+              x={qx}
+              y={qy + 10}
+              textAnchor="middle"
+              fill={color}
+              opacity={0.85}
+              fontSize={10}
+              fontFamily='"Instrument Sans", sans-serif'
+              fontWeight={600}
+              letterSpacing={1}
+            >
+              {line2}
+            </text>
+          </g>
+        );
+      })}
+
+      {/* ── LAYER 5: Axis labels & arrows ── */}
+      {/* Bottom X-axis label */}
+      <text x={250} y={492} textAnchor="middle" fill="#667799" fontSize={10}
+        fontFamily='"Instrument Sans", sans-serif' letterSpacing={1.5} fontWeight={600}>
+        ← LOW INSULIN RESISTANCE    HIGH INSULIN RESISTANCE →
       </text>
-      {/* Horizontal: Steatosis threshold (z2=0, y=250) */}
-      <line
-        x1={10} y1={250} x2={490} y2={250}
-        stroke="#C9A227"
-        strokeWidth={1}
-        strokeDasharray="5,5"
-        opacity={0.5}
-      />
-      <text x={12} y={246} fill="#C9A227" fontSize={9} opacity={0.7}
-        fontFamily='"Instrument Sans", sans-serif' letterSpacing={1}>
-        STEATOSIS THRESHOLD
+      {/* Left Y-axis label */}
+      <text x={11} y={250} textAnchor="middle" fill="#667799" fontSize={10}
+        fontFamily='"Instrument Sans", sans-serif' letterSpacing={1.5} fontWeight={600}
+        transform="rotate(-90, 11, 250)">
+        LOW LIVER FAT ↓   HIGH LIVER FAT ↑
       </text>
 
-      {/* LAYER 4: Route (non-healthy only) */}
+      {/* ── LAYER 6: Threshold dashed lines (subtle) ── */}
+      {/* Vertical IR threshold dashes */}
+      <line x1={250} y1={20} x2={250} y2={480}
+        stroke="#C9A227" strokeWidth={1} strokeDasharray="4,6" opacity={0.3} />
+      {/* Horizontal Steatosis threshold dashes */}
+      <line x1={20} y1={250} x2={480} y2={250}
+        stroke="#C9A227" strokeWidth={1} strokeDasharray="4,6" opacity={0.3} />
+
+      {/* ── LAYER 7: Route (non-healthy only) ── */}
       {!isHealthy && routeVisible && (
         <>
           {geoPath ? (
@@ -251,12 +272,11 @@ function MetabolicMap({ result, pinVisible, routeVisible }) {
                 d={pathD(geoPath)}
                 fill="none"
                 stroke="#00C47D"
-                strokeWidth={2}
+                strokeWidth={2.5}
                 strokeDasharray="8,5"
-                opacity={0.8}
+                opacity={0.85}
                 className="route-dash"
               />
-              {/* Waypoints */}
               {waypoints.map((wp, wi) => {
                 const idx = Math.round(wp.t * (geoPath.length - 1));
                 const pt = geoPath[Math.min(idx, geoPath.length - 1)];
@@ -264,33 +284,22 @@ function MetabolicMap({ result, pinVisible, routeVisible }) {
                 const wy = toSvgY(pt[1]);
                 const isRight = wx > 250;
                 const labelText = wp.label;
-                const rectW = labelText.length * 5.4 + 8;
-                const rectX = isRight ? wx - 10 - rectW : wx + 10;
-                const rectY = wy - 21;
+                const rectW = labelText.length * 5.4 + 10;
+                const rectX = isRight ? wx - 14 - rectW : wx + 14;
                 return (
                   <g key={wi}>
                     <polygon
                       points={`${wx},${wy - 7} ${wx + 5},${wy} ${wx},${wy + 7} ${wx - 5},${wy}`}
-                      fill="#00C47D"
-                      opacity={0.85}
+                      fill="#00C47D" opacity={0.9}
                     />
-                    <rect
-                      x={rectX}
-                      y={rectY}
-                      width={rectW}
-                      height={12}
-                      fill="#050810"
-                      rx={2}
-                      opacity={0.95}
-                    />
+                    <rect x={rectX} y={wy - 22} width={rectW} height={14}
+                      fill="#050810" rx={3} opacity={0.95} />
                     <text
-                      x={isRight ? wx - 10 : wx + 10}
-                      y={wy - 12}
+                      x={isRight ? wx - 14 : wx + 14}
+                      y={wy - 11}
                       textAnchor={isRight ? 'end' : 'start'}
-                      fill="#00C47D"
-                      fontSize={9}
-                      fontFamily='"JetBrains Mono", monospace'
-                      opacity={0.9}
+                      fill="#00C47D" fontSize={9}
+                      fontFamily='"JetBrains Mono", monospace' opacity={0.95}
                     >
                       {labelText}
                     </text>
@@ -299,94 +308,61 @@ function MetabolicMap({ result, pinVisible, routeVisible }) {
               })}
             </>
           ) : (
-            /* Straight fallback bezier to safe zone */
             <line
               x1={pinX} y1={pinY} x2={safeX} y2={safeY}
-              stroke="#00C47D"
-              strokeWidth={2}
-              strokeDasharray="8,5"
-              opacity={0.6}
-              className="route-dash"
+              stroke="#00C47D" strokeWidth={2} strokeDasharray="8,5"
+              opacity={0.65} className="route-dash"
             />
           )}
-
-          {/* Safe zone marker */}
+          {/* Safe zone target */}
           <g>
-            <circle cx={safeX} cy={safeY} r={10} fill="none" stroke="#00C47D" strokeWidth={1.5} opacity={0.7} className="safe-pulse" />
-            <circle cx={safeX} cy={safeY} r={4} fill="#00C47D" opacity={0.8} />
-            <text x={safeX + 15} y={safeY + 4} fill="#00C47D" fontSize={8}
-              fontFamily='"Instrument Sans", sans-serif' letterSpacing={1} opacity={0.9}>
-              SAFE ZONE
+            <circle cx={safeX} cy={safeY} r={14} fill="none"
+              stroke="#00C47D" strokeWidth={1.5} opacity={0.6} className="safe-pulse" />
+            <circle cx={safeX} cy={safeY} r={5} fill="#00C47D" opacity={0.85} />
+            {/* Safe zone label — placed right so it doesn't overlap badge */}
+            <rect x={safeX + 18} y={safeY - 12} width={66} height={16}
+              fill="#050810" rx={3} opacity={0.92} />
+            <text x={safeX + 22} y={safeY - 1} fill="#00C47D" fontSize={9}
+              fontFamily='"Instrument Sans", sans-serif' letterSpacing={1} fontWeight={700}>
+              TARGET ZONE
             </text>
           </g>
         </>
       )}
 
-      {/* LAYER 5: Patient pin */}
+      {/* ── LAYER 8: Patient pin ── */}
       {pinVisible && (
         <g className="patient-pin-group">
-          {/* Halo glow */}
-          <circle
-            cx={pinX}
-            cy={pinY - 12}
-            r={sigma * 35 + 14}
-            fill={ph.color}
-            opacity={0}
-            className="pin-halo-anim"
-          />
+          <circle cx={pinX} cy={pinY - 12} r={sigma * 35 + 14}
+            fill={ph.color} opacity={0} className="pin-halo-anim" />
           <MapPin cx={pinX} cy={pinY} color={ph.color} sigma={sigma} />
-          {/* BMI label */}
+          {/* Patient label — smart side-switching to avoid quadrant badge overlap */}
           {(() => {
-            const bmiText = `BMI ${result.bmi || '22.5'}`;
-            const isRight = pinX > 250;
-            const rectW = bmiText.length * 5.4 + 8;
-            const rectX = isRight ? pinX - 16 - rectW : pinX + 16;
-            const rectY = pinY - 17;
+            const isRight = pinX > 350;
+            const isBottom = pinY > 400;
+            const labelText = `Patient`;
+            const rectW = 48;
+            const rectX = isRight ? pinX - 20 - rectW : pinX + 20;
+            const rectY = isBottom ? pinY - 36 : pinY + 8;
             return (
               <g>
-                <rect
-                  x={rectX}
-                  y={rectY}
-                  width={rectW}
-                  height={12}
-                  fill="#050810"
-                  rx={2}
-                  opacity={0.85}
-                />
+                <rect x={rectX} y={rectY} width={rectW} height={16}
+                  fill="#050810" rx={3} opacity={0.92} />
                 <text
-                  x={isRight ? pinX - 16 : pinX + 16}
-                  y={pinY - 8}
+                  x={isRight ? pinX - 22 : pinX + 22}
+                  y={rectY + 11}
                   textAnchor={isRight ? 'end' : 'start'}
-                  fill="white"
-                  fontSize={9}
-                  fontFamily='"JetBrains Mono", monospace'
-                  opacity={0.7}
+                  fill="white" fontSize={10}
+                  fontFamily='"Instrument Sans", sans-serif'
+                  fontWeight={600} opacity={0.95}
                 >
-                  {bmiText}
+                  {labelText}
                 </text>
               </g>
             );
           })()}
         </g>
       )}
-
-      {/* Axis labels */}
-      <text x={250} y={498} textAnchor="middle" fill="#8898B0" fontSize={9} letterSpacing={2}
-        fontFamily='"Instrument Sans", sans-serif'>
-        INSULIN RESISTANCE →
-      </text>
-      <text
-        x={8}
-        y={250}
-        fill="#8898B0"
-        fontSize={9}
-        letterSpacing={2}
-        textAnchor="middle"
-        fontFamily='"Instrument Sans", sans-serif'
-        transform="rotate(-90, 8, 250)"
-      >
-        LIVER FAT ↑
-      </text>
     </svg>
   );
 }
@@ -434,12 +410,11 @@ function ValidationTab() {
   const maxAbs = 0.65;
   return (
     <div style={{ padding: '0 4px' }}>
-      <div style={sectionTitle}>Liver Fat Accuracy Comparison</div>
+      <div style={sectionTitle}>📊 How Accurate Is This System?</div>
       <div style={{ fontSize: '10px', color: '#99A8C0', marginBottom: '16px', lineHeight: 1.4 }}>
-        This chart measures prediction correlation (0 to +1) against Fibroscan liver fat measurements. 
-        Traditional clinical scores (e.g. NAFLD-LFS) correlate negatively, meaning they actively mislead. 
-        LMSIS matches black-box AI models in accuracy and utilizes a learned Riemannian manifold 
-        to compute optimal geodesic safety pathways.
+        This chart compares how well each method predicts real liver fat (measured by FibroScan). 
+        A score closer to <strong style={{color:'#E0E8FF'}}>+1.0 = very accurate</strong>. Negative scores mean the method actively misleads. 
+        LMSIS matches state-of-the-art AI models while also showing <em>where</em> the patient sits on the map.
       </div>
 
       {VALIDATION_DATA.map((d) => {
@@ -477,10 +452,10 @@ function ValidationTab() {
 
       {/* Conformal coverage */}
       <div style={{ borderTop: '1px solid #1C2333', marginTop: '20px', paddingTop: '16px' }}>
-        <div style={sectionTitle}>Reliability of the Safety Zone</div>
+        <div style={sectionTitle}>🎯 Reliability of the Safety Zone</div>
         <div style={{ fontSize: '10px', color: '#99A8C0', marginBottom: '12px', lineHeight: 1.4 }}>
-          Standard prediction ranges fail when patient risk is high. 
-          LMSIS guarantees 90% probability coverage of the patient's true metabolic position across all severity levels:
+          Traditional risk ranges are unreliable for high-risk patients. 
+          LMSIS uses <strong style={{color:'#E0E8FF'}}>conformal calibration</strong> to guarantee the patient's true position falls within the shown zone 91% of the time:
         </div>
         {[
           { label: 'Traditional prediction range (68% coverage)', val: 68, color: '#E8394A' },
@@ -643,7 +618,7 @@ export function MapScreen({ result, onBack, onSwitch, animStage }) {
                   fontFamily: 'inherit',
                 }}
               >
-                {tab === 'clinical' ? 'PATIENT REPORT' : 'VALIDATION ACCURACY'}
+                {tab === 'clinical' ? '📋 PATIENT REPORT' : '📊 HOW IT WORKS'}
               </button>
             ))}
           </div>
@@ -654,18 +629,18 @@ export function MapScreen({ result, onBack, onSwitch, animStage }) {
               <>
                 {/* Section 1: Metabolic Indicators */}
                 <div style={{ marginBottom: '20px' }}>
-                  <div style={sectionTitle}>Metabolic State Indicators</div>
+                  <div style={sectionTitle}>📍 Where Does This Patient Stand?</div>
                   <div style={{ fontSize: '10px', color: '#8898B0', marginBottom: '12px', lineHeight: 1.4 }}>
-                    Compared to other normal-BMI adults, this patient ranks in the:
+                    Compared to other normal-BMI adults in the study population:
                   </div>
-                  <PctBar label="Insulin Resistance" pct={result.irPct || 50} color="#F5A623" />
-                  <PctBar label="Liver Fat" pct={result.capPct || 30} color="#3D8EF8" />
+                  <PctBar label="Insulin Resistance (higher = worse)" pct={result.irPct || 50} color="#F5A623" />
+                  <PctBar label="Liver Fat Level (higher = worse)" pct={result.capPct || 30} color="#3D8EF8" />
                   <div style={{ marginTop: '14px' }}>
                     <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '12px', color: '#E0E8FF', marginBottom: '6px' }}>
-                      Insulin Score (HOMA-IR): {(result.predHomaIr || result.homaIr || 0).toFixed(2)} <span style={{ color: '#8898B0', fontSize: '10px' }}>(Normal &lt; 1.90)</span>
+                      HOMA-IR Score: {(result.predHomaIr || result.homaIr || 0).toFixed(2)} <span style={{ color: '#8898B0', fontSize: '10px' }}>(Healthy range: below 1.9)</span>
                     </div>
                     <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '12px', color: '#E0E8FF' }}>
-                      Liver Fat Score: {Math.round(result.predCapScore || 220)} dB/m <span style={{ color: '#8898B0', fontSize: '10px' }}>({result.capLabel || 'S0 – None'})</span>
+                      Liver Fat: {Math.round(result.predCapScore || 220)} dB/m <span style={{ color: '#8898B0', fontSize: '10px' }}>({result.capLabel || 'S0 – None'})</span>
                     </div>
                   </div>
                 </div>
@@ -674,9 +649,9 @@ export function MapScreen({ result, onBack, onSwitch, animStage }) {
 
                 {/* Section 2: Confidence */}
                 <div style={{ marginBottom: '20px' }}>
-                  <div style={sectionTitle}>Confidence & Risk Score</div>
+                  <div style={sectionTitle}>🔴 Overall Metabolic Risk</div>
                   <div style={{ fontSize: '10px', color: '#8898B0', marginBottom: '12px', lineHeight: 1.4 }}>
-                    Metabolic disease risk score derived from map location, with 90% probability boundary:
+                    Combined risk score from map position. The arc shows the 90% confidence interval — where the patient's true risk likely falls:
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '8px' }}>
                     <RiskGauge
@@ -706,9 +681,9 @@ export function MapScreen({ result, onBack, onSwitch, animStage }) {
 
                 {/* Section 2.5: Biomarker Sensitivity (Jacobian) */}
                 <div style={{ marginBottom: '20px' }}>
-                  <div style={sectionTitle}>Biomarker Sensitivity (Jacobian)</div>
+                  <div style={sectionTitle}>🔬 Which Biomarkers Matter Most?</div>
                   <div style={{ fontSize: '10px', color: '#8898B0', marginBottom: '12px', lineHeight: 1.4 }}>
-                    Local sensitivity gradients (∂z/∂x) identifying which biomarkers have the highest impact on shifting the patient's metabolic coordinates:
+                    Which blood test values have the biggest influence on this patient's map position — and therefore their metabolic risk:
                   </div>
 
                   <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
@@ -775,10 +750,9 @@ export function MapScreen({ result, onBack, onSwitch, animStage }) {
                   <>
                     <div style={divider} />
                     <div style={{ marginBottom: '20px' }}>
-                      <div style={sectionTitle}>Recommended Action Plan</div>
+                      <div style={sectionTitle}>🗺️ Route Back to Healthy</div>
                       <div style={{ fontSize: '10px', color: '#8898B0', marginBottom: '12px', lineHeight: 1.4 }}>
-                        Targeted clinical biomarker reductions to move patient back to Metabolically Healthy. 
-                        The safety route is solved as an optimal geodesic pathway on the learned Riemannian manifold:
+                        The green dashed path on the map shows the mathematically optimal route back to the healthy zone. These are the key biomarker changes needed to get there:
                       </div>
                       {result.interventions.map((iv, i) => (
                         <div key={i} style={{ marginBottom: '10px' }}>
@@ -810,13 +784,13 @@ export function MapScreen({ result, onBack, onSwitch, animStage }) {
 
                 {/* Section 4: Model Credentials */}
                 <div>
-                  <div style={sectionTitle}>Model Credentials</div>
+                  <div style={sectionTitle}>ℹ️ About This System</div>
                   {[
-                    ['Analysis Engine', 'LMSIS Metabolic Engine v2'],
-                    ['Path Solver', 'Riemannian Geodesic Engine'],
-                    ['Training Database Size', '847 normal-BMI adults'],
-                    ['Validation Study Group', '212 patients'],
-                    ['Engine Accuracy (Spearman ρ)', '0.542 (Strong)'],
+                    ['System Name', 'LMSIS Metabolic Engine v2'],
+                    ['Trained on', '847 normal-BMI adults (NHANES)'],
+                    ['Validated on', '212 patients (held-out set)'],
+                    ['Prediction Accuracy', 'ρ = 0.542 vs FibroScan'],
+                    ['Confidence Method', 'Conformal Prediction (91%)'],
                   ].map(([k, v]) => (
                     <div key={k} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
                       <span style={{ fontSize: '9px', color: '#8898B0' }}>{k}</span>
@@ -851,14 +825,14 @@ export function MapScreen({ result, onBack, onSwitch, animStage }) {
             onClick={onBack}
             style={bottomBtn}
           >
-            ← Re-enter values
+            ← Enter New Patient
           </button>
           <button
             id="btn-switch"
             onClick={onSwitch}
             style={bottomBtn}
           >
-            Switch patient →
+            Switch Demo Patient →
           </button>
         </div>
         <span

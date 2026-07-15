@@ -140,9 +140,9 @@ function LocateButton({ disabled, loading, onClick }) {
       }}
     >
       {loading ? (
-        <span style={{ opacity: 0.7 }}>LOCATING METABOLIC STATE…</span>
+        <span style={{ opacity: 0.7 }}>⏳ ANALYSING PATIENT…</span>
       ) : (
-        <span>LOCATE METABOLIC STATE →</span>
+        <span>ANALYSE PATIENT → PLACE ON MAP</span>
       )}
     </button>
   );
@@ -422,30 +422,45 @@ export default function IntakeScreen({ onSubmit }) {
     >
       <div style={{ width: '100%', maxWidth: '680px', padding: '0 24px' }}>
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '44px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <h1
             style={{
               fontFamily: '"DM Serif Display", Georgia, serif',
-              fontSize: '32px',
+              fontSize: '28px',
               fontWeight: 400,
               color: '#1A1A18',
               letterSpacing: '-0.01em',
-              marginBottom: '10px',
+              marginBottom: '6px',
               lineHeight: 1.15,
             }}
           >
-            LMSIS
+            Metabolic Risk Locator
           </h1>
-          <p
-            style={{
-              fontSize: '13px',
-              color: '#888',
-              fontFamily: 'inherit',
-              letterSpacing: '0.01em',
-            }}
-          >
-            Enter routine blood values to locate the patient's metabolic state.
+          <p style={{ fontSize: '13px', color: '#666', fontFamily: 'inherit', marginBottom: '20px' }}>
+            Enter standard blood test values → the AI places the patient on the metabolic map
           </p>
+
+          {/* How it works strip */}
+          <div style={{
+            display: 'flex', gap: '0', marginBottom: '4px',
+            background: '#F5F5F2', borderRadius: '6px', padding: '12px 8px',
+            textAlign: 'center',
+          }}>
+            {[
+              { step: '1', icon: '🩸', label: 'Enter blood test results' },
+              { step: '→', icon: '', label: '', divider: true },
+              { step: '2', icon: '🧠', label: 'AI analyses 7 biomarkers' },
+              { step: '→', icon: '', label: '', divider: true },
+              { step: '3', icon: '🗺️', label: 'Patient placed on metabolic map' },
+            ].map((s, i) => s.divider ? (
+              <span key={i} style={{ color: '#CCC', fontSize: '18px', alignSelf: 'center', padding: '0 4px' }}>→</span>
+            ) : (
+              <div key={i} style={{ flex: 1 }}>
+                <div style={{ fontSize: '18px', marginBottom: '2px' }}>{s.icon}</div>
+                <div style={{ fontSize: '10px', color: '#777', lineHeight: 1.3 }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Preset buttons */}
@@ -457,48 +472,46 @@ export default function IntakeScreen({ onSubmit }) {
             marginBottom: '36px',
           }}
         >
+          <div style={{ marginBottom: '8px', fontSize: '10px', color: '#AAA', letterSpacing: '0.08em', fontVariant: 'small-caps' }}>
+            ⚡ Quick demo presets — click one to auto-fill:
+          </div>
           {PRESETS.map((preset, idx) => {
             const ph = PHENOTYPE[preset.phenotype];
             const isActive = activePresetIdx === idx;
+            const presetDesc = {
+              'Metabolically Healthy': 'Low risk, ideal biomarkers',
+              'IR-Dominant': 'High insulin resistance',
+              'Steatosis-Dominant': 'Fatty liver, normal insulin',
+              'Dual-Burden': 'Highest risk: both elevated',
+            }[preset.phenotype] || '';
             return (
               <button
                 key={preset.id}
                 id={`preset-${preset.id}`}
                 onClick={() => handlePreset(idx)}
                 style={{
-                  padding: '10px 8px',
+                  padding: '12px 8px',
                   border: `1.5px solid ${isActive ? ph.color : '#E0E0DC'}`,
-                  borderRadius: '3px',
-                  background: isActive ? `${ph.color}12` : '#FFF',
+                  borderRadius: '5px',
+                  background: isActive ? `${ph.color}15` : '#FFF',
                   cursor: 'pointer',
                   transition: 'all 0.2s',
                   textAlign: 'left',
                   fontFamily: 'inherit',
+                  boxShadow: isActive ? `0 0 0 2px ${ph.color}40` : 'none',
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-                  <span
-                    style={{
-                      width: '7px',
-                      height: '7px',
-                      borderRadius: '50%',
-                      background: ph.color,
-                      flexShrink: 0,
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontSize: '10px',
-                      fontWeight: 600,
-                      color: '#333',
-                      lineHeight: 1.2,
-                    }}
-                  >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '5px' }}>
+                  <span style={{
+                    width: '8px', height: '8px', borderRadius: '50%',
+                    background: ph.color, flexShrink: 0,
+                  }} />
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: '#222', lineHeight: 1.2 }}>
                     {preset.label}
                   </span>
                 </div>
-                <div style={{ fontSize: '10px', color: '#AAA', paddingLeft: '13px' }}>
-                  BMI {preset.bmi}
+                <div style={{ fontSize: '9px', color: '#888', paddingLeft: '14px', lineHeight: 1.3 }}>
+                  {presetDesc}
                 </div>
               </button>
             );
@@ -557,6 +570,11 @@ export default function IntakeScreen({ onSubmit }) {
         {/* Submit button */}
         <div style={{ marginTop: '20px' }}>
           <LocateButton disabled={!isComplete} loading={loading} onClick={handleSubmit} />
+          {!isComplete && (
+            <div style={{ textAlign: 'center', marginTop: '8px', fontSize: '11px', color: '#BBB' }}>
+              Fill all 7 fields above, or click a preset to auto-fill
+            </div>
+          )}
         </div>
 
         {/* About/Footer text */}
@@ -571,7 +589,7 @@ export default function IntakeScreen({ onSubmit }) {
             textAlign: 'center',
           }}
         >
-          This website, presenting research from the project <em>Predictive Risk Intelligence for Metabolic Screening in Diabetes</em>, implements the <strong>Latent Metabolic State Inference System (LMSIS)</strong>, a semi-supervised deep learning framework for early detection of metabolic dysfunction in normal-BMI adults.
+          <strong>LMSIS</strong> (Latent Metabolic State Inference System) — a deep learning system that detects hidden metabolic dysfunction in normal-BMI adults using routine blood tests. Trained on <strong>1,477 NHANES participants</strong>.
         </div>
       </div>
     </div>
