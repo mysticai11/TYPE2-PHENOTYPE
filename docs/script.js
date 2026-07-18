@@ -19,7 +19,9 @@
     { id: 'equity',        label: 'Equity' },
     { id: 'validation',    label: 'Validation' },
     { id: 'contributions', label: 'Contributions' },
+    { id: 'patient',       label: 'Patient Example' },
     { id: 'limitations',   label: 'Limitations' },
+    { id: 'conclusion',    label: 'Conclusion' },
     { id: 'footer',        label: 'Footer' },
   ];
 
