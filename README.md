@@ -18,6 +18,15 @@
 
 ---
 
+## 📑 Table of Contents
+- [Silent metabolic risk, made visible](#-silent-metabolic-risk-made-visible)
+- [Quick Guide for Examiners](#-quick-guide-for-examiners)
+- [System Architecture & Visualizations](#-system-architecture--visualizations)
+- [Key Findings at a Glance](#-key-findings-at-a-glance)
+- [Getting Started](#-getting-started)
+
+---
+
 ## 🔬 Silent metabolic risk, made visible.
 
 Millions of adults worldwide receive a clean bill of health simply because their Body Mass Index falls within the normal range (18.5 ≤ BMI ≤ 24.9 kg/m²). However, BMI is strictly a measure of mass, completely blind to fat distribution and ectopic tissue accumulation. Underneath a healthy-looking exterior, a patient may carry a silent, severe dual metabolic burden — simultaneous insulin resistance and hepatic steatosis — invisible to traditional screening.
@@ -26,6 +35,15 @@ Millions of adults worldwide receive a clean bill of health simply because their
 
 > [!IMPORTANT]
 > **Full Dissertation & Results**: For the complete findings, including mathematical proofs, exact threshold derivations (e.g., the 24.2% NHA misclassification rate), ablation studies (ρ: 0.18 → 0.54 with anchors), temporal OOD validation (ρ = 0.583 ± 0.027 five-seed mean), and post-pandemic L-cycle stress test (Z₁ stable at 0.773; Z₂ fractured at 0.332; Mondrian CP preserved ≥90% coverage), please read the comprehensive **[dissertation.md](dissertation.md)** summary or the full LaTeX source [dissertation.tex](dissertation.tex).
+
+---
+
+## 👨‍🏫 Quick Guide for Examiners
+
+If you are reviewing this repository for the viva defense, please note the following structure:
+- **Core Results & Scripts**: All scripts that generate the final numbers (prevalence, ancestry bias, etc.) are located in `src_code/validation/`.
+- **System Safety Tests**: You can verify the integrity of the full pipeline (including monotonicity proofs) by running the automated test suite: `python -m pytest test_integration.py -v`.
+- **Reproducible Dissertation**: The final `dissertation.docx` and `dissertation_abstract.docx` are generated dynamically from the model's outputs via `generate_dissertation.py`.
 
 ---
 
