@@ -12,7 +12,7 @@
 <!-- Slide Header -->
 <header class="slide-header">
   <span class="slide-logo">Predictive Risk Intelligence for Metabolic Screening in Diabetes</span>
-  <span class="slide-counter" id="slide-counter">Slide 1 / 14</span>
+  <span class="slide-counter" id="slide-counter">Slide 1 / 16</span>
 </header>
 
 <!-- Slide Deck Container -->
@@ -26,10 +26,10 @@
   <h1 class="hero-title">Predictive Risk Intelligence<br>for Metabolic Screening in Diabetes</h1>
   <p class="hero-subtitle">An AI-powered screening system that detects hidden insulin resistance and liver fat from a single routine blood test in normal-BMI adults — without expensive imaging or specialist referrals.</p>
   <div class="author-grid">
-    <div class="author-chip"><strong>Karamjeet Singh</strong><span class="roll">5244</span></div>
-    <div class="author-chip"><strong>Sarandeep Singh</strong><span class="roll">5244</span></div>
-    <div class="author-chip"><strong>Ubaid Ahmad</strong><span class="roll">5255</span></div>
-    <div class="author-chip"><strong>Aiman Younus Dar</strong><span class="roll">222176</span></div>
+    <div class="author-chip"><strong>Karamjeet Singh</strong><span class="roll">Reg No. 65304-ANG-2022</span></div>
+    <div class="author-chip"><strong>Sarandeep Singh</strong><span class="roll">Reg No. 178-MTN-2021</span></div>
+    <div class="author-chip"><strong>Ubaid Ahmad</strong><span class="roll">Reg No. 65312-ANG-2022</span></div>
+    <div class="author-chip"><strong>Aiman Younus Dar</strong><span class="roll">Reg No. 25498-KUL-2022</span></div>
   </div>
   <div class="college-badge">SHMM Government Degree College Anantnag</div>
 </section>
@@ -40,7 +40,7 @@
 <section class="scene" id="problem" data-scene="problem">
   <div class="scene-tag">01 / The Problem</div>
   <h2 class="section-title animate-in">The Hidden Epidemic Inside Normal Weight</h2>
-  <p class="section-subtitle animate-in delay-1">Millions of normal-weight adults have hidden liver fat and insulin resistance. Standard screening misses them because it is built around body weight (BMI). They look healthy on the outside, but carry high cardiovascular and diabetes risks.</p>
+  <p class="section-subtitle animate-in delay-1">Millions of normal-weight adults carry hidden cardiovascular and diabetes risk. Standard BMI-based screening misses them entirely.</p>
 
   <div class="problem-grid animate-in delay-2">
     <div>
@@ -48,22 +48,23 @@
         <div class="stat-hero-card">
           <div>
             <div class="stat-hero-num blue count-up" data-val="537" data-suffix="M">537M</div>
-            <div class="stat-hero-label">adults live with diabetes globally. Silent metabolic dysfunction is the invisible precursor.</div>
+            <div class="stat-hero-label">adults live with diabetes globally. Silent metabolic dysfunction is the precursor.</div>
           </div>
         </div>
         <div class="stat-hero-card">
           <div>
             <div class="stat-hero-num amber count-up" data-val="29.89" data-decimals="2" data-suffix="%">29.89%</div>
-            <div class="stat-hero-label">of normal-weight adults carry hidden metabolic dysfunction — estimated <strong>23.9M people</strong> in the U.S. alone.</div>
+            <div class="stat-hero-label">of normal-weight adults carry hidden metabolic dysfunction (23.9M in U.S. alone).</div>
           </div>
         </div>
         <div class="stat-hero-card">
           <div>
             <div class="stat-hero-num" style="color:var(--red);font-size:2.2rem">0%</div>
-            <div class="stat-hero-label">of these high-risk patients are flagged by BMI screening. They have a normal weight by definition.</div>
+            <div class="stat-hero-label">of these high-risk patients are flagged by BMI screening.</div>
           </div>
         </div>
       </div>
+      <div class="citation">Sources: IDF Diabetes Atlas 2021 & CDC NHANES 2017–2020</div>
     </div>
     <div>
       <div class="bmi-vis animate-in delay-3" style="margin-bottom:1.2rem">
@@ -124,7 +125,7 @@
 ══════════════════════════════════════════════════════════ -->
 <section class="scene" id="gap" data-scene="gap">
   <div class="scene-tag">02 / Research Gap</div>
-  <h2 class="section-title animate-in">Prior Work Only Solves Pieces. LMSIS Solves All.</h2>
+  <h2 class="section-title animate-in">Addressing Key Limitations of Existing Approaches</h2>
   <p class="section-subtitle animate-in delay-1">Existing diagnostic tools fail at at least one key requirement needed for safe, equitable, and actionable screening in normal-weight populations.</p>
 
   <div class="comp-table-wrap animate-in delay-2">
@@ -135,7 +136,7 @@
           <th>Normal-BMI Focused</th>
           <th>Clinically Anchored</th>
           <th>Interpretable Layout</th>
-          <th>Guaranteed Safety Bounds</th>
+          <th>Calibrated Safety Guarantees</th>
           <th>Personalized Actions</th>
         </tr>
       </thead>
@@ -384,24 +385,19 @@
       </div>
 
       <div class="loss-box">
-        <h4>Loss Function</h4>
-        <div class="loss-eq">
-          <span class="hl-b">L = L<sub>ELBO</sub></span><br>
-          <span style="color:var(--text-muted)"> + </span><span class="hl-a">λ₁ · L<sub>anchor-IR</sub></span><br>
-          <span style="color:var(--text-muted)"> + </span><span class="hl-g">λ₂ · L<sub>anchor-CAP</sub></span><br>
-          <span style="color:var(--text-muted)"> + </span><span class="hl-v">λ₃ · ||Cov(Z)||<sub>F</sub></span>
-          <div style="margin-top:0.8rem;font-size:0.71rem;color:var(--text-muted)">
-            <span class="hl-a">λ₁=10.0</span> (IR anchor weight)<br>
-            <span class="hl-g">λ₂=5.0</span> (steatosis anchor)<br>
-            <span class="hl-v">λ₃=0.1</span> (disentanglement)
-          </div>
+        <h4>Optimization Goals</h4>
+        <div class="loss-eq" style="font-size: 0.85rem; line-height: 1.8;">
+          <strong class="hl-b">1. High-fidelity biomarker reconstruction</strong><br>
+          <strong class="hl-a">2. Predict Insulin Resistance (HOMA-IR)</strong><br>
+          <strong class="hl-g">3. Predict Liver Fat (CAP)</strong><br>
+          <strong class="hl-v">4. Disentangle axes for interpretability</strong>
         </div>
       </div>
 
       <div class="spec-card">
-        <h4>Identifiability Guarantee</h4>
+        <h4>Clinical Anchoring</h4>
         <div style="font-size:0.78rem;color:var(--text-dim);line-height:1.6">
-          Following <strong style="color:var(--text)">Khemakhem et al. (2020)</strong>, the prior p(z|u) is conditioned on demographic covariates u. Anchor networks apply <span class="mono" style="font-size:0.72rem">Softplus</span> weight projections, ensuring ∂Z₁/∂HOMA-IR > 0 and ∂Z₂/∂CAP > 0 everywhere — preventing latent axis rotation under retraining.
+          The model strictly forces the X-axis to track Insulin Resistance and the Y-axis to track Liver Fat. The coordinates are mathematically locked and will not rotate, ensuring true medical interpretability without complex latent shifts.
         </div>
       </div>
     </div>
@@ -841,7 +837,7 @@
 ══════════════════════════════════════════════════════════ -->
 <section class="scene" id="equity" data-scene="equity">
   <div class="scene-tag">07 / Equity & Ancestry Analysis</div>
-  <h2 class="section-title animate-in">The Standard Cutoff Is Wrong for Every Ancestry Group</h2>
+  <h2 class="section-title animate-in">Evidence for Ancestry-Specific HOMA-IR Thresholds</h2>
   <p class="section-subtitle animate-in delay-1">The universal HOMA-IR clinical cutoff of 2.5 misclassifies substantial fractions of every ancestry group as metabolically healthy. LMSIS recovers group-specific implied thresholds — all well below 2.5.</p>
 
   <div class="problem-grid animate-in delay-2" style="grid-template-columns: 1.2fr 1fr; gap: 1.2rem;">
@@ -1079,6 +1075,47 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
+     SCENE 11 — PATIENT EXAMPLE
+══════════════════════════════════════════════════════════ -->
+<section class="scene" id="patient" data-scene="patient">
+  <div class="scene-tag">10 / Clinical Application</div>
+  <h2 class="section-title animate-in">A Story of Hidden Risk</h2>
+  <p class="section-subtitle animate-in delay-1">How LMSIS changes the outcome for a normal-weight patient who would otherwise be sent home.</p>
+  
+  <div class="limfut-grid animate-in delay-2" style="grid-template-columns: 1fr 1.5fr; gap: 1.5rem; margin-top: 1rem;">
+    <div class="valid-card" style="height: 40vh; justify-content: center; background: rgba(59,130,246,0.05); border-color: rgba(59,130,246,0.2);">
+      <div style="text-align: center; margin-bottom: 1rem;">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <h3 style="text-align: center; margin-top: 0; margin-bottom: 1rem; color: var(--text);">Patient Profile</h3>
+      <div style="display: flex; flex-direction: column; gap: 0.8rem; padding: 0 1rem; font-size: 1.1rem;">
+        <div style="display: flex; justify-content: space-between;"><span style="color:var(--text-dim)">Age:</span> <strong style="color:var(--text)">34</strong></div>
+        <div style="display: flex; justify-content: space-between;"><span style="color:var(--text-dim)">BMI:</span> <strong style="color:var(--text)">22 (Normal)</strong></div>
+        <div style="display: flex; justify-content: space-between;"><span style="color:var(--text-dim)">Glucose:</span> <strong style="color:var(--green)">92 mg/dL (Normal)</strong></div>
+        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.5rem;"><span style="color:var(--text-dim)">Standard Screen:</span> <strong style="color:var(--text-muted)">Healthy / No Action</strong></div>
+      </div>
+    </div>
+    <div class="valid-card" style="height: 40vh; justify-content: center; background: rgba(239,68,68,0.05); border-color: rgba(239,68,68,0.2);">
+      <h3 style="color: var(--red); margin-top: 0; margin-bottom: 1.5rem; font-size: 1.5rem;">LMSIS AI Intervention</h3>
+      <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+        <div>
+          <div style="font-size:0.85rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.2rem;">Prediction</div>
+          <div style="font-size:1.3rem; font-weight:700; color:var(--red);">High Insulin Resistance (IR)</div>
+        </div>
+        <div>
+          <div style="font-size:0.85rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.2rem;">Biomarker Explanation</div>
+          <div style="font-size:1rem; color:var(--text);">Elevated Triglycerides, Low HDL, Elevated Fasting Insulin</div>
+        </div>
+        <div style="margin-top: 0.5rem; padding-top: 1rem; border-top: 1px solid rgba(239,68,68,0.2);">
+          <div style="font-size:0.85rem; color:var(--red); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:0.4rem; font-weight:700;">Doctor Action</div>
+          <div style="font-size:1.1rem; font-weight:600; color:var(--text);">Early Lifestyle Intervention started years before clinical diabetes onset.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
      SCENE 12 — LIMITATIONS & FUTURE WORK
 ══════════════════════════════════════════════════════════ -->
 <section class="scene" id="limitations" data-scene="limitations">
@@ -1122,7 +1159,21 @@
 </section>
 
 <!-- ══════════════════════════════════════════════════════════
-     SCENE 13 — FOOTER
+     SCENE 13 — CONCLUSION
+══════════════════════════════════════════════════════════ -->
+<section class="scene" id="conclusion" data-scene="conclusion" style="align-items: center; text-align: center; justify-content: center;">
+  <div style="max-width: 900px; margin: 0 auto;">
+    <h2 style="font-family: var(--font-head); font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; line-height: 1.3; margin-bottom: 2rem; color: var(--text);">
+      LMSIS demonstrates that clinically meaningful metabolic risk can be inferred from routine blood biomarkers using interpretable, uncertainty-aware AI.
+    </h2>
+    <div style="font-family: var(--font-head); font-size: 3.5rem; font-weight: 800; color: var(--blue); margin-top: 3rem;" class="animate-in delay-2">
+      Questions?
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCENE 14 — FOOTER
 ══════════════════════════════════════════════════════════ -->
 <section class="scene footer-scene" id="footer" data-scene="footer">
   <div class="footer-logo">LMSIS</div>
