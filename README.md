@@ -51,18 +51,10 @@ If you are reviewing this repository for the viva defense, please note the follo
 
 The core model mapping routine features to biological pathways is illustrated in the animated diagram below:
 
-<div align="center">
-  <img src="results/figures/model_pipeline_animated.svg" alt="LMSIS Model Pipeline — DA-SS-iVAE architecture showing encoder, dual anchor networks, decoder, Mondrian CP, and geodesic solver" width="100%" />
-  <br/><sub><em>Figure 1: LMSIS pipeline. Input: 14 blood biomarkers + demographics. Latent: 2D identifiable space (Z₁ = insulin resistance, Z₂ = hepatic steatosis). Output: metabolic phenotype, calibrated uncertainty intervals, and Riemannian intervention path.</em></sub>
-</div>
 
 ### The 2D Latent Metabolic Space
 LMSIS projects every patient onto a two-axis plane, where each axis corresponds to a distinct, anchored biological process. The coordinate system divides the population into four clinically actionable quadrants:
 
-<div align="center">
-  <img src="results/figures/metabolic_atlas_animated.svg" alt="LMSIS Metabolic Atlas — four-quadrant space: MHNW (healthy), IR-Dominant, Steatosis-Dominant, Dual-Burden (highest risk). Shows animated geodesic path from high-risk to safe zone." width="100%" />
-  <br/><sub><em>Figure 2: Metabolic Atlas. Each patient receives a (Z₁, Z₂) coordinate. The animated geodesic traces the Riemannian-shortest path from a Dual-Burden patient back toward the MHNW safe zone — the minimum biomarker change to restore health.</em></sub>
-</div>
 
 | Quadrant | Phenotype | Clinical Context |
 | :--- | :--- | :--- |
